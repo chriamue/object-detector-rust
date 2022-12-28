@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"object_detector_rust":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.66.0/core/default/trait.Default.html\" title=\"trait core::default::Default\">Default</a> for <a class=\"struct\" href=\"object_detector_rust/dataset/struct.DummyDataSet.html\" title=\"struct object_detector_rust::dataset::DummyDataSet\">DummyDataSet</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

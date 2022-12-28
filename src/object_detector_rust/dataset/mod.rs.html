@@ -91,6 +91,7 @@
 <span id="91">91</span>
 <span id="92">92</span>
 <span id="93">93</span>
+<span id="94">94</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module contains the `DataSet` trait for representing datasets of images and labels for training.
 //!
 //! # Examples
@@ -130,6 +131,7 @@
 }
 
 <span class="doccomment">/// Dummy dataset that returns a fixed set of images and labels
+</span><span class="attribute">#[derive(Default)]
 </span><span class="kw">pub struct </span>DummyDataSet {
     images: Vec&lt;DynamicImage&gt;,
     labels: Vec&lt;u32&gt;,
