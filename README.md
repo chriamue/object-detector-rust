@@ -1,5 +1,9 @@
 # Object Detector Rust 🔍
 
+[![Github Repo](https://img.shields.io/badge/github-repo-green)](https://github.com/chriamue/object-detector-rust/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Docs](https://img.shields.io/badge/Docs-online-green.svg)](https://chriamue.github.io/object-detector-rust/object_detector_rust/)
+
 Object Detector Rust is a framework for detecting objects in images using feature-based algorithms. It includes implementations of the HOG and ORB algorithms, as well as functions for feature matching and object localization. The framework is written in Rust, a statically-typed, memory-safe language that can be compiled to WebAssembly for use in web browsers or other environments.
 
 ## Features 💪
