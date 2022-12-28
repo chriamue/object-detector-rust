@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {};
+window.SIDEBAR_ITEMS = {"mod":[["prelude","the object-detector-rust prelude"]],"struct":[["BBox","Struct for representing a bounding box"]]};
