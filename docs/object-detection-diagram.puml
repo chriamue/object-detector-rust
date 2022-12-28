@@ -1,0 +1,15 @@
+@startuml object-detection-diagram
+
+object Image
+object FeatureExtractor
+object Template
+object Matcher
+object Localizer
+
+Image --> FeatureExtractor : extract features
+FeatureExtractor --> Matcher : match features
+Template --> Matcher : match features
+Matcher --> Localizer : locate object
+Localizer --> Image : annotate image
+
+@enduml

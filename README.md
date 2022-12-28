@@ -8,6 +8,14 @@ Object Detector Rust is a framework for detecting objects in images using featur
 - Feature matching and object localization functions
 - Written in Rust, compiled to WebAssembly
 
+## Architecture 🧱
+
+The overall architecture of the Object Detector Rust system is shown in the following diagram:
+
+![Object Detection Diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/chriamue/object-detector-rust/main/docs/object-detection-diagram.puml)
+
+In this system, the input image is passed to the feature extractor, which extracts features from the image. The extracted features are then matched against features in a template image using a matcher. The matcher passes the locations of the matched features to a localizer, which determines the location of the object in the input image and annotates the image with a bounding box around the object.
+
 ## Usage 📖
 
 To use Object Detector Rust, add it as a dependency to your project's `Cargo.toml` file:
