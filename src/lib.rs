@@ -11,11 +11,3 @@ pub use bbox::BBox;
 pub mod prelude {
     pub use super::bbox::BBox;
 }
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
