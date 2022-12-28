@@ -1,0 +1,10 @@
+@startuml training
+
+object Dataset
+object Features
+object Model
+
+Dataset -> Features: extract
+Features -> Model: SVM classifier
+
+@enduml

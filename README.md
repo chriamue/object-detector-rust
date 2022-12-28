@@ -20,6 +20,24 @@ The overall architecture of the Object Detector Rust system is shown in the foll
 
 In this system, the input image is passed to the feature extractor, which extracts features from the image. The extracted features are then matched against features in a template image using a matcher. The matcher passes the locations of the matched features to a localizer, which determines the location of the object in the input image and annotates the image with a bounding box around the object.
 
+## Training 🏋️‍♀️
+
+To train a model for object detection, you will need a dataset of labeled images that includes examples of the objects you want to detect. You can use tools such as [Image Label Tool](https://chriamue.github.io/image-label-tool/) to label your images.
+
+Once you have collected and labeled your dataset, you can use image processing and machine learning libraries to extract features from the images and train a model using these features.
+
+To train a model, you will need to:
+
+1. Load and preprocess the images in your dataset. You can use image processing libraries to load the images from files and apply any desired transformations, such as resizing or converting to grayscale.
+
+2. Extract features from the images. You can use image processing libraries to extract features such as HOG, or ORB from the images.
+
+3. Create a model using a machine learning library. You can choose a model that is suitable for object detection, such as an SVM classifier.
+
+4. Train the model on the features using the `fit` method provided by the model.
+
+![Training](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/chriamue/object-detector-rust/main/docs/training.puml)
+
 ## Usage 📖
 
 To use Object Detector Rust, add it as a dependency to your project's `Cargo.toml` file:
