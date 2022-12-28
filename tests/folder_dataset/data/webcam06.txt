@@ -1,0 +1,9 @@
+none 315 175
+none 285 435
+none 335 45
+marker1 535 85
+marker2 115 45
+marker3 41 290
+loco5 95 85
+loco5 77 105
+loco5 117 75

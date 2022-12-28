@@ -21,6 +21,9 @@
 use image::DynamicImage;
 use std::error::Error;
 
+mod folder_dataset;
+pub use folder_dataset::FolderDataSet;
+
 /// Trait representing a dataset of images and labels for training
 pub trait DataSet {
     /// Returns the number of images in the dataset

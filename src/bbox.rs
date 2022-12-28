@@ -29,18 +29,29 @@
 //! This example shows how to use the `BBox` struct to represent bounding boxes and how to calculate the overlap and union between two bounding boxes.
 
 /// Struct for representing a bounding box
+#[derive(Debug, Clone, PartialEq)]
 pub struct BBox {
     /// X coordinate of the top-left corner of the bounding box
     pub x: i32,
     /// Y coordinate of the top-left corner of the bounding box
     pub y: i32,
     /// Width of the bounding box
-    pub width: i32,
+    pub width: u32,
     /// Height of the bounding box
-    pub height: i32,
+    pub height: u32,
 }
 
 impl BBox {
+    /// Creates a new bounding box with the specified coordinates and dimensions
+    pub fn new(x: i32, y: i32, width: u32, height: u32) -> BBox {
+        BBox {
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+        }
+    }
+
     /// Returns the left coordinate of the bounding box
     pub fn left(&self) -> i32 {
         self.x
@@ -48,7 +59,7 @@ impl BBox {
 
     /// Returns the right coordinate of the bounding box
     pub fn right(&self) -> i32 {
-        self.x + self.width
+        self.x + self.width as i32
     }
 
     /// Returns the top coordinate of the bounding box
@@ -58,7 +69,7 @@ impl BBox {
 
     /// Returns the bottom coordinate of the bounding box
     pub fn bottom(&self) -> i32 {
-        self.y + self.height
+        self.y + self.height as i32
     }
 
     /// Calculates the width of the intersection between two bounding boxes
@@ -100,8 +111,8 @@ impl BBox {
     /// assert_eq!(bbox2.intersect_width(&bbox4), 0);
     /// assert_eq!(bbox3.intersect_width(&bbox4), 0);
     /// ```
-    pub fn intersect_width(&self, other: &BBox) -> i32 {
-        (self.right().min(other.right()) - self.left().max(other.left())).max(0)
+    pub fn intersect_width(&self, other: &BBox) -> u32 {
+        (self.right().min(other.right()) - self.left().max(other.left())).max(0) as u32
     }
 
     /// Calculates the height of the intersection between two bounding boxes
@@ -143,8 +154,8 @@ impl BBox {
     /// assert_eq!(bbox2.intersect_height(&bbox4), 0);
     /// assert_eq!(bbox3.intersect_height(&bbox4), 0);
     /// ```
-    pub fn intersect_height(&self, other: &BBox) -> i32 {
-        (self.bottom().min(other.bottom()) - self.top().max(other.top())).max(0)
+    pub fn intersect_height(&self, other: &BBox) -> u32 {
+        (self.bottom().min(other.bottom()) - self.top().max(other.top())).max(0) as u32
     }
 
     /// Calculates the area of the intersection between two bounding boxes
@@ -177,7 +188,7 @@ impl BBox {
     /// assert_eq!(bbox1.intersect_area(&bbox3), 0);
     /// assert_eq!(bbox2.intersect_area(&bbox3), 0);
     /// ```
-    pub fn intersect_area(&self, other: &BBox) -> i32 {
+    pub fn intersect_area(&self, other: &BBox) -> u32 {
         self.intersect_width(other) * self.intersect_height(other)
     }
 
@@ -197,7 +208,7 @@ impl BBox {
     ///
     /// assert_eq!(bbox.self_area(), 10000);
     /// ```
-    pub fn self_area(&self) -> i32 {
+    pub fn self_area(&self) -> u32 {
         self.width * self.height
     }
 
@@ -223,7 +234,7 @@ impl BBox {
     ///
     /// assert_eq!(bbox1.union_area(&bbox2), 17500);
     /// ```
-    pub fn union_area(&self, other: &BBox) -> i32 {
+    pub fn union_area(&self, other: &BBox) -> u32 {
         self.self_area() + other.self_area() - self.intersect_area(other)
     }
 
@@ -268,12 +279,7 @@ mod tests {
 
     #[test]
     fn test_overlap() {
-        let bbox1 = BBox {
-            x: 0,
-            y: 0,
-            width: 100,
-            height: 100,
-        };
+        let bbox1 = BBox::new(0, 0, 100, 100);
         let bbox2 = BBox {
             x: 50,
             y: 50,

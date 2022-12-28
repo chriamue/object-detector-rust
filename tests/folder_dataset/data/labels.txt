@@ -1,0 +1,10 @@
+none
+marker1
+marker2
+marker3
+loco4
+loco5
+object6
+object7
+object8
+object9
