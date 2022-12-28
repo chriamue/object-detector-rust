@@ -2,6 +2,7 @@
 #![doc = include_str!("../README.md")]
 
 pub mod bbox;
+pub mod dataset;
 pub mod feature;
 
 pub use bbox::BBox;
