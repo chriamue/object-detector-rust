@@ -1,6 +1,7 @@
 # Object Detector Rust 🔍
 
 [![Github Repo](https://img.shields.io/badge/github-repo-green)](https://github.com/chriamue/object-detector-rust/)
+[![codecov](https://codecov.io/gh/chriamue/object-detector-rust/branch/main/graph/badge.svg?token=RJ6T5D9DZT)](https://codecov.io/gh/chriamue/object-detector-rust)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Docs](https://img.shields.io/badge/Docs-online-green.svg)](https://chriamue.github.io/object-detector-rust/object_detector_rust/)
 
