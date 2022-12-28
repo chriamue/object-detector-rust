@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["DummyDataSet","Dummy dataset that returns a fixed set of images and labels"]],"trait":[["DataSet","Trait representing a dataset of images and labels for training"]]};
+window.SIDEBAR_ITEMS = {"struct":[["DummyDataSet","Dummy dataset that returns a fixed set of images and labels"],["FolderDataSet","Struct for representing a dataset loaded from a folder"]],"trait":[["DataSet","Trait representing a dataset of images and labels for training"]]};

@@ -301,6 +301,12 @@
 <span id="301">301</span>
 <span id="302">302</span>
 <span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module contains the `BBox` struct for representing bounding boxes and functions for calculating overlap and union.
 //!
 //! # Examples
@@ -332,18 +338,29 @@
 //! This example shows how to use the `BBox` struct to represent bounding boxes and how to calculate the overlap and union between two bounding boxes.
 
 /// Struct for representing a bounding box
+</span><span class="attribute">#[derive(Debug, Clone, PartialEq)]
 </span><span class="kw">pub struct </span>BBox {
     <span class="doccomment">/// X coordinate of the top-left corner of the bounding box
     </span><span class="kw">pub </span>x: i32,
     <span class="doccomment">/// Y coordinate of the top-left corner of the bounding box
     </span><span class="kw">pub </span>y: i32,
     <span class="doccomment">/// Width of the bounding box
-    </span><span class="kw">pub </span>width: i32,
+    </span><span class="kw">pub </span>width: u32,
     <span class="doccomment">/// Height of the bounding box
-    </span><span class="kw">pub </span>height: i32,
+    </span><span class="kw">pub </span>height: u32,
 }
 
 <span class="kw">impl </span>BBox {
+    <span class="doccomment">/// Creates a new bounding box with the specified coordinates and dimensions
+    </span><span class="kw">pub fn </span>new(x: i32, y: i32, width: u32, height: u32) -&gt; BBox {
+        BBox {
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+        }
+    }
+
     <span class="doccomment">/// Returns the left coordinate of the bounding box
     </span><span class="kw">pub fn </span>left(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; i32 {
         <span class="self">self</span>.x
@@ -351,7 +368,7 @@
 
     <span class="doccomment">/// Returns the right coordinate of the bounding box
     </span><span class="kw">pub fn </span>right(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; i32 {
-        <span class="self">self</span>.x + <span class="self">self</span>.width
+        <span class="self">self</span>.x + <span class="self">self</span>.width <span class="kw">as </span>i32
     }
 
     <span class="doccomment">/// Returns the top coordinate of the bounding box
@@ -361,7 +378,7 @@
 
     <span class="doccomment">/// Returns the bottom coordinate of the bounding box
     </span><span class="kw">pub fn </span>bottom(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; i32 {
-        <span class="self">self</span>.y + <span class="self">self</span>.height
+        <span class="self">self</span>.y + <span class="self">self</span>.height <span class="kw">as </span>i32
     }
 
     <span class="doccomment">/// Calculates the width of the intersection between two bounding boxes
@@ -403,8 +420,8 @@
     /// assert_eq!(bbox2.intersect_width(&amp;bbox4), 0);
     /// assert_eq!(bbox3.intersect_width(&amp;bbox4), 0);
     /// ```
-    </span><span class="kw">pub fn </span>intersect_width(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>BBox) -&gt; i32 {
-        (<span class="self">self</span>.right().min(other.right()) - <span class="self">self</span>.left().max(other.left())).max(<span class="number">0</span>)
+    </span><span class="kw">pub fn </span>intersect_width(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>BBox) -&gt; u32 {
+        (<span class="self">self</span>.right().min(other.right()) - <span class="self">self</span>.left().max(other.left())).max(<span class="number">0</span>) <span class="kw">as </span>u32
     }
 
     <span class="doccomment">/// Calculates the height of the intersection between two bounding boxes
@@ -446,8 +463,8 @@
     /// assert_eq!(bbox2.intersect_height(&amp;bbox4), 0);
     /// assert_eq!(bbox3.intersect_height(&amp;bbox4), 0);
     /// ```
-    </span><span class="kw">pub fn </span>intersect_height(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>BBox) -&gt; i32 {
-        (<span class="self">self</span>.bottom().min(other.bottom()) - <span class="self">self</span>.top().max(other.top())).max(<span class="number">0</span>)
+    </span><span class="kw">pub fn </span>intersect_height(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>BBox) -&gt; u32 {
+        (<span class="self">self</span>.bottom().min(other.bottom()) - <span class="self">self</span>.top().max(other.top())).max(<span class="number">0</span>) <span class="kw">as </span>u32
     }
 
     <span class="doccomment">/// Calculates the area of the intersection between two bounding boxes
@@ -480,7 +497,7 @@
     /// assert_eq!(bbox1.intersect_area(&amp;bbox3), 0);
     /// assert_eq!(bbox2.intersect_area(&amp;bbox3), 0);
     /// ```
-    </span><span class="kw">pub fn </span>intersect_area(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>BBox) -&gt; i32 {
+    </span><span class="kw">pub fn </span>intersect_area(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>BBox) -&gt; u32 {
         <span class="self">self</span>.intersect_width(other) * <span class="self">self</span>.intersect_height(other)
     }
 
@@ -500,7 +517,7 @@
     ///
     /// assert_eq!(bbox.self_area(), 10000);
     /// ```
-    </span><span class="kw">pub fn </span>self_area(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; i32 {
+    </span><span class="kw">pub fn </span>self_area(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
         <span class="self">self</span>.width * <span class="self">self</span>.height
     }
 
@@ -526,7 +543,7 @@
     ///
     /// assert_eq!(bbox1.union_area(&amp;bbox2), 17500);
     /// ```
-    </span><span class="kw">pub fn </span>union_area(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>BBox) -&gt; i32 {
+    </span><span class="kw">pub fn </span>union_area(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>BBox) -&gt; u32 {
         <span class="self">self</span>.self_area() + other.self_area() - <span class="self">self</span>.intersect_area(other)
     }
 
@@ -571,12 +588,7 @@
 
     <span class="attribute">#[test]
     </span><span class="kw">fn </span>test_overlap() {
-        <span class="kw">let </span>bbox1 = BBox {
-            x: <span class="number">0</span>,
-            y: <span class="number">0</span>,
-            width: <span class="number">100</span>,
-            height: <span class="number">100</span>,
-        };
+        <span class="kw">let </span>bbox1 = BBox::new(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span>);
         <span class="kw">let </span>bbox2 = BBox {
             x: <span class="number">50</span>,
             y: <span class="number">50</span>,

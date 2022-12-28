@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":[["crop_bbox","Crops an image to the dimensions specified in the bounding box"]]};

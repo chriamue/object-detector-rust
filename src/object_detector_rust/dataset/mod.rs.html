@@ -88,6 +88,9 @@
 <span id="88">88</span>
 <span id="89">89</span>
 <span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module contains the `DataSet` trait for representing datasets of images and labels for training.
 //!
 //! # Examples
@@ -110,6 +113,9 @@
 
 </span><span class="kw">use </span>image::DynamicImage;
 <span class="kw">use </span>std::error::Error;
+
+<span class="kw">mod </span>folder_dataset;
+<span class="kw">pub use </span>folder_dataset::FolderDataSet;
 
 <span class="doccomment">/// Trait representing a dataset of images and labels for training
 </span><span class="kw">pub trait </span>DataSet {

@@ -1,4 +1,4 @@
 var sourcesIndex = JSON.parse('{\
-"object_detector_rust":["",[["dataset",[],["mod.rs"]],["feature",[],["mod.rs"]]],["bbox.rs","lib.rs"]]\
+"object_detector_rust":["",[["dataset",[],["folder_dataset.rs","mod.rs"]],["feature",[],["mod.rs"]]],["bbox.rs","lib.rs","utils.rs"]]\
 }');
 createSourceSidebar();
