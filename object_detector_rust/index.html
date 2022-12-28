@@ -13,6 +13,25 @@
 <p>The overall architecture of the Object Detector Rust system is shown in the following diagram:</p>
 <p><img src="https://www.plantuml.com/plantuml/proxy?cache=no&amp;src=https://raw.github.com/chriamue/object-detector-rust/main/docs/object-detection-diagram.puml" alt="Object Detection Diagram" /></p>
 <p>In this system, the input image is passed to the feature extractor, which extracts features from the image. The extracted features are then matched against features in a template image using a matcher. The matcher passes the locations of the matched features to a localizer, which determines the location of the object in the input image and annotates the image with a bounding box around the object.</p>
+<h3 id="training-"><a href="#training-">Training 🏋️‍♀️</a></h3>
+<p>To train a model for object detection, you will need a dataset of labeled images that includes examples of the objects you want to detect. You can use tools such as <a href="https://chriamue.github.io/image-label-tool/">Image Label Tool</a> to label your images.</p>
+<p>Once you have collected and labeled your dataset, you can use image processing and machine learning libraries to extract features from the images and train a model using these features.</p>
+<p>To train a model, you will need to:</p>
+<ol>
+<li>
+<p>Load and preprocess the images in your dataset. You can use image processing libraries to load the images from files and apply any desired transformations, such as resizing or converting to grayscale.</p>
+</li>
+<li>
+<p>Extract features from the images. You can use image processing libraries to extract features such as HOG, or ORB from the images.</p>
+</li>
+<li>
+<p>Create a model using a machine learning library. You can choose a model that is suitable for object detection, such as an SVM classifier.</p>
+</li>
+<li>
+<p>Train the model on the features using the <code>fit</code> method provided by the model.</p>
+</li>
+</ol>
+<p><img src="https://www.plantuml.com/plantuml/proxy?cache=no&amp;src=https://raw.github.com/chriamue/object-detector-rust/main/docs/training.puml" alt="Training" /></p>
 <h3 id="usage-"><a href="#usage-">Usage 📖</a></h3>
 <p>To use Object Detector Rust, add it as a dependency to your project’s <code>Cargo.toml</code> file:</p>
 <div class="example-wrap"><pre class="language-toml"><code>[dependencies]
