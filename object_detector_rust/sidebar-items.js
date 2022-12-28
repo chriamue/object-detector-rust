@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":[["prelude","the object-detector-rust prelude"]],"struct":[["BBox","Struct for representing a bounding box"]]};
+window.SIDEBAR_ITEMS = {"mod":[["bbox","This module contains the `BBox` struct for representing bounding boxes and functions for calculating overlap and union."],["feature","This module contains traits and structs for feature descriptors that can be extracted from images."],["prelude","the object-detector-rust prelude"]]};

@@ -271,7 +271,67 @@
 <span id="271">271</span>
 <span id="272">272</span>
 <span id="273">273</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Struct for representing a bounding box
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+</pre><pre class="rust"><code><span class="doccomment">//! This module contains the `BBox` struct for representing bounding boxes and functions for calculating overlap and union.
+//!
+//! # Examples
+//!
+//! ```
+//! use object_detector_rust::bbox::BBox;
+//!
+//! let bbox1 = BBox {
+//!     x: 10,
+//!     y: 20,
+//!     width: 30,
+//!     height: 40,
+//! };
+//!
+//! let bbox2 = BBox {
+//!     x: 15,
+//!     y: 25,
+//!     width: 35,
+//!     height: 45,
+//! };
+//!
+//! let overlap = bbox1.overlap(&amp;bbox2);
+//! let union = bbox1.union_area(&amp;bbox2);
+//!
+//! assert!(overlap &gt; 0.0 &amp;&amp; overlap &lt; 1.0);
+//! assert!(union &gt; 1);
+//! ```
+//!
+//! This example shows how to use the `BBox` struct to represent bounding boxes and how to calculate the overlap and union between two bounding boxes.
+
+/// Struct for representing a bounding box
 </span><span class="kw">pub struct </span>BBox {
     <span class="doccomment">/// X coordinate of the top-left corner of the bounding box
     </span><span class="kw">pub </span>x: i32,
