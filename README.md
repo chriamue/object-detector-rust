@@ -28,13 +28,9 @@ object-detector-rust = "0.1"
 Then, use the crate in your Rust code:
 
 ```rust
-extern crate object_detector_rust;
-
-use object_detector_rust::{HOGDetector, ORBDetector};
+use object_detector_rust::*;
 
 fn main() {
-    let hog_detector = HOGDetector::new();
-    let orb_detector = ORBDetector::new();
 }
 ```
 
