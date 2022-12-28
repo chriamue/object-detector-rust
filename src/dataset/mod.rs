@@ -37,6 +37,7 @@ pub trait DataSet {
 }
 
 /// Dummy dataset that returns a fixed set of images and labels
+#[derive(Default)]
 pub struct DummyDataSet {
     images: Vec<DynamicImage>,
     labels: Vec<u32>,

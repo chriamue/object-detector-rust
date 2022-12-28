@@ -45,10 +45,10 @@ impl BBox {
     /// Creates a new bounding box with the specified coordinates and dimensions
     pub fn new(x: i32, y: i32, width: u32, height: u32) -> BBox {
         BBox {
-            x: x,
-            y: y,
-            width: width,
-            height: height,
+            x,
+            y,
+            width,
+            height,
         }
     }
 

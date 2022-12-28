@@ -103,7 +103,7 @@ impl FolderDataSet {
                             width: default_width,
                             height: default_height,
                         };
-                        let class = Self::label_id(label, &class_names);
+                        let class = Self::label_id(label, class_names);
 
                         annotations.push(Annotation { bbox, class });
                     }
