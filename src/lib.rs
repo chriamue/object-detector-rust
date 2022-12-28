@@ -1,7 +1,8 @@
 #![warn(missing_docs)]
 #![doc = include_str!("../README.md")]
 
-mod bbox;
+pub mod bbox;
+pub mod feature;
 
 pub use bbox::BBox;
 

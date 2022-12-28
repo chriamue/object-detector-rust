@@ -1,3 +1,33 @@
+//! This module contains the `BBox` struct for representing bounding boxes and functions for calculating overlap and union.
+//!
+//! # Examples
+//!
+//! ```
+//! use object_detector_rust::bbox::BBox;
+//!
+//! let bbox1 = BBox {
+//!     x: 10,
+//!     y: 20,
+//!     width: 30,
+//!     height: 40,
+//! };
+//!
+//! let bbox2 = BBox {
+//!     x: 15,
+//!     y: 25,
+//!     width: 35,
+//!     height: 45,
+//! };
+//!
+//! let overlap = bbox1.overlap(&bbox2);
+//! let union = bbox1.union_area(&bbox2);
+//!
+//! assert!(overlap > 0.0 && overlap < 1.0);
+//! assert!(union > 1);
+//! ```
+//!
+//! This example shows how to use the `BBox` struct to represent bounding boxes and how to calculate the overlap and union between two bounding boxes.
+
 /// Struct for representing a bounding box
 pub struct BBox {
     /// X coordinate of the top-left corner of the bounding box

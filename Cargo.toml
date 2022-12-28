@@ -1,5 +1,6 @@
 [package]
 name = "object-detector-rust"
+edition = "2021"
 version = "0.1.0"
 authors = ["Christian M <chriamue@gmail.com>"]
 description = "A framework for detecting objects in images using feature-based algorithms."
