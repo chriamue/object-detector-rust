@@ -160,4 +160,54 @@ mod tests {
         let result = dataset.load();
         assert!(result.is_ok());
     }
+    #[test]
+    fn test_annotated_images() {
+        let mut dataset = MemoryDataSet::new();
+
+        // Create some annotated images and add them to the dataset
+        let annotated_image_1 = AnnotatedImage {
+            image: DynamicImage::new_rgba8(1, 1),
+            annotations: vec![Annotation {
+                bbox: BBox {
+                    x: 0,
+                    y: 0,
+                    width: 1,
+                    height: 1,
+                },
+                class: 0,
+            }],
+        };
+        let annotated_image_2 = AnnotatedImage {
+            image: DynamicImage::new_rgba8(2, 2),
+            annotations: vec![
+                Annotation {
+                    bbox: BBox {
+                        x: 0,
+                        y: 0,
+                        width: 1,
+                        height: 1,
+                    },
+                    class: 1,
+                },
+                Annotation {
+                    bbox: BBox {
+                        x: 1,
+                        y: 1,
+                        width: 1,
+                        height: 1,
+                    },
+                    class: 2,
+                },
+            ],
+        };
+        dataset.add_annotated_image(annotated_image_1.clone());
+        dataset.add_annotated_image(annotated_image_2.clone());
+
+        // Get the annotated images from the dataset and check that they are correct
+        let annotated_images: Vec<&AnnotatedImage> = dataset.annotated_images().collect();
+        assert_eq!(
+            annotated_images,
+            vec![&annotated_image_1, &annotated_image_2]
+        );
+    }
 }
