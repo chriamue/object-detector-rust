@@ -209,6 +209,45 @@
 <span id="209">209</span>
 <span id="210">210</span>
 <span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::bbox::BBox;
 <span class="kw">use </span><span class="kw">crate</span>::dataset::DataSet;
 <span class="kw">use </span><span class="kw">crate</span>::utils::crop_bbox;
@@ -418,6 +457,45 @@
 
         <span class="comment">// Test the length of the dataset
         </span><span class="macro">assert_eq!</span>(dataset.len(), <span class="number">42</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_load_dataset_error() {
+        <span class="comment">// Set the path to the test data folder
+        </span><span class="kw">let </span>data_path = <span class="string">&quot;tests/folder_dataset/invalid_data_path&quot;</span>;
+        <span class="kw">let </span>labels_path = std::fs::canonicalize(<span class="string">&quot;tests/folder_dataset/data/labels.txt&quot;</span>).unwrap();
+        <span class="kw">let </span>label_names = FolderDataSet::load_label_names(labels_path.to_str().unwrap());
+        <span class="comment">// Create a new instance of the FolderDataSet struct
+        </span><span class="kw">let </span><span class="kw-2">mut </span>dataset = FolderDataSet::new(data_path, <span class="number">64</span>, <span class="number">64</span>, label_names);
+
+        <span class="macro">assert!</span>(dataset.load().is_err());
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_get_data() {
+        <span class="kw">let </span>default_width = <span class="number">32</span>;
+        <span class="kw">let </span>default_height = <span class="number">32</span>;
+        <span class="comment">// Set the path to the test data folder
+        </span><span class="kw">let </span>data_path = std::fs::canonicalize(<span class="string">&quot;tests/folder_dataset/data&quot;</span>).unwrap();
+        <span class="kw">let </span>labels_path = std::fs::canonicalize(<span class="string">&quot;tests/folder_dataset/data/labels.txt&quot;</span>).unwrap();
+        <span class="kw">let </span>label_names = FolderDataSet::load_label_names(labels_path.to_str().unwrap());
+        <span class="comment">// Create a new instance of the FolderDataSet struct
+        </span><span class="kw">let </span><span class="kw-2">mut </span>dataset = FolderDataSet::new(
+            data_path.to_str().unwrap(),
+            default_width,
+            default_height,
+            label_names,
+        );
+
+        <span class="comment">// Load the dataset
+        </span>dataset.load().unwrap();
+
+        <span class="kw">let </span>data = dataset.get_data();
+
+        <span class="comment">// Test the length of the dataset
+        </span><span class="macro">assert_eq!</span>(data.<span class="number">0</span>.len(), <span class="number">42</span>);
+        <span class="macro">assert_eq!</span>(data.<span class="number">0</span>.first().unwrap().width(), default_width);
+        <span class="macro">assert_eq!</span>(data.<span class="number">0</span>.first().unwrap().width(), default_height);
     }
 }
 </code></pre></div>
