@@ -88,7 +88,28 @@ mod tests {
         let image = image::DynamicImage::new_luma8(64, 64);
 
         // Create an instance of the HOG feature with default options
-        let hog_feature = HOGFeature::default();
+        let hog_feature = HOGFeature::new();
+
+        // Call the extract method on the HOG feature
+        let hog_descriptor = hog_feature.extract(&image).unwrap();
+
+        // Assert that the output of the extract method is correct
+        assert_eq!(hog_descriptor.iter().sum::<f32>(), 0.0);
+    }
+
+    #[test]
+    fn test_hog_feature_with_options() {
+        // Define the input image for the test
+        let image = image::DynamicImage::new_luma8(64, 64);
+
+        let hog_options = HogOptions {
+            orientations: 9,
+            signed: true,
+            cell_side: 8,
+            block_side: 2,
+            block_stride: 1,
+        };
+        let hog_feature = HOGFeature::new_with_options(hog_options);
 
         // Call the extract method on the HOG feature
         let hog_descriptor = hog_feature.extract(&image).unwrap();
