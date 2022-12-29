@@ -45,6 +45,21 @@
 <span id="45">45</span>
 <span id="46">46</span>
 <span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module contains traits and structs for feature descriptors that can be extracted from images.
 //!
 //! # Examples
@@ -90,6 +105,21 @@
 <span class="kw">impl </span>Feature <span class="kw">for </span>DummyFeature {
     <span class="kw">fn </span>extract(<span class="kw-2">&amp;</span><span class="self">self</span>, _image: <span class="kw-2">&amp;</span>DynamicImage) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;f32&gt;, String&gt; {
         <span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[<span class="self">self</span>.value])
+    }
+}
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span>image::RgbImage;
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_dummy_feature() {
+        <span class="kw">let </span>image = DynamicImage::ImageRgb8(RgbImage::new(<span class="number">16</span>, <span class="number">16</span>));
+        <span class="kw">let </span>feature = DummyFeature::new(<span class="number">123.0</span>);
+        <span class="kw">let </span>descriptor = feature.extract(<span class="kw-2">&amp;</span>image).unwrap();
+        <span class="macro">assert_eq!</span>(descriptor.len(), <span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(descriptor[<span class="number">0</span>], <span class="number">123.0</span>);
     }
 }
 </code></pre></div>
