@@ -97,6 +97,27 @@
 <span id="97">97</span>
 <span id="98">98</span>
 <span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Struct for extracting HOG features from images.
 //!
 //! # Examples
@@ -187,7 +208,28 @@
         </span><span class="kw">let </span>image = image::DynamicImage::new_luma8(<span class="number">64</span>, <span class="number">64</span>);
 
         <span class="comment">// Create an instance of the HOG feature with default options
-        </span><span class="kw">let </span>hog_feature = HOGFeature::default();
+        </span><span class="kw">let </span>hog_feature = HOGFeature::new();
+
+        <span class="comment">// Call the extract method on the HOG feature
+        </span><span class="kw">let </span>hog_descriptor = hog_feature.extract(<span class="kw-2">&amp;</span>image).unwrap();
+
+        <span class="comment">// Assert that the output of the extract method is correct
+        </span><span class="macro">assert_eq!</span>(hog_descriptor.iter().sum::&lt;f32&gt;(), <span class="number">0.0</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_hog_feature_with_options() {
+        <span class="comment">// Define the input image for the test
+        </span><span class="kw">let </span>image = image::DynamicImage::new_luma8(<span class="number">64</span>, <span class="number">64</span>);
+
+        <span class="kw">let </span>hog_options = HogOptions {
+            orientations: <span class="number">9</span>,
+            signed: <span class="bool-val">true</span>,
+            cell_side: <span class="number">8</span>,
+            block_side: <span class="number">2</span>,
+            block_stride: <span class="number">1</span>,
+        };
+        <span class="kw">let </span>hog_feature = HOGFeature::new_with_options(hog_options);
 
         <span class="comment">// Call the extract method on the HOG feature
         </span><span class="kw">let </span>hog_descriptor = hog_feature.extract(<span class="kw-2">&amp;</span>image).unwrap();
