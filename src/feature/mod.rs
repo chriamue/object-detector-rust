@@ -16,14 +16,16 @@
 //!
 //! This example shows how to use the `DummyFeature` struct, which is a simple implementation of the `Feature` trait, to extract a feature descriptor from an image.
 
+use image::DynamicImage;
 use std::result::Result;
 
-use image::DynamicImage;
+mod hog_feature;
+pub use hog_feature::HOGFeature;
 
 /// Trait for feature descriptors that can be extracted from images
 pub trait Feature {
     /// Extracts the feature descriptor from the given image
-    fn extract(&self, image: &DynamicImage) -> Result<Vec<f32>, &'static str>;
+    fn extract(&self, image: &DynamicImage) -> Result<Vec<f32>, String>;
 }
 
 /// Dummy feature descriptor that always returns the same value
@@ -39,7 +41,7 @@ impl DummyFeature {
 }
 
 impl Feature for DummyFeature {
-    fn extract(&self, _image: &DynamicImage) -> Result<Vec<f32>, &'static str> {
+    fn extract(&self, _image: &DynamicImage) -> Result<Vec<f32>, String> {
         Ok(vec![self.value])
     }
 }
