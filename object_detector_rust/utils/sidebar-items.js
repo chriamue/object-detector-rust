@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":[["crop_bbox","Crops an image to the dimensions specified in the bounding box"]]};
+window.SIDEBAR_ITEMS = {"fn":[["crop_bbox","Crops an image to the dimensions specified in the bounding box"],["sliding_window","Returns a vector of image windows for the given image using a sliding window approach."]],"struct":[["ImageWindow","Struct representing a window over an image with a position"]]};
