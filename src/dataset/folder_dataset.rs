@@ -208,4 +208,43 @@ mod tests {
         // Test the length of the dataset
         assert_eq!(dataset.len(), 42);
     }
+
+    #[test]
+    fn test_load_dataset_error() {
+        // Set the path to the test data folder
+        let data_path = "tests/folder_dataset/invalid_data_path";
+        let labels_path = std::fs::canonicalize("tests/folder_dataset/data/labels.txt").unwrap();
+        let label_names = FolderDataSet::load_label_names(labels_path.to_str().unwrap());
+        // Create a new instance of the FolderDataSet struct
+        let mut dataset = FolderDataSet::new(data_path, 64, 64, label_names);
+
+        assert!(dataset.load().is_err());
+    }
+
+    #[test]
+    fn test_get_data() {
+        let default_width = 32;
+        let default_height = 32;
+        // Set the path to the test data folder
+        let data_path = std::fs::canonicalize("tests/folder_dataset/data").unwrap();
+        let labels_path = std::fs::canonicalize("tests/folder_dataset/data/labels.txt").unwrap();
+        let label_names = FolderDataSet::load_label_names(labels_path.to_str().unwrap());
+        // Create a new instance of the FolderDataSet struct
+        let mut dataset = FolderDataSet::new(
+            data_path.to_str().unwrap(),
+            default_width,
+            default_height,
+            label_names,
+        );
+
+        // Load the dataset
+        dataset.load().unwrap();
+
+        let data = dataset.get_data();
+
+        // Test the length of the dataset
+        assert_eq!(data.0.len(), 42);
+        assert_eq!(data.0.first().unwrap().width(), default_width);
+        assert_eq!(data.0.first().unwrap().width(), default_height);
+    }
 }
