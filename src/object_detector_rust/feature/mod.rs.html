@@ -60,6 +60,9 @@
 <span id="60">60</span>
 <span id="61">61</span>
 <span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module contains traits and structs for feature descriptors that can be extracted from images.
 //!
 //! # Examples
@@ -83,6 +86,9 @@
 
 <span class="kw">mod </span>hog_feature;
 <span class="kw">pub use </span>hog_feature::HOGFeature;
+
+<span class="kw">mod </span>brief_feature;
+<span class="kw">pub use </span>brief_feature::BriefFeature;
 
 <span class="doccomment">/// Trait for feature descriptors that can be extracted from images
 </span><span class="kw">pub trait </span>Feature {
