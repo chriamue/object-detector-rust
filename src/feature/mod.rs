@@ -45,3 +45,18 @@ impl Feature for DummyFeature {
         Ok(vec![self.value])
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use image::RgbImage;
+
+    #[test]
+    fn test_dummy_feature() {
+        let image = DynamicImage::ImageRgb8(RgbImage::new(16, 16));
+        let feature = DummyFeature::new(123.0);
+        let descriptor = feature.extract(&image).unwrap();
+        assert_eq!(descriptor.len(), 1);
+        assert_eq!(descriptor[0], 123.0);
+    }
+}
