@@ -43,6 +43,8 @@
 <span id="43">43</span>
 <span id="44">44</span>
 <span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module contains traits and structs for feature descriptors that can be extracted from images.
 //!
 //! # Examples
@@ -61,14 +63,16 @@
 //!
 //! This example shows how to use the `DummyFeature` struct, which is a simple implementation of the `Feature` trait, to extract a feature descriptor from an image.
 
-</span><span class="kw">use </span>std::result::Result;
+</span><span class="kw">use </span>image::DynamicImage;
+<span class="kw">use </span>std::result::Result;
 
-<span class="kw">use </span>image::DynamicImage;
+<span class="kw">mod </span>hog_feature;
+<span class="kw">pub use </span>hog_feature::HOGFeature;
 
 <span class="doccomment">/// Trait for feature descriptors that can be extracted from images
 </span><span class="kw">pub trait </span>Feature {
     <span class="doccomment">/// Extracts the feature descriptor from the given image
-    </span><span class="kw">fn </span>extract(<span class="kw-2">&amp;</span><span class="self">self</span>, image: <span class="kw-2">&amp;</span>DynamicImage) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;f32&gt;, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt;;
+    </span><span class="kw">fn </span>extract(<span class="kw-2">&amp;</span><span class="self">self</span>, image: <span class="kw-2">&amp;</span>DynamicImage) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;f32&gt;, String&gt;;
 }
 
 <span class="doccomment">/// Dummy feature descriptor that always returns the same value
@@ -84,7 +88,7 @@
 }
 
 <span class="kw">impl </span>Feature <span class="kw">for </span>DummyFeature {
-    <span class="kw">fn </span>extract(<span class="kw-2">&amp;</span><span class="self">self</span>, _image: <span class="kw-2">&amp;</span>DynamicImage) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;f32&gt;, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt; {
+    <span class="kw">fn </span>extract(<span class="kw-2">&amp;</span><span class="self">self</span>, _image: <span class="kw-2">&amp;</span>DynamicImage) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;f32&gt;, String&gt; {
         <span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[<span class="self">self</span>.value])
     }
 }
