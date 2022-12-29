@@ -4,6 +4,10 @@
 pub mod bbox;
 pub mod dataset;
 pub mod feature;
+/// Trait for objects that can make predictions
+pub mod predictable;
+/// Trait for objects that can be trained
+pub mod trainable;
 pub mod utils;
 
 pub use bbox::BBox;
@@ -32,6 +36,9 @@ pub struct AnnotatedImage {
 /// the object-detector-rust prelude
 pub mod prelude {
     pub use super::bbox::BBox;
+    pub use super::feature::Feature;
+    pub use super::predictable::Predictable;
+    pub use super::trainable::Trainable;
     pub use super::AnnotatedImage;
     pub use super::Annotation;
     pub use super::Class;
