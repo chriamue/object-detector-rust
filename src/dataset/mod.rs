@@ -24,6 +24,11 @@ use std::error::Error;
 mod folder_dataset;
 pub use folder_dataset::FolderDataSet;
 
+mod memory_dataset;
+pub use memory_dataset::MemoryDataSet;
+
+use crate::AnnotatedImage;
+
 /// Trait representing a dataset of images and labels for training
 pub trait DataSet {
     /// Returns the number of images in the dataset
@@ -34,6 +39,16 @@ pub trait DataSet {
 
     /// Loads the dataset
     fn load(&mut self) -> Result<(), Box<dyn Error>>;
+}
+
+/// trait of a set of annotated images
+pub trait AnnotatedImageSet {
+    /// adds an annotated image
+    fn add_annotated_image(&mut self, annotated_image: AnnotatedImage);
+    /// returns length of annotated images
+    fn annotated_images_len(&self) -> usize;
+    /// returns iterator over annotated images
+    fn annotated_images(&self) -> Box<dyn Iterator<Item = &AnnotatedImage> + '_>;
 }
 
 /// Dummy dataset that returns a fixed set of images and labels
