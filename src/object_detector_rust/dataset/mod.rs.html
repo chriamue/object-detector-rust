@@ -92,6 +92,21 @@
 <span id="92">92</span>
 <span id="93">93</span>
 <span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module contains the `DataSet` trait for representing datasets of images and labels for training.
 //!
 //! # Examples
@@ -118,6 +133,11 @@
 <span class="kw">mod </span>folder_dataset;
 <span class="kw">pub use </span>folder_dataset::FolderDataSet;
 
+<span class="kw">mod </span>memory_dataset;
+<span class="kw">pub use </span>memory_dataset::MemoryDataSet;
+
+<span class="kw">use </span><span class="kw">crate</span>::AnnotatedImage;
+
 <span class="doccomment">/// Trait representing a dataset of images and labels for training
 </span><span class="kw">pub trait </span>DataSet {
     <span class="doccomment">/// Returns the number of images in the dataset
@@ -128,6 +148,16 @@
 
     <span class="doccomment">/// Loads the dataset
     </span><span class="kw">fn </span>load(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>Error&gt;&gt;;
+}
+
+<span class="doccomment">/// trait of a set of annotated images
+</span><span class="kw">pub trait </span>AnnotatedImageSet {
+    <span class="doccomment">/// adds an annotated image
+    </span><span class="kw">fn </span>add_annotated_image(<span class="kw-2">&amp;mut </span><span class="self">self</span>, annotated_image: AnnotatedImage);
+    <span class="doccomment">/// returns length of annotated images
+    </span><span class="kw">fn </span>annotated_images_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize;
+    <span class="doccomment">/// returns iterator over annotated images
+    </span><span class="kw">fn </span>annotated_images(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>AnnotatedImage&gt; + <span class="lifetime">&#39;_</span>&gt;;
 }
 
 <span class="doccomment">/// Dummy dataset that returns a fixed set of images and labels
