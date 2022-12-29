@@ -3,6 +3,10 @@
 use crate::BBox;
 use image::{imageops::crop_imm, DynamicImage};
 
+mod sliding_window;
+pub use sliding_window::sliding_window;
+pub use sliding_window::ImageWindow;
+
 /// Crops an image to the dimensions specified in the bounding box
 ///
 /// # Arguments
