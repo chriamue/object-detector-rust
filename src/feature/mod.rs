@@ -22,6 +22,9 @@ use std::result::Result;
 mod hog_feature;
 pub use hog_feature::HOGFeature;
 
+mod brief_feature;
+pub use brief_feature::BriefFeature;
+
 /// Trait for feature descriptors that can be extracted from images
 pub trait Feature {
     /// Extracts the feature descriptor from the given image
