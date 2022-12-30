@@ -6,6 +6,7 @@ pub mod classifier;
 pub mod dataset;
 /// Struct for representing a detected object
 pub mod detection;
+pub mod detector;
 pub mod feature;
 /// Trait for objects that can make predictions
 pub mod predictable;
@@ -41,6 +42,7 @@ pub mod prelude {
     pub use super::bbox::BBox;
     pub use super::classifier::Classifier;
     pub use super::detection::Detection;
+    pub use super::detector::Detector;
     pub use super::feature::Feature;
     pub use super::predictable::Predictable;
     pub use super::trainable::Trainable;

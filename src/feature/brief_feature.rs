@@ -56,7 +56,8 @@ impl Feature for BriefFeature {
                     Some(pixel) => pixel,
                     None => return Err("Error: pixel out of bounds".to_string()),
                 };
-                let pixel_difference = (pixel_a[0] as i32 - pixel_b[0] as i32).abs() as u8;
+                let pixel_difference: u8 =
+                    (pixel_a[0] as i32 - pixel_b[0] as i32).unsigned_abs() as u8;
                 descriptor.push(if pixel_difference > self.threshold {
                     1.0
                 } else {

@@ -53,9 +53,11 @@ impl HOGFeature {
     pub fn new_with_options(options: HogOptions) -> Self {
         Self { options }
     }
+}
 
+impl Default for HOGFeature {
     /// Creates a new HOG feature extractor with default options
-    pub fn default() -> Self {
+    fn default() -> Self {
         let default_options = HogOptions {
             orientations: 9,
             signed: false,
@@ -74,7 +76,7 @@ impl Feature for HOGFeature {
         let gray_image = image
             .as_luma8()
             .ok_or("Error converting image to grayscale")?;
-        Ok(hog(&gray_image, self.options).map_err(|e| e.to_string())?)
+        hog(gray_image, self.options)
     }
 }
 
