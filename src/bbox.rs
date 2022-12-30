@@ -271,6 +271,59 @@ impl BBox {
     pub fn overlap(&self, other: &BBox) -> f32 {
         self.intersect_area(other) as f32 / self.union_area(other) as f32
     }
+
+    /// Merges two bounding boxes into a single bounding box that encloses both
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use object_detector_rust::BBox;
+    ///
+    /// let bbox1 = BBox {
+    ///     x: 0,
+    ///     y: 0,
+    ///     width: 100,
+    ///     height: 100,
+    /// };
+    /// let bbox2 = BBox {
+    ///     x: 50,
+    ///     y: 50,
+    ///     width: 100,
+    ///     height: 100,
+    /// };
+    /// let bbox3 = BBox {
+    ///     x: -50,
+    ///     y: -50,
+    ///     width: 100,
+    ///     height: 100,
+    /// };
+    ///
+    /// assert_eq!(bbox1.merge(&bbox2), BBox {
+    ///     x: 0,
+    ///     y: 0,
+    ///     width: 150,
+    ///     height: 150,
+    /// });
+    /// assert_eq!(bbox1.merge(&bbox3), BBox {
+    ///     x: -50,
+    ///     y: -50,
+    ///     width: 150,
+    ///     height: 150,
+    /// });
+    /// ```
+    pub fn merge(&self, other: &BBox) -> BBox {
+        let left = self.left().min(other.left());
+        let right = self.right().max(other.right());
+        let top = self.top().min(other.top());
+        let bottom = self.bottom().max(other.bottom());
+
+        BBox {
+            x: left,
+            y: top,
+            width: (right - left) as u32,
+            height: (bottom - top) as u32,
+        }
+    }
 }
 
 #[cfg(test)]
