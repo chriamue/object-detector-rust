@@ -307,6 +307,59 @@
 <span id="307">307</span>
 <span id="308">308</span>
 <span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module contains the `BBox` struct for representing bounding boxes and functions for calculating overlap and union.
 //!
 //! # Examples
@@ -579,6 +632,59 @@
     /// ```
     </span><span class="kw">pub fn </span>overlap(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>BBox) -&gt; f32 {
         <span class="self">self</span>.intersect_area(other) <span class="kw">as </span>f32 / <span class="self">self</span>.union_area(other) <span class="kw">as </span>f32
+    }
+
+    <span class="doccomment">/// Merges two bounding boxes into a single bounding box that encloses both
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use object_detector_rust::BBox;
+    ///
+    /// let bbox1 = BBox {
+    ///     x: 0,
+    ///     y: 0,
+    ///     width: 100,
+    ///     height: 100,
+    /// };
+    /// let bbox2 = BBox {
+    ///     x: 50,
+    ///     y: 50,
+    ///     width: 100,
+    ///     height: 100,
+    /// };
+    /// let bbox3 = BBox {
+    ///     x: -50,
+    ///     y: -50,
+    ///     width: 100,
+    ///     height: 100,
+    /// };
+    ///
+    /// assert_eq!(bbox1.merge(&amp;bbox2), BBox {
+    ///     x: 0,
+    ///     y: 0,
+    ///     width: 150,
+    ///     height: 150,
+    /// });
+    /// assert_eq!(bbox1.merge(&amp;bbox3), BBox {
+    ///     x: -50,
+    ///     y: -50,
+    ///     width: 150,
+    ///     height: 150,
+    /// });
+    /// ```
+    </span><span class="kw">pub fn </span>merge(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>BBox) -&gt; BBox {
+        <span class="kw">let </span>left = <span class="self">self</span>.left().min(other.left());
+        <span class="kw">let </span>right = <span class="self">self</span>.right().max(other.right());
+        <span class="kw">let </span>top = <span class="self">self</span>.top().min(other.top());
+        <span class="kw">let </span>bottom = <span class="self">self</span>.bottom().max(other.bottom());
+
+        BBox {
+            x: left,
+            y: top,
+            width: (right - left) <span class="kw">as </span>u32,
+            height: (bottom - top) <span class="kw">as </span>u32,
+        }
     }
 }
 

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["Detection","Struct for representing a detected object"]]};
+window.SIDEBAR_ITEMS = {"fn":[["merge_overlapping_detections","Merges overlapping detections with the same class"]],"struct":[["Detection","Struct for representing a detected object"]]};
