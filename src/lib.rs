@@ -2,6 +2,7 @@
 #![doc = include_str!("../README.md")]
 
 pub mod bbox;
+pub mod classifier;
 pub mod dataset;
 pub mod feature;
 /// Trait for objects that can make predictions
@@ -36,6 +37,7 @@ pub struct AnnotatedImage {
 /// the object-detector-rust prelude
 pub mod prelude {
     pub use super::bbox::BBox;
+    pub use super::classifier::Classifier;
     pub use super::feature::Feature;
     pub use super::predictable::Predictable;
     pub use super::trainable::Trainable;
