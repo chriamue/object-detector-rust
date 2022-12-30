@@ -6,6 +6,8 @@
 //!
 use crate::prelude::{Predictable, Trainable};
 
+mod bayes_classifier;
+pub use bayes_classifier::BayesClassifier;
 mod svm_classifier;
 pub use svm_classifier::SVMClassifier;
 
