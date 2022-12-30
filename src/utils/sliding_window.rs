@@ -1,61 +1,42 @@
-use image::{GenericImageView, SubImage};
+use crate::utils::ImageWindow;
+use crate::utils::WindowGenerator;
+use image::{DynamicImage, GenericImageView, SubImage};
 
-/// Struct representing a window over an image with a position
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub struct ImageWindow<I> {
-    /// X position of the window
-    pub x: u32,
-    /// Y position of the window
-    pub y: u32,
-    /// View of the image within the window
-    pub view: I,
+/// Struct for generating sliding windows over an image
+#[derive(Debug)]
+pub struct SlidingWindow {
+    /// Width of the window
+    pub width: u32,
+    /// Height of the window
+    pub height: u32,
+    /// Step size for moving the window
+    pub step_size: u32,
 }
 
-/// Returns a vector of image windows for the given image using a sliding window approach.
-///
-/// The sliding window is a square of size `window_size` pixels that is moved across the image
-/// with a step size of `step_size` pixels in both the x and y directions
-/// from left to right and top to bottom. At each position, the window is added to the vector
-/// of image windows returned by the function.
-///
-/// # Parameters
-///
-/// - `image`: The image to generate image windows for.
-/// - `window_size`: The size of the sliding window in pixels.
-/// - `step_size` - The number of pixels to move the window in both the x and y directions at each iteration
-///
-/// # Example
-///
-/// ```
-/// use object_detector_rust::utils::sliding_window;
-/// use image::DynamicImage;
-///
-/// let image = DynamicImage::new_rgba8(100, 100);
-/// let windows = sliding_window(&image, 50, 25);
-/// ```
-pub fn sliding_window<I: GenericImageView>(
-    image: &I,
-    window_size: u32,
-    step_size: u32,
-) -> Vec<ImageWindow<SubImage<&I>>> {
-    let mut windows = Vec::new();
-    for y in (0..(image.height() - window_size + 1)).step_by(step_size as usize) {
-        for x in (0..(image.width() - window_size + 1)).step_by(step_size as usize) {
-            let window = ImageWindow {
-                x,
-                y,
-                view: image.view(x, y, window_size, window_size),
-            };
-            windows.push(window);
+impl WindowGenerator<DynamicImage> for SlidingWindow {
+    fn windows<'a, 'b>(
+        &'a self,
+        image: &'b DynamicImage,
+    ) -> Vec<ImageWindow<SubImage<&'b DynamicImage>>> {
+        let mut windows = Vec::new();
+        let (width, height) = image.dimensions();
+        for y in (0..height).step_by(self.step_size as usize) {
+            for x in (0..width).step_by(self.step_size as usize) {
+                let window = ImageWindow {
+                    x,
+                    y,
+                    view: image.view(x, y, self.width, self.height),
+                };
+                windows.push(window);
+            }
         }
+        windows
     }
-    windows
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use image::DynamicImage;
 
     #[test]
     fn test_sliding_window() {
@@ -63,7 +44,13 @@ mod tests {
         let window_size = 5;
         let step_size = 5;
 
-        let windows = sliding_window(&image, window_size, step_size);
+        let generator = SlidingWindow {
+            width: window_size,
+            height: window_size,
+            step_size: step_size,
+        };
+
+        let windows = generator.windows(&image);
 
         // Check that the correct number of windows was returned
         assert_eq!(windows.len(), 4);

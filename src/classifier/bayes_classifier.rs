@@ -51,7 +51,7 @@ impl Classifier<f32, usize> for BayesClassifier {}
 
 #[cfg(test)]
 mod tests {
-    use ndarray::{arr2, arr1};
+    use ndarray::{arr1, arr2};
 
     use super::*;
 
