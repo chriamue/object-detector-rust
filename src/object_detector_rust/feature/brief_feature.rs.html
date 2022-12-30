@@ -180,6 +180,7 @@
 <span id="180">180</span>
 <span id="181">181</span>
 <span id="182">182</span>
+<span id="183">183</span>
 </pre><pre class="rust"><code><span class="kw">use </span>image::{DynamicImage, GrayImage};
 <span class="kw">use </span>imageproc::corners::{corners_fast9, Corner};
 
@@ -238,7 +239,8 @@
                     <span class="prelude-val">Some</span>(pixel) =&gt; pixel,
                     <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Error: pixel out of bounds&quot;</span>.to_string()),
                 };
-                <span class="kw">let </span>pixel_difference = (pixel_a[<span class="number">0</span>] <span class="kw">as </span>i32 - pixel_b[<span class="number">0</span>] <span class="kw">as </span>i32).abs() <span class="kw">as </span>u8;
+                <span class="kw">let </span>pixel_difference: u8 =
+                    (pixel_a[<span class="number">0</span>] <span class="kw">as </span>i32 - pixel_b[<span class="number">0</span>] <span class="kw">as </span>i32).unsigned_abs() <span class="kw">as </span>u8;
                 descriptor.push(<span class="kw">if </span>pixel_difference &gt; <span class="self">self</span>.threshold {
                     <span class="number">1.0
                 </span>} <span class="kw">else </span>{
