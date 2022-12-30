@@ -3,10 +3,32 @@
 <span id="3">3</span>
 <span id="4">4</span>
 <span id="5">5</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Trait for objects that can be trained
-</span><span class="kw">pub trait </span>Trainable&lt;<span class="lifetime">&#39;a</span>, X, Y, TX, TY&gt; {
-    <span class="doccomment">/// Trains the object using the given input data and labels
-    </span><span class="kw">fn </span>fit(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="self">self</span>, x: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>X, y: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Y) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt;;
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+</pre><pre class="rust"><code><span class="kw">use </span>ndarray::{ArrayView1, ArrayView2};
+
+<span class="doccomment">/// Trait for objects that can be trained
+</span><span class="kw">pub trait </span>Trainable&lt;X, Y&gt; {
+    <span class="doccomment">/// Trains the `SVMClassifier` on the provided training data.
+    ///
+    /// # Arguments
+    ///
+    /// * `x` - A 2D array of training data features.
+    /// * `y` - A 1D array of training data labels.
+    ///
+    /// # Returns
+    ///
+    /// A `Result` containing an error string if training fails, or `Ok` if training succeeds.
+    </span><span class="kw">fn </span>fit(<span class="kw-2">&amp;mut </span><span class="self">self</span>, x: <span class="kw-2">&amp;</span>ArrayView2&lt;X&gt;, y: <span class="kw-2">&amp;</span>ArrayView1&lt;Y&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt;;
 }
 </code></pre></div>
 </section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="object_detector_rust" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0 (69f9c33d7 2022-12-12)" ></div></body></html>

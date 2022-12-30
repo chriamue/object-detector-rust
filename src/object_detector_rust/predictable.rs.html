@@ -3,10 +3,32 @@
 <span id="3">3</span>
 <span id="4">4</span>
 <span id="5">5</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Trait for objects that can make predictions
-</span><span class="kw">pub trait </span>Predictable&lt;<span class="lifetime">&#39;a</span>, X, TX&gt; {
-    <span class="doccomment">/// Makes predictions using the trained object on the given input data
-    </span><span class="kw">fn </span>predict(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, x: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>X) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;TX&gt;, String&gt;;
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+</pre><pre class="rust"><code><span class="kw">use </span>ndarray::{Array1, ArrayView2};
+
+<span class="doccomment">/// Trait for objects that can make predictions
+</span><span class="kw">pub trait </span>Predictable&lt;X, Y&gt; {
+    <span class="doccomment">/// Makes predictions on the provided data using the trained `SVMClassifier`.
+    ///
+    /// # Arguments
+    ///
+    /// * `x` - A 2D array of data to make predictions on.
+    ///
+    /// # Returns
+    ///
+    /// A `Result` containing an error string if prediction fails, or a 1D array of predictions if
+    /// prediction succeeds.
+    </span><span class="kw">fn </span>predict(<span class="kw-2">&amp;</span><span class="self">self</span>, x: <span class="kw-2">&amp;</span>ArrayView2&lt;X&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;Array1&lt;Y&gt;, String&gt;;
 }
 </code></pre></div>
 </section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="object_detector_rust" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0 (69f9c33d7 2022-12-12)" ></div></body></html>
