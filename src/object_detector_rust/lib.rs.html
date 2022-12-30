@@ -45,12 +45,17 @@
 <span id="45">45</span>
 <span id="46">46</span>
 <span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
 </pre><pre class="rust"><code><span class="attribute">#![warn(missing_docs)]
 #![doc = <span class="macro">include_str!</span>(<span class="string">&quot;../README.md&quot;</span>)]
 
 </span><span class="kw">pub mod </span>bbox;
 <span class="kw">pub mod </span>classifier;
 <span class="kw">pub mod </span>dataset;
+<span class="doccomment">/// Struct for representing a detected object
+</span><span class="kw">pub mod </span>detection;
 <span class="kw">pub mod </span>feature;
 <span class="doccomment">/// Trait for objects that can make predictions
 </span><span class="kw">pub mod </span>predictable;
@@ -85,6 +90,7 @@
 </span><span class="kw">pub mod </span>prelude {
     <span class="kw">pub use </span><span class="kw">super</span>::bbox::BBox;
     <span class="kw">pub use </span><span class="kw">super</span>::classifier::Classifier;
+    <span class="kw">pub use </span><span class="kw">super</span>::detection::Detection;
     <span class="kw">pub use </span><span class="kw">super</span>::feature::Feature;
     <span class="kw">pub use </span><span class="kw">super</span>::predictable::Predictable;
     <span class="kw">pub use </span><span class="kw">super</span>::trainable::Trainable;

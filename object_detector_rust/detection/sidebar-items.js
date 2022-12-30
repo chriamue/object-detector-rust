@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Detection","Struct for representing a detected object"]]};

@@ -1,0 +1,110 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/detection.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>detection.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../object_detector_rust/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+</pre><pre class="rust"><code><span class="kw">use crate</span>::{BBox, Class};
+
+<span class="doccomment">/// Struct for representing a detected object
+</span><span class="attribute">#[derive(Debug, Clone, PartialEq)]
+</span><span class="kw">pub struct </span>Detection {
+    <span class="doccomment">/// Bounding box of the detected object
+    </span><span class="kw">pub </span>bbox: BBox,
+    <span class="doccomment">/// Class of the detected object
+    </span><span class="kw">pub </span>class: Class,
+    <span class="doccomment">/// Confidence of the detection
+    </span><span class="kw">pub </span>confidence: f32,
+}
+
+<span class="kw">impl </span>Detection {
+    <span class="doccomment">/// Creates a new `Detection` with the given bounding box, class, and confidence.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use object_detector_rust::prelude::{Detection, BBox, Class};
+    ///
+    /// let bbox = BBox { x: 10, y: 20, width: 30, height: 40 };
+    /// let class = 1;
+    /// let confidence = 0.9;
+    /// let detection = Detection::new(bbox.clone(), class, confidence);
+    ///
+    /// assert_eq!(detection.bbox, bbox);
+    /// assert_eq!(detection.class, class);
+    /// assert_eq!(detection.confidence, confidence);
+    /// ```
+    </span><span class="kw">pub fn </span>new(bbox: BBox, class: Class, confidence: f32) -&gt; Detection {
+        Detection {
+            bbox,
+            class,
+            confidence,
+        }
+    }
+}
+
+<span class="attribute">#[test]
+</span><span class="kw">fn </span>test_new() {
+    <span class="kw">let </span>bbox = BBox {
+        x: <span class="number">10</span>,
+        y: <span class="number">20</span>,
+        width: <span class="number">30</span>,
+        height: <span class="number">40</span>,
+    };
+    <span class="kw">let </span>class = <span class="number">1</span>;
+    <span class="kw">let </span>confidence = <span class="number">0.5</span>;
+    <span class="kw">let </span>detection = Detection::new(bbox.clone(), class, confidence);
+    <span class="macro">assert_eq!</span>(detection.bbox, bbox);
+    <span class="macro">assert_eq!</span>(detection.class, class);
+    <span class="macro">assert_eq!</span>(detection.confidence, confidence);
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="object_detector_rust" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0 (69f9c33d7 2022-12-12)" ></div></body></html>
