@@ -359,4 +359,23 @@ mod tests {
         assert_eq!(bbox2.overlap(&bbox4), 0.0);
         assert_eq!(bbox3.overlap(&bbox4), 0.0);
     }
+
+    #[test]
+    fn test_bbox_merge() {
+        let bbox1 = BBox::new(0, 0, 100, 100);
+        let bbox2 = BBox::new(50, 50, 100, 100);
+        let bbox3 = BBox::new(200, 200, 100, 100);
+
+        let merged_bbox1 = BBox::merge(&bbox1, &bbox2);
+        assert_eq!(merged_bbox1.x, 0);
+        assert_eq!(merged_bbox1.y, 0);
+        assert_eq!(merged_bbox1.width, 150);
+        assert_eq!(merged_bbox1.height, 150);
+
+        let merged_bbox2 = BBox::merge(&bbox1, &bbox3);
+        assert_eq!(merged_bbox2.x, 0);
+        assert_eq!(merged_bbox2.y, 0);
+        assert_eq!(merged_bbox2.width, 300);
+        assert_eq!(merged_bbox2.height, 300);
+    }
 }
