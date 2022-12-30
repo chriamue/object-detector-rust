@@ -42,14 +42,68 @@
 <span id="42">42</span>
 <span id="43">43</span>
 <span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Utility functions for working with images
 //!
 </span><span class="kw">use </span><span class="kw">crate</span>::BBox;
-<span class="kw">use </span>image::{imageops::crop_imm, DynamicImage};
+<span class="kw">use </span>image::{imageops::crop_imm, DynamicImage, GenericImageView, SubImage};
 
 <span class="kw">mod </span>sliding_window;
-<span class="kw">pub use </span>sliding_window::sliding_window;
-<span class="kw">pub use </span>sliding_window::ImageWindow;
+<span class="kw">pub use </span>sliding_window::SlidingWindow;
+
+<span class="doccomment">/// Struct representing a window over an image with a position
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq)]
+</span><span class="kw">pub struct </span>ImageWindow&lt;I&gt; {
+    <span class="doccomment">/// X position of the window
+    </span><span class="kw">pub </span>x: u32,
+    <span class="doccomment">/// Y position of the window
+    </span><span class="kw">pub </span>y: u32,
+    <span class="doccomment">/// View of the image within the window
+    </span><span class="kw">pub </span>view: I,
+}
+
+<span class="doccomment">/// Trait for generating windows over an image
+</span><span class="kw">pub trait </span>WindowGenerator&lt;I&gt;
+<span class="kw">where
+    </span>I: GenericImageView,
+{
+    <span class="doccomment">/// Generates a series of windows over the given image
+    ///
+    /// # Arguments
+    ///
+    /// * `image` - the image to generate windows for
+    ///
+    /// # Returns
+    ///
+    /// A vector of `ImageWindow`s representing the windows over the image
+    </span><span class="kw">fn </span>windows&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, image: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>I) -&gt; Vec&lt;ImageWindow&lt;SubImage&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>I&gt;&gt;&gt;;
+}
 
 <span class="doccomment">/// Crops an image to the dimensions specified in the bounding box
 ///

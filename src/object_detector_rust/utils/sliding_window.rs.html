@@ -63,77 +63,45 @@
 <span id="63">63</span>
 <span id="64">64</span>
 <span id="65">65</span>
-<span id="66">66</span>
-<span id="67">67</span>
-<span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
-<span id="71">71</span>
-<span id="72">72</span>
-<span id="73">73</span>
-<span id="74">74</span>
-<span id="75">75</span>
-<span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
-</pre><pre class="rust"><code><span class="kw">use </span>image::{GenericImageView, SubImage};
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::utils::ImageWindow;
+<span class="kw">use </span><span class="kw">crate</span>::utils::WindowGenerator;
+<span class="kw">use </span>image::{DynamicImage, GenericImageView, SubImage};
 
-<span class="doccomment">/// Struct representing a window over an image with a position
-</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq)]
-</span><span class="kw">pub struct </span>ImageWindow&lt;I&gt; {
-    <span class="doccomment">/// X position of the window
-    </span><span class="kw">pub </span>x: u32,
-    <span class="doccomment">/// Y position of the window
-    </span><span class="kw">pub </span>y: u32,
-    <span class="doccomment">/// View of the image within the window
-    </span><span class="kw">pub </span>view: I,
+<span class="doccomment">/// Struct for generating sliding windows over an image
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>SlidingWindow {
+    <span class="doccomment">/// Width of the window
+    </span><span class="kw">pub </span>width: u32,
+    <span class="doccomment">/// Height of the window
+    </span><span class="kw">pub </span>height: u32,
+    <span class="doccomment">/// Step size for moving the window
+    </span><span class="kw">pub </span>step_size: u32,
 }
 
-<span class="doccomment">/// Returns a vector of image windows for the given image using a sliding window approach.
-///
-/// The sliding window is a square of size `window_size` pixels that is moved across the image
-/// with a step size of `step_size` pixels in both the x and y directions
-/// from left to right and top to bottom. At each position, the window is added to the vector
-/// of image windows returned by the function.
-///
-/// # Parameters
-///
-/// - `image`: The image to generate image windows for.
-/// - `window_size`: The size of the sliding window in pixels.
-/// - `step_size` - The number of pixels to move the window in both the x and y directions at each iteration
-///
-/// # Example
-///
-/// ```
-/// use object_detector_rust::utils::sliding_window;
-/// use image::DynamicImage;
-///
-/// let image = DynamicImage::new_rgba8(100, 100);
-/// let windows = sliding_window(&amp;image, 50, 25);
-/// ```
-</span><span class="kw">pub fn </span>sliding_window&lt;I: GenericImageView&gt;(
-    image: <span class="kw-2">&amp;</span>I,
-    window_size: u32,
-    step_size: u32,
-) -&gt; Vec&lt;ImageWindow&lt;SubImage&lt;<span class="kw-2">&amp;</span>I&gt;&gt;&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>windows = Vec::new();
-    <span class="kw">for </span>y <span class="kw">in </span>(<span class="number">0</span>..(image.height() - window_size + <span class="number">1</span>)).step_by(step_size <span class="kw">as </span>usize) {
-        <span class="kw">for </span>x <span class="kw">in </span>(<span class="number">0</span>..(image.width() - window_size + <span class="number">1</span>)).step_by(step_size <span class="kw">as </span>usize) {
-            <span class="kw">let </span>window = ImageWindow {
-                x,
-                y,
-                view: image.view(x, y, window_size, window_size),
-            };
-            windows.push(window);
+<span class="kw">impl </span>WindowGenerator&lt;DynamicImage&gt; <span class="kw">for </span>SlidingWindow {
+    <span class="kw">fn </span>windows&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
+        image: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>DynamicImage,
+    ) -&gt; Vec&lt;ImageWindow&lt;SubImage&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>DynamicImage&gt;&gt;&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>windows = Vec::new();
+        <span class="kw">let </span>(width, height) = image.dimensions();
+        <span class="kw">for </span>y <span class="kw">in </span>(<span class="number">0</span>..height).step_by(<span class="self">self</span>.step_size <span class="kw">as </span>usize) {
+            <span class="kw">for </span>x <span class="kw">in </span>(<span class="number">0</span>..width).step_by(<span class="self">self</span>.step_size <span class="kw">as </span>usize) {
+                <span class="kw">let </span>window = ImageWindow {
+                    x,
+                    y,
+                    view: image.view(x, y, <span class="self">self</span>.width, <span class="self">self</span>.height),
+                };
+                windows.push(window);
+            }
         }
+        windows
     }
-    windows
 }
 
 <span class="attribute">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span>image::DynamicImage;
 
     <span class="attribute">#[test]
     </span><span class="kw">fn </span>test_sliding_window() {
@@ -141,7 +109,13 @@
         <span class="kw">let </span>window_size = <span class="number">5</span>;
         <span class="kw">let </span>step_size = <span class="number">5</span>;
 
-        <span class="kw">let </span>windows = sliding_window(<span class="kw-2">&amp;</span>image, window_size, step_size);
+        <span class="kw">let </span>generator = SlidingWindow {
+            width: window_size,
+            height: window_size,
+            step_size: step_size,
+        };
+
+        <span class="kw">let </span>windows = generator.windows(<span class="kw-2">&amp;</span>image);
 
         <span class="comment">// Check that the correct number of windows was returned
         </span><span class="macro">assert_eq!</span>(windows.len(), <span class="number">4</span>);
