@@ -29,7 +29,9 @@ impl Trainable<f32, bool> for SVMClassifier {
         let dataset = Dataset::new(x.to_owned(), y.to_owned());
 
         let model = Svm::<_, bool>::params()
-            .gaussian_kernel(8.0)
+            .gaussian_kernel(80.0)
+            .eps(0.1)
+            .pos_neg_weights(5.0, 50.0)
             .fit(&dataset)
             .unwrap();
 

@@ -2,24 +2,24 @@ use object_detector_rust::{
     dataset::{DataSet, FolderDataSet},
     detector::{Detector, HOGSVMDetector},
     feature::{Feature, HOGFeature},
-    utils::{draw_bboxes, extract_data},
+    utils::{draw_bboxes, extract_data, SlidingWindow},
     BBox, Class,
 };
 
 fn main() -> Result<(), String> {
-    let class: Class = 1;
+    let class: Class = 5;
     // Set the path to the test data folder
     let data_path = std::fs::canonicalize("tests/folder_dataset/data").unwrap();
     let labels_path = std::fs::canonicalize("tests/folder_dataset/data/labels.txt").unwrap();
     let label_names = FolderDataSet::load_label_names(labels_path.to_str().unwrap());
     // Create a new instance of the FolderDataSet struct
-    let dataset = FolderDataSet::new(data_path.to_str().unwrap(), 32, 32, label_names);
-
+    let mut dataset = FolderDataSet::new(data_path.to_str().unwrap(), 32, 32, label_names);
+    dataset.load().unwrap();
     let (x, y) = dataset.get_data();
     let feature = HOGFeature::default();
-    let x: Vec<f32> = x
+    let x: Vec<Vec<f32>> = x
         .iter()
-        .flat_map(|image| feature.extract(image).unwrap())
+        .map(|image| feature.extract(image).unwrap())
         .collect();
     let y = y
         .iter()
@@ -27,8 +27,13 @@ fn main() -> Result<(), String> {
         .collect();
     let (x, y) = extract_data(x, y);
 
+    let window_generator = SlidingWindow {
+        width: 32,
+        height: 32,
+        step_size: 32,
+    };
     // Create a HOGSVMDetector and train it on the training data
-    let mut detector = HOGSVMDetector::new();
+    let mut detector = HOGSVMDetector::new(window_generator);
     detector.fit(&x.view(), &y.view())?;
 
     // Load an image to run detection on

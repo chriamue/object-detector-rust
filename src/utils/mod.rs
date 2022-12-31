@@ -84,9 +84,17 @@ pub fn draw_bboxes(image: &mut DynamicImage, bboxes: &[BBox]) {
 }
 
 /// Transforms a given vector of extracted features and a vector of labels into a tuple of 2D feature array and 1D label array.
-pub fn extract_data<X, Y>(features: Vec<X>, labels: Vec<Y>) -> (Array2<X>, Array1<Y>) {
+pub fn extract_data<X, Y>(features: Vec<Vec<X>>, labels: Vec<Y>) -> (Array2<X>, Array1<Y>) {
     assert_eq!(features.len(), labels.len());
-    let features_array = Array2::from_shape_vec((labels.len(), 1), features).unwrap();
+    let (x, y) = (
+        labels.len(),
+        match features.first() {
+            Some(x) => x.len(),
+            None => 0,
+        },
+    );
+    let features = features.into_iter().flatten().collect();
+    let features_array = Array2::from_shape_vec((x, y), features).unwrap();
     let labels_array = Array1::from_shape_vec(labels.len(), labels).unwrap();
 
     (features_array, labels_array)
@@ -132,10 +140,9 @@ mod tests {
     fn test_extract_data() {
         let features = vec![vec![1, 0], vec![2, 0], vec![3, 0], vec![4, 0], vec![5, 0]];
         let labels = vec![true, false, true, false, true];
-        let expected_features_array = Array2::from_shape_vec((5, 1), features.clone()).unwrap();
         let expected_labels_array = Array1::from_shape_vec(5, labels.clone()).unwrap();
         let (actual_features_array, actual_labels_array) = extract_data(features, labels);
-        assert_eq!(expected_features_array, actual_features_array);
+        assert_eq!(actual_features_array.dim().0, actual_labels_array.len());
         assert_eq!(expected_labels_array, actual_labels_array);
     }
 }
