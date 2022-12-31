@@ -195,10 +195,10 @@
 
 <span class="kw">impl </span>Feature <span class="kw">for </span>HOGFeature {
     <span class="kw">fn </span>extract(<span class="kw-2">&amp;</span><span class="self">self</span>, image: <span class="kw-2">&amp;</span>DynamicImage) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;f32&gt;, String&gt; {
-        <span class="kw">let </span>gray_image = image
-            .as_luma8()
-            .ok_or(<span class="string">&quot;Error converting image to grayscale&quot;</span>)<span class="question-mark">?</span>;
-        hog(gray_image, <span class="self">self</span>.options)
+        <span class="kw">match </span>image.as_luma8() {
+            <span class="prelude-val">Some</span>(gray_image) =&gt; hog(gray_image, <span class="self">self</span>.options),
+            <span class="prelude-val">None </span>=&gt; hog(<span class="kw-2">&amp;</span>image.to_luma8(), <span class="self">self</span>.options),
+        }
     }
 }
 
