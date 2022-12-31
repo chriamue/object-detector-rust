@@ -139,6 +139,33 @@
 <span id="139">139</span>
 <span id="140">140</span>
 <span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
 </pre><pre class="rust"><code><span class="kw">use crate</span>::{
     classifier::SVMClassifier,
     detector::{Detection, Detector},
@@ -268,6 +295,33 @@
         };
         <span class="comment">// Create a new HOGSVMDetector and train it on the training data
         </span><span class="kw">let </span><span class="kw-2">mut </span>hog_svm_detector = HOGSVMDetector::new(window_generator);
+        hog_svm_detector.fit(<span class="kw-2">&amp;</span>x.view(), <span class="kw-2">&amp;</span>y.view()).unwrap();
+
+        <span class="comment">// Make predictions on the image using the trained detector
+        </span><span class="kw">let </span>detections = hog_svm_detector.detect(<span class="kw-2">&amp;</span>image);
+
+        <span class="comment">// Check that the predicted detection is correct
+        </span><span class="macro">assert_eq!</span>(detections.len(), <span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(detections[<span class="number">0</span>].class, <span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(detections[<span class="number">0</span>].bbox, BBox::new(<span class="number">0</span>, <span class="number">0</span>, <span class="number">32</span>, <span class="number">32</span>));
+        <span class="macro">assert_eq!</span>(detections[<span class="number">0</span>].confidence, <span class="number">1.0</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_default_hog_svm_detector() {
+        <span class="comment">// Create a simple image with a single black square
+        </span><span class="kw">let </span>image = DynamicImage::new_luma8(<span class="number">32</span>, <span class="number">32</span>);
+
+        <span class="comment">// Extract HOG features from the image
+        </span><span class="kw">let </span>hog_feature = HOGFeature::new();
+        <span class="kw">let </span>hog_features = hog_feature.extract(<span class="kw-2">&amp;</span>image).unwrap();
+
+        <span class="comment">// Create training data and labels
+        </span><span class="kw">let </span>x = Array2::from_shape_vec((<span class="number">1</span>, hog_features.len()), hog_features).unwrap();
+        <span class="kw">let </span>y = Array1::from(<span class="macro">vec!</span>[<span class="bool-val">true</span>]);
+
+        <span class="comment">// Create a new HOGSVMDetector and train it on the training data
+        </span><span class="kw">let </span><span class="kw-2">mut </span>hog_svm_detector = HOGSVMDetector::default();
         hog_svm_detector.fit(<span class="kw-2">&amp;</span>x.view(), <span class="kw-2">&amp;</span>y.view()).unwrap();
 
         <span class="comment">// Make predictions on the image using the trained detector
