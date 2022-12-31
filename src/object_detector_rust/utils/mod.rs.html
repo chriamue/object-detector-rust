@@ -139,6 +139,13 @@
 <span id="139">139</span>
 <span id="140">140</span>
 <span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Utility functions for working with images
 //!
 </span><span class="kw">use </span><span class="kw">crate</span>::BBox;
@@ -225,9 +232,17 @@
 }
 
 <span class="doccomment">/// Transforms a given vector of extracted features and a vector of labels into a tuple of 2D feature array and 1D label array.
-</span><span class="kw">pub fn </span>extract_data&lt;X, Y&gt;(features: Vec&lt;X&gt;, labels: Vec&lt;Y&gt;) -&gt; (Array2&lt;X&gt;, Array1&lt;Y&gt;) {
+</span><span class="kw">pub fn </span>extract_data&lt;X, Y&gt;(features: Vec&lt;Vec&lt;X&gt;&gt;, labels: Vec&lt;Y&gt;) -&gt; (Array2&lt;X&gt;, Array1&lt;Y&gt;) {
     <span class="macro">assert_eq!</span>(features.len(), labels.len());
-    <span class="kw">let </span>features_array = Array2::from_shape_vec((labels.len(), <span class="number">1</span>), features).unwrap();
+    <span class="kw">let </span>(x, y) = (
+        labels.len(),
+        <span class="kw">match </span>features.first() {
+            <span class="prelude-val">Some</span>(x) =&gt; x.len(),
+            <span class="prelude-val">None </span>=&gt; <span class="number">0</span>,
+        },
+    );
+    <span class="kw">let </span>features = features.into_iter().flatten().collect();
+    <span class="kw">let </span>features_array = Array2::from_shape_vec((x, y), features).unwrap();
     <span class="kw">let </span>labels_array = Array1::from_shape_vec(labels.len(), labels).unwrap();
 
     (features_array, labels_array)
@@ -273,10 +288,9 @@
     </span><span class="kw">fn </span>test_extract_data() {
         <span class="kw">let </span>features = <span class="macro">vec!</span>[<span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">0</span>], <span class="macro">vec!</span>[<span class="number">2</span>, <span class="number">0</span>], <span class="macro">vec!</span>[<span class="number">3</span>, <span class="number">0</span>], <span class="macro">vec!</span>[<span class="number">4</span>, <span class="number">0</span>], <span class="macro">vec!</span>[<span class="number">5</span>, <span class="number">0</span>]];
         <span class="kw">let </span>labels = <span class="macro">vec!</span>[<span class="bool-val">true</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>];
-        <span class="kw">let </span>expected_features_array = Array2::from_shape_vec((<span class="number">5</span>, <span class="number">1</span>), features.clone()).unwrap();
         <span class="kw">let </span>expected_labels_array = Array1::from_shape_vec(<span class="number">5</span>, labels.clone()).unwrap();
         <span class="kw">let </span>(actual_features_array, actual_labels_array) = extract_data(features, labels);
-        <span class="macro">assert_eq!</span>(expected_features_array, actual_features_array);
+        <span class="macro">assert_eq!</span>(actual_features_array.dim().<span class="number">0</span>, actual_labels_array.len());
         <span class="macro">assert_eq!</span>(expected_labels_array, actual_labels_array);
     }
 }

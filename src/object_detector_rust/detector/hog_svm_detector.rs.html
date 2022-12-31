@@ -94,28 +94,85 @@
 <span id="94">94</span>
 <span id="95">95</span>
 <span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
 </pre><pre class="rust"><code><span class="kw">use crate</span>::{
     classifier::SVMClassifier,
     detector::{Detection, Detector},
     feature::{Feature, HOGFeature},
     predictable::Predictable,
     trainable::Trainable,
+    utils::{SlidingWindow, WindowGenerator},
     BBox, Class,
 };
-<span class="kw">use </span>image::DynamicImage;
+<span class="kw">use </span>image::{DynamicImage, GenericImageView};
 <span class="kw">use </span>ndarray::{Array2, ArrayView1, ArrayView2};
 
 <span class="doccomment">/// Struct representing an object detector using HOG features and an SVM classifier
 </span><span class="attribute">#[derive(Debug)]
-</span><span class="kw">pub struct </span>HOGSVMDetector {
+</span><span class="kw">pub struct </span>HOGSVMDetector&lt;W&gt;
+<span class="kw">where
+    </span>W: WindowGenerator&lt;DynamicImage&gt;,
+{
     hog_feature: HOGFeature,
     svm_classifier: SVMClassifier,
+    window_generator: W,
 }
 
-<span class="kw">impl </span>HOGSVMDetector {
+<span class="kw">impl</span>&lt;W&gt; HOGSVMDetector&lt;W&gt;
+<span class="kw">where
+    </span>W: WindowGenerator&lt;DynamicImage&gt;,
+{
     <span class="doccomment">/// Creates a new `HOGSVMDetector` with default parameters
-    </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::default()
+    </span><span class="kw">pub fn </span>new(window_generator: W) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            hog_feature: HOGFeature::new(),
+            svm_classifier: SVMClassifier::new(),
+            window_generator,
+        }
     }
 
     <span class="doccomment">/// Trains the HOGSVMDetector on the given training data and labels
@@ -128,32 +185,60 @@
     }
 }
 
-<span class="kw">impl </span>Default <span class="kw">for </span>HOGSVMDetector {
+<span class="kw">impl </span>Default <span class="kw">for </span>HOGSVMDetector&lt;SlidingWindow&gt; {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             hog_feature: HOGFeature::new(),
             svm_classifier: SVMClassifier::new(),
+            window_generator: SlidingWindow {
+                width: <span class="number">32</span>,
+                height: <span class="number">32</span>,
+                step_size: <span class="number">32</span>,
+            },
         }
     }
 }
 
-<span class="kw">impl </span>Detector <span class="kw">for </span>HOGSVMDetector {
+<span class="kw">impl</span>&lt;W&gt; Detector <span class="kw">for </span>HOGSVMDetector&lt;W&gt;
+<span class="kw">where
+    </span>W: WindowGenerator&lt;DynamicImage&gt;,
+{
     <span class="kw">fn </span>detect(<span class="kw-2">&amp;</span><span class="self">self</span>, image: <span class="kw-2">&amp;</span>DynamicImage) -&gt; Vec&lt;Detection&gt; {
-        <span class="kw">let </span>hog_features = <span class="self">self</span>.hog_feature.extract(image).unwrap();
-        <span class="kw">let </span>hog_features = Array2::from_shape_vec((<span class="number">1</span>, hog_features.len()), hog_features).unwrap();
-        <span class="kw">let </span>predictions = <span class="self">self</span>.svm_classifier.predict(<span class="kw-2">&amp;</span>hog_features.view()).unwrap();
+        <span class="kw">let </span>windows = <span class="self">self</span>.window_generator.windows(<span class="kw-2">&amp;</span>image);
+        <span class="kw">let </span>windows_len = windows.len();
+        <span class="kw">let </span>hog_features: Vec&lt;Vec&lt;f32&gt;&gt; = windows
+            .iter()
+            .flat_map(|window| {
+                <span class="self">self</span>.hog_feature
+                    .extract(<span class="kw-2">&amp;</span>DynamicImage::ImageRgba8(window.view.to_image()))
+            })
+            .collect();
 
+        <span class="kw">let </span>features_len = <span class="kw">match </span>hog_features.first() {
+            <span class="prelude-val">Some</span>(features) =&gt; features.len(),
+            <span class="prelude-val">None </span>=&gt; <span class="number">0</span>,
+        };
+        <span class="kw">let </span>hog_features: Vec&lt;f32&gt; = hog_features.into_iter().flatten().collect();
+        <span class="kw">let </span>hog_features =
+            Array2::from_shape_vec((windows_len, features_len), hog_features).unwrap();
+        <span class="kw">let </span>predictions = <span class="self">self</span>.svm_classifier.predict(<span class="kw-2">&amp;</span>hog_features.view()).unwrap();
+        <span class="macro">assert_eq!</span>(windows_len, predictions.len());
         <span class="kw">let </span><span class="kw-2">mut </span>detections = Vec::new();
         <span class="kw">for </span>(i, <span class="kw-2">&amp;</span>prediction) <span class="kw">in </span>predictions.iter().enumerate() {
             <span class="kw">if </span>prediction {
+                <span class="kw">let </span>window = windows[i];
                 detections.push(Detection::new(
-                    BBox::new(<span class="number">0</span>, <span class="number">0</span>, image.width(), image.height()),
-                    i <span class="kw">as </span>Class,
+                    BBox::new(
+                        window.x <span class="kw">as </span>i32,
+                        window.y <span class="kw">as </span>i32,
+                        window.view.width(),
+                        window.view.height(),
+                    ),
+                    <span class="number">1 </span><span class="kw">as </span>Class,
                     <span class="number">1.0</span>,
                 ));
             }
         }
-
         detections
     }
 }
@@ -176,8 +261,13 @@
         </span><span class="kw">let </span>x = Array2::from_shape_vec((<span class="number">1</span>, hog_features.len()), hog_features).unwrap();
         <span class="kw">let </span>y = Array1::from(<span class="macro">vec!</span>[<span class="bool-val">true</span>]);
 
+        <span class="kw">let </span>window_generator = SlidingWindow {
+            width: <span class="number">32</span>,
+            height: <span class="number">32</span>,
+            step_size: <span class="number">32</span>,
+        };
         <span class="comment">// Create a new HOGSVMDetector and train it on the training data
-        </span><span class="kw">let </span><span class="kw-2">mut </span>hog_svm_detector = HOGSVMDetector::new();
+        </span><span class="kw">let </span><span class="kw-2">mut </span>hog_svm_detector = HOGSVMDetector::new(window_generator);
         hog_svm_detector.fit(<span class="kw-2">&amp;</span>x.view(), <span class="kw-2">&amp;</span>y.view()).unwrap();
 
         <span class="comment">// Make predictions on the image using the trained detector
@@ -185,7 +275,7 @@
 
         <span class="comment">// Check that the predicted detection is correct
         </span><span class="macro">assert_eq!</span>(detections.len(), <span class="number">1</span>);
-        <span class="macro">assert_eq!</span>(detections[<span class="number">0</span>].class, <span class="number">0</span>);
+        <span class="macro">assert_eq!</span>(detections[<span class="number">0</span>].class, <span class="number">1</span>);
         <span class="macro">assert_eq!</span>(detections[<span class="number">0</span>].bbox, BBox::new(<span class="number">0</span>, <span class="number">0</span>, <span class="number">32</span>, <span class="number">32</span>));
         <span class="macro">assert_eq!</span>(detections[<span class="number">0</span>].confidence, <span class="number">1.0</span>);
     }
