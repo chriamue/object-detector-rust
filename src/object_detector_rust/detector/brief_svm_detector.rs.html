@@ -196,7 +196,7 @@
     <span class="doccomment">/// Creates a new `HOGSVMDetector` with default parameters
     </span><span class="kw">pub fn </span>new(window_generator: W) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            brief_feature: BriefFeature::new(),
+            brief_feature: BriefFeature::default(),
             svm_classifier: SVMClassifier::new(),
             window_generator,
         }
@@ -215,7 +215,7 @@
 <span class="kw">impl </span>Default <span class="kw">for </span>BriefSVMDetector&lt;SlidingWindow&gt; {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            brief_feature: BriefFeature::new(),
+            brief_feature: BriefFeature::default(),
             svm_classifier: SVMClassifier::new(),
             window_generator: SlidingWindow {
                 width: <span class="number">32</span>,

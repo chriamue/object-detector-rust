@@ -188,6 +188,7 @@
 <span id="188">188</span>
 <span id="189">189</span>
 <span id="190">190</span>
+<span id="191">191</span>
 </pre><pre class="rust"><code><span class="kw">use </span>image::{DynamicImage, GrayImage};
 <span class="kw">use </span>imageproc::corners::{corners_fast9, Corner};
 
@@ -231,7 +232,7 @@
         <span class="comment">// Detect keypoints using FAST9 corner detector
         </span><span class="kw">let </span>keypoints = corners_fast9(<span class="kw-2">&amp;</span>gray_image, <span class="self">self</span>.threshold);
         <span class="kw">let </span>tests = <span class="self">self</span>.generate_tests(<span class="kw-2">&amp;</span>keypoints, <span class="kw-2">&amp;</span>gray_image);
-        <span class="kw">let </span>descriptor_length = (<span class="self">self</span>.length * <span class="number">2</span>) <span class="kw">as </span>usize;
+        <span class="kw">let </span>descriptor_length = <span class="self">self</span>.length <span class="kw">as </span>usize;
         <span class="kw">let </span><span class="kw-2">mut </span>descriptor = Vec::with_capacity(descriptor_length);
 
         <span class="kw">for </span>keypoint <span class="kw">in </span>keypoints {
@@ -328,7 +329,7 @@
 
 <span class="kw">impl </span>Default <span class="kw">for </span>BriefFeature {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-        BriefFeature::new()
+        BriefFeature::new_with_threshold_and_length(<span class="number">12</span>, <span class="number">512</span>)
     }
 }
 
@@ -371,11 +372,12 @@
     <span class="attribute">#[test]
     </span><span class="kw">fn </span>test_brief_feature_extract() {
         <span class="kw">let </span>image = image::DynamicImage::new_luma8(<span class="number">100</span>, <span class="number">100</span>);
-        <span class="kw">let </span>feature = BriefFeature::new_with_threshold_and_length(<span class="number">12</span>, <span class="number">32</span>);
+        <span class="kw">let </span>length = <span class="number">32</span>;
+        <span class="kw">let </span>feature = BriefFeature::new_with_threshold_and_length(<span class="number">12</span>, length);
         <span class="kw">let </span>result = feature.extract(<span class="kw-2">&amp;</span>image);
         <span class="macro">assert!</span>(result.is_ok());
         <span class="kw">let </span>descriptor = result.unwrap();
-        <span class="macro">assert_eq!</span>(descriptor.len(), <span class="number">0</span>);
+        <span class="macro">assert_eq!</span>(descriptor.len(), length <span class="kw">as </span>usize);
     }
 }
 </code></pre></div>
