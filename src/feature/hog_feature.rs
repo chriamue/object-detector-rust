@@ -73,10 +73,10 @@ impl Default for HOGFeature {
 
 impl Feature for HOGFeature {
     fn extract(&self, image: &DynamicImage) -> Result<Vec<f32>, String> {
-        let gray_image = image
-            .as_luma8()
-            .ok_or("Error converting image to grayscale")?;
-        hog(gray_image, self.options)
+        match image.as_luma8() {
+            Some(gray_image) => hog(gray_image, self.options),
+            None => hog(&image.to_luma8(), self.options),
+        }
     }
 }
 

@@ -5,6 +5,7 @@ use image::{imageops::crop_imm, DynamicImage, GenericImageView, Rgba, SubImage};
 use imageproc::{drawing::draw_hollow_rect_mut, rect::Rect};
 
 mod sliding_window;
+use ndarray::{Array1, Array2};
 pub use sliding_window::SlidingWindow;
 
 /// Struct representing a window over an image with a position
@@ -82,6 +83,15 @@ pub fn draw_bboxes(image: &mut DynamicImage, bboxes: &[BBox]) {
     }
 }
 
+/// Transforms a given vector of extracted features and a vector of labels into a tuple of 2D feature array and 1D label array.
+pub fn extract_data<X, Y>(features: Vec<X>, labels: Vec<Y>) -> (Array2<X>, Array1<Y>) {
+    assert_eq!(features.len(), labels.len());
+    let features_array = Array2::from_shape_vec((labels.len(), 1), features).unwrap();
+    let labels_array = Array1::from_shape_vec(labels.len(), labels).unwrap();
+
+    (features_array, labels_array)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -116,5 +126,16 @@ mod tests {
         assert_eq!(image.get_pixel(10, 10), image::Rgba([255, 0, 0, 255]));
         assert_eq!(image.get_pixel(29, 29), image::Rgba([0, 0, 0, 255]));
         assert_eq!(image.get_pixel(30, 30), image::Rgba([255, 0, 0, 255]));
+    }
+
+    #[test]
+    fn test_extract_data() {
+        let features = vec![vec![1, 0], vec![2, 0], vec![3, 0], vec![4, 0], vec![5, 0]];
+        let labels = vec![true, false, true, false, true];
+        let expected_features_array = Array2::from_shape_vec((5, 1), features.clone()).unwrap();
+        let expected_labels_array = Array1::from_shape_vec(5, labels.clone()).unwrap();
+        let (actual_features_array, actual_labels_array) = extract_data(features, labels);
+        assert_eq!(expected_features_array, actual_features_array);
+        assert_eq!(expected_labels_array, actual_labels_array);
     }
 }
