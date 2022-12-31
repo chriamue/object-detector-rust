@@ -69,10 +69,60 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Utility functions for working with images
 //!
 </span><span class="kw">use </span><span class="kw">crate</span>::BBox;
-<span class="kw">use </span>image::{imageops::crop_imm, DynamicImage, GenericImageView, SubImage};
+<span class="kw">use </span>image::{imageops::crop_imm, DynamicImage, GenericImageView, Rgba, SubImage};
+<span class="kw">use </span>imageproc::{drawing::draw_hollow_rect_mut, rect::Rect};
 
 <span class="kw">mod </span>sliding_window;
 <span class="kw">pub use </span>sliding_window::SlidingWindow;
@@ -120,6 +170,38 @@
     DynamicImage::ImageRgba8(cropped)
 }
 
+<span class="doccomment">/// Draws bounding boxes on an image.
+///
+/// # Example
+///
+/// ```
+/// use object_detector_rust::{BBox, utils::draw_bboxes};
+/// use image::DynamicImage;
+///
+/// let mut image = DynamicImage::new_rgb8(100, 100);
+/// let bboxes = vec![BBox::new(10, 10, 20, 20)];
+/// draw_bboxes(&amp;mut image, &amp;bboxes);
+/// ```
+///
+/// This example will draw a red bounding box with top-left corner at (10, 10) and bottom-right corner at (30, 30) on a 100x100 image.
+</span><span class="kw">pub fn </span>draw_bboxes(image: <span class="kw-2">&amp;mut </span>DynamicImage, bboxes: <span class="kw-2">&amp;</span>[BBox]) {
+    <span class="kw">let </span>(width, height) = image.dimensions();
+    <span class="kw">let </span>color = Rgba([<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>]);
+    <span class="kw">for </span>bbox <span class="kw">in </span>bboxes {
+        <span class="kw">let </span>(x1, y1, x2, y2) = (
+            bbox.x.max(<span class="number">0</span>) <span class="kw">as </span>i32,
+            bbox.y.max(<span class="number">0</span>) <span class="kw">as </span>i32,
+            (bbox.x + bbox.width <span class="kw">as </span>i32).min(width <span class="kw">as </span>i32 - <span class="number">1</span>) <span class="kw">as </span>i32,
+            (bbox.y + bbox.height <span class="kw">as </span>i32).min(height <span class="kw">as </span>i32 - <span class="number">1</span>) <span class="kw">as </span>i32,
+        );
+        draw_hollow_rect_mut(
+            image,
+            Rect::at(x1, y1).of_size((x2 - x1) <span class="kw">as </span>u32, (y2 - y1) <span class="kw">as </span>u32),
+            color,
+        );
+    }
+}
+
 <span class="attribute">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -138,6 +220,22 @@
         <span class="comment">// Check that the dimensions of the cropped image are correct
         </span><span class="macro">assert_eq!</span>(cropped_image.width(), <span class="number">50</span>);
         <span class="macro">assert_eq!</span>(cropped_image.height(), <span class="number">50</span>);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_draw_bboxes() {
+        <span class="comment">// Create an empty image
+        </span><span class="kw">let </span><span class="kw-2">mut </span>image = DynamicImage::new_rgb8(<span class="number">100</span>, <span class="number">100</span>);
+
+        <span class="comment">// Draw two bounding boxes on the image
+        </span><span class="kw">let </span>bboxes = <span class="macro">vec!</span>[BBox::new(<span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>), BBox::new(<span class="number">30</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">40</span>)];
+        draw_bboxes(<span class="kw-2">&amp;mut </span>image, <span class="kw-2">&amp;</span>bboxes);
+
+        <span class="comment">// Check that the pixels at the expected locations have the expected colors
+        </span><span class="macro">assert_eq!</span>(image.get_pixel(<span class="number">9</span>, <span class="number">9</span>), image::Rgba([<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>]));
+        <span class="macro">assert_eq!</span>(image.get_pixel(<span class="number">10</span>, <span class="number">10</span>), image::Rgba([<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>]));
+        <span class="macro">assert_eq!</span>(image.get_pixel(<span class="number">29</span>, <span class="number">29</span>), image::Rgba([<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>]));
+        <span class="macro">assert_eq!</span>(image.get_pixel(<span class="number">30</span>, <span class="number">30</span>), image::Rgba([<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>]));
     }
 }
 </code></pre></div>
