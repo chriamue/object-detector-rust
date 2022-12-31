@@ -15,6 +15,9 @@
 <span id="15">15</span>
 <span id="16">16</span>
 <span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
 </pre><pre class="rust"><code><span class="doccomment">//! A trait for object detectors
 //!
 //! An object detector is a machine learning model that is able to identify objects within an image.
@@ -23,6 +26,9 @@
 </span><span class="kw">use </span>image::DynamicImage;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::Detection;
+
+<span class="kw">mod </span>brief_svm_detector;
+<span class="kw">pub use </span>brief_svm_detector::BriefSVMDetector;
 
 <span class="kw">mod </span>hog_svm_detector;
 <span class="kw">pub use </span>hog_svm_detector::HOGSVMDetector;

@@ -181,6 +181,13 @@
 <span id="181">181</span>
 <span id="182">182</span>
 <span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
 </pre><pre class="rust"><code><span class="kw">use </span>image::{DynamicImage, GrayImage};
 <span class="kw">use </span>imageproc::corners::{corners_fast9, Corner};
 
@@ -188,6 +195,7 @@
 
 <span class="doccomment">/// Struct for extracting BRIEF (Binary Robust Independent Elementary Features)
 /// from an image.
+</span><span class="attribute">#[derive(Debug)]
 </span><span class="kw">pub struct </span>BriefFeature {
     <span class="doccomment">/// Threshold used for deciding whether a pixel difference is significant
     </span>threshold: u8,
@@ -223,30 +231,36 @@
         <span class="comment">// Detect keypoints using FAST9 corner detector
         </span><span class="kw">let </span>keypoints = corners_fast9(<span class="kw-2">&amp;</span>gray_image, <span class="self">self</span>.threshold);
         <span class="kw">let </span>tests = <span class="self">self</span>.generate_tests(<span class="kw-2">&amp;</span>keypoints, <span class="kw-2">&amp;</span>gray_image);
-        <span class="kw">let </span>descriptor_length = tests.len() * <span class="number">2</span>;
+        <span class="kw">let </span>descriptor_length = (<span class="self">self</span>.length * <span class="number">2</span>) <span class="kw">as </span>usize;
         <span class="kw">let </span><span class="kw-2">mut </span>descriptor = Vec::with_capacity(descriptor_length);
 
         <span class="kw">for </span>keypoint <span class="kw">in </span>keypoints {
             <span class="kw">let </span>x = keypoint.x;
             <span class="kw">let </span>y = keypoint.y;
             <span class="kw">for </span>test <span class="kw">in </span>tests.iter() {
+                <span class="kw">if </span>descriptor.len() == descriptor_length {
+                    <span class="kw">continue</span>;
+                }
                 <span class="kw">let </span>(dx, dy) = test;
-                <span class="kw">let </span>pixel_a = <span class="kw">match </span>gray_image.get_pixel_checked(x + dx, y + dy) {
-                    <span class="prelude-val">Some</span>(pixel) =&gt; pixel,
-                    <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Error: pixel out of bounds&quot;</span>.to_string()),
+                <span class="kw">match </span>(
+                    gray_image.get_pixel_checked(x + dx, y + dy),
+                    gray_image.get_pixel_checked(x + dx, y + dy),
+                ) {
+                    (<span class="prelude-val">Some</span>(pixel_a), <span class="prelude-val">Some</span>(pixel_b)) =&gt; {
+                        <span class="kw">let </span>pixel_difference: u8 =
+                            (pixel_a[<span class="number">0</span>] <span class="kw">as </span>i32 - pixel_b[<span class="number">0</span>] <span class="kw">as </span>i32).unsigned_abs() <span class="kw">as </span>u8;
+                        descriptor.push(<span class="kw">if </span>pixel_difference &gt; <span class="self">self</span>.threshold {
+                            <span class="number">1.0
+                        </span>} <span class="kw">else </span>{
+                            <span class="number">0.0
+                        </span>});
+                    }
+                    <span class="kw">_ </span>=&gt; (),
                 };
-                <span class="kw">let </span>pixel_b = <span class="kw">match </span>gray_image.get_pixel_checked(x + dx, y + dy) {
-                    <span class="prelude-val">Some</span>(pixel) =&gt; pixel,
-                    <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Error: pixel out of bounds&quot;</span>.to_string()),
-                };
-                <span class="kw">let </span>pixel_difference: u8 =
-                    (pixel_a[<span class="number">0</span>] <span class="kw">as </span>i32 - pixel_b[<span class="number">0</span>] <span class="kw">as </span>i32).unsigned_abs() <span class="kw">as </span>u8;
-                descriptor.push(<span class="kw">if </span>pixel_difference &gt; <span class="self">self</span>.threshold {
-                    <span class="number">1.0
-                </span>} <span class="kw">else </span>{
-                    <span class="number">0.0
-                </span>});
             }
+        }
+        <span class="kw">for _ in </span>descriptor.len()..descriptor_length {
+            descriptor.push(<span class="number">0.0</span>);
         }
 
         <span class="prelude-val">Ok</span>(descriptor)
