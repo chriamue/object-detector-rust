@@ -72,3 +72,9 @@ We welcome contributions to Object Detector Rust! If you have a bug fix or featu
 ## License 📜
 
 Object Detector Rust is licensed under the [MIT License](LICENSE).
+
+## Note 📝
+
+This project is a remake of [Hog Detector](https://github.com/chriamue/hog-detector).
+It was made with assistance of chatgpt.
+Find the dialog [here](transcript.md).
