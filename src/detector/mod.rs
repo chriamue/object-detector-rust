@@ -7,6 +7,9 @@ use image::DynamicImage;
 
 use crate::prelude::Detection;
 
+mod brief_svm_detector;
+pub use brief_svm_detector::BriefSVMDetector;
+
 mod hog_svm_detector;
 pub use hog_svm_detector::HOGSVMDetector;
 

@@ -5,6 +5,7 @@ use super::Feature;
 
 /// Struct for extracting BRIEF (Binary Robust Independent Elementary Features)
 /// from an image.
+#[derive(Debug)]
 pub struct BriefFeature {
     /// Threshold used for deciding whether a pixel difference is significant
     threshold: u8,
@@ -40,30 +41,36 @@ impl Feature for BriefFeature {
         // Detect keypoints using FAST9 corner detector
         let keypoints = corners_fast9(&gray_image, self.threshold);
         let tests = self.generate_tests(&keypoints, &gray_image);
-        let descriptor_length = tests.len() * 2;
+        let descriptor_length = self.length as usize;
         let mut descriptor = Vec::with_capacity(descriptor_length);
 
         for keypoint in keypoints {
             let x = keypoint.x;
             let y = keypoint.y;
             for test in tests.iter() {
+                if descriptor.len() == descriptor_length {
+                    continue;
+                }
                 let (dx, dy) = test;
-                let pixel_a = match gray_image.get_pixel_checked(x + dx, y + dy) {
-                    Some(pixel) => pixel,
-                    None => return Err("Error: pixel out of bounds".to_string()),
+                match (
+                    gray_image.get_pixel_checked(x + dx, y + dy),
+                    gray_image.get_pixel_checked(x + dx, y + dy),
+                ) {
+                    (Some(pixel_a), Some(pixel_b)) => {
+                        let pixel_difference: u8 =
+                            (pixel_a[0] as i32 - pixel_b[0] as i32).unsigned_abs() as u8;
+                        descriptor.push(if pixel_difference > self.threshold {
+                            1.0
+                        } else {
+                            0.0
+                        });
+                    }
+                    _ => (),
                 };
-                let pixel_b = match gray_image.get_pixel_checked(x + dx, y + dy) {
-                    Some(pixel) => pixel,
-                    None => return Err("Error: pixel out of bounds".to_string()),
-                };
-                let pixel_difference: u8 =
-                    (pixel_a[0] as i32 - pixel_b[0] as i32).unsigned_abs() as u8;
-                descriptor.push(if pixel_difference > self.threshold {
-                    1.0
-                } else {
-                    0.0
-                });
             }
+        }
+        for _ in descriptor.len()..descriptor_length {
+            descriptor.push(0.0);
         }
 
         Ok(descriptor)
@@ -131,7 +138,7 @@ impl BriefFeature {
 
 impl Default for BriefFeature {
     fn default() -> Self {
-        BriefFeature::new()
+        BriefFeature::new_with_threshold_and_length(12, 512)
     }
 }
 
@@ -174,10 +181,11 @@ mod tests {
     #[test]
     fn test_brief_feature_extract() {
         let image = image::DynamicImage::new_luma8(100, 100);
-        let feature = BriefFeature::new_with_threshold_and_length(12, 32);
+        let length = 32;
+        let feature = BriefFeature::new_with_threshold_and_length(12, length);
         let result = feature.extract(&image);
         assert!(result.is_ok());
         let descriptor = result.unwrap();
-        assert_eq!(descriptor.len(), 0);
+        assert_eq!(descriptor.len(), length as usize);
     }
 }
