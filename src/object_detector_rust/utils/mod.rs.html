@@ -146,14 +146,20 @@
 <span id="146">146</span>
 <span id="147">147</span>
 <span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Utility functions for working with images
 //!
 </span><span class="kw">use </span><span class="kw">crate</span>::BBox;
 <span class="kw">use </span>image::{imageops::crop_imm, DynamicImage, GenericImageView, Rgba, SubImage};
 <span class="kw">use </span>imageproc::{drawing::draw_hollow_rect_mut, rect::Rect};
+<span class="kw">use </span>ndarray::{Array1, Array2};
+
+<span class="kw">mod </span>generate_annotations;
+<span class="kw">pub use </span>generate_annotations::generate_annotations;
 
 <span class="kw">mod </span>sliding_window;
-<span class="kw">use </span>ndarray::{Array1, Array2};
 <span class="kw">pub use </span>sliding_window::SlidingWindow;
 
 <span class="doccomment">/// Struct representing a window over an image with a position

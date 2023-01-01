@@ -59,6 +59,9 @@
 <span id="59">59</span>
 <span id="60">60</span>
 <span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
 </pre><pre class="rust"><code><span class="attribute">#![warn(missing_docs)]
 #![doc = <span class="macro">include_str!</span>(<span class="string">&quot;../README.md&quot;</span>)]
 
@@ -106,6 +109,9 @@
     <span class="attribute">#[cfg(feature = <span class="string">&quot;randomforest&quot;</span>)]
     </span><span class="kw">pub use </span><span class="kw">super</span>::classifier::RandomForestClassifier;
     <span class="kw">pub use </span><span class="kw">super</span>::classifier::SVMClassifier;
+    <span class="kw">pub use </span><span class="kw">super</span>::dataset::AnnotatedImageSet;
+    <span class="kw">pub use </span><span class="kw">super</span>::dataset::DataSet;
+    <span class="kw">pub use </span><span class="kw">super</span>::dataset::MemoryDataSet;
     <span class="kw">pub use </span><span class="kw">super</span>::detection::Detection;
     <span class="attribute">#[cfg(feature = <span class="string">&quot;brief&quot;</span>)]
     </span><span class="kw">pub use </span><span class="kw">super</span>::detector::BriefSVMDetector;
