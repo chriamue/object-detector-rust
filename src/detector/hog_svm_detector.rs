@@ -114,7 +114,7 @@ where
     WG: WindowGenerator<DynamicImage>,
 {
     fn save<W: Write>(&self, mut writer: W) -> Result<(), Box<dyn Error>> {
-        // Serialize the HOGFeature and SVMClassifier using the `bincode` crate
+        // Serialize the SVMClassifier using the `bincode` crate
         let svm_classifier_bytes = bincode::serialize(&self.svm_classifier)?;
 
         // Write the serialized bytes to the writer
