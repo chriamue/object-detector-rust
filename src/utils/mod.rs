@@ -3,9 +3,12 @@
 use crate::BBox;
 use image::{imageops::crop_imm, DynamicImage, GenericImageView, Rgba, SubImage};
 use imageproc::{drawing::draw_hollow_rect_mut, rect::Rect};
+use ndarray::{Array1, Array2};
+
+mod generate_annotations;
+pub use generate_annotations::generate_annotations;
 
 mod sliding_window;
-use ndarray::{Array1, Array2};
 pub use sliding_window::SlidingWindow;
 
 /// Struct representing a window over an image with a position

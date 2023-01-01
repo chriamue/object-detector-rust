@@ -45,6 +45,9 @@ pub mod prelude {
     #[cfg(feature = "randomforest")]
     pub use super::classifier::RandomForestClassifier;
     pub use super::classifier::SVMClassifier;
+    pub use super::dataset::AnnotatedImageSet;
+    pub use super::dataset::DataSet;
+    pub use super::dataset::MemoryDataSet;
     pub use super::detection::Detection;
     #[cfg(feature = "brief")]
     pub use super::detector::BriefSVMDetector;
