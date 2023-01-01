@@ -10,6 +10,10 @@ mod bayes_classifier;
 pub use bayes_classifier::BayesClassifier;
 mod svm_classifier;
 pub use svm_classifier::SVMClassifier;
+#[cfg(feature = "randomforest")]
+mod randomforest_classifier;
+#[cfg(feature = "randomforest")]
+pub use randomforest_classifier::RandomForestClassifier;
 
 /// The Classifier trait defines the behavior of a machine learning model
 /// that is capable of classifying data points into one of several categories.

@@ -23,6 +23,10 @@ linfa-bayes = "0.6.1"
 ndarray = "0.15.6"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+smartcore = { version = "0.3.0", features = [
+    "ndarray-bindings",
+    "serde",
+], default-features = false, git = "https://github.com/smartcorelib/smartcore", branch = "fix-245", optional = true }
 
 # The package's dev dependencies
 [dev-dependencies]
@@ -30,9 +34,10 @@ criterion = { version = "0.4", default-features = false }
 
 # The package's features
 [features]
-default = ["hog", "brief"]
+default = ["hog", "brief", "randomforest"]
 hog = []
 brief = []
+randomforest = ["smartcore"]
 
 [[bench]]
 name = "benchmark"

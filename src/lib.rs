@@ -41,6 +41,10 @@ pub struct AnnotatedImage {
 pub mod prelude {
     pub use super::bbox::BBox;
     pub use super::classifier::Classifier;
+    pub use super::classifier::BayesClassifier;
+    pub use super::classifier::SVMClassifier;
+    #[cfg(feature = "randomforest")]
+    pub use super::classifier::RandomForestClassifier;
     pub use super::detection::Detection;
     #[cfg(feature = "brief")]
     pub use super::detector::BriefSVMDetector;
