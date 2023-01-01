@@ -8,6 +8,8 @@ use std::fs::{read_dir, File};
 use std::io::{self, BufRead};
 use std::path::Path;
 
+use super::AnnotatedImageSet;
+
 /// Struct for representing a dataset loaded from a folder
 pub struct FolderDataSet {
     /// Path to the folder containing the dataset
@@ -189,6 +191,18 @@ impl DataSet for FolderDataSet {
     }
 }
 
+impl AnnotatedImageSet for FolderDataSet {
+    fn add_annotated_image(&mut self, annotated_image: AnnotatedImage) {
+        self.annotated_images.push(annotated_image);
+    }
+    fn annotated_images_len(&self) -> usize {
+        self.annotated_images.len()
+    }
+    fn annotated_images(&self) -> Box<dyn Iterator<Item = &AnnotatedImage> + '_> {
+        Box::new(self.annotated_images.iter())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -246,5 +260,68 @@ mod tests {
         assert_eq!(data.0.len(), 42);
         assert_eq!(data.0.first().unwrap().width(), default_width);
         assert_eq!(data.0.first().unwrap().width(), default_height);
+    }
+
+    #[test]
+    fn test_annotated_images() {
+        let default_width = 32;
+        let default_height = 32;
+        // Set the path to the test data folder
+        let data_path = std::fs::canonicalize("tests/folder_dataset/data").unwrap();
+        let labels_path = std::fs::canonicalize("tests/folder_dataset/data/labels.txt").unwrap();
+        let label_names = FolderDataSet::load_label_names(labels_path.to_str().unwrap());
+        // Create a new instance of the FolderDataSet struct
+        let mut dataset = FolderDataSet::new(
+            data_path.to_str().unwrap(),
+            default_width,
+            default_height,
+            label_names,
+        );
+
+        // Create some annotated images and add them to the dataset
+        let annotated_image_1 = AnnotatedImage {
+            image: DynamicImage::new_rgba8(1, 1),
+            annotations: vec![Annotation {
+                bbox: BBox {
+                    x: 0,
+                    y: 0,
+                    width: 1,
+                    height: 1,
+                },
+                class: 0,
+            }],
+        };
+        let annotated_image_2 = AnnotatedImage {
+            image: DynamicImage::new_rgba8(2, 2),
+            annotations: vec![
+                Annotation {
+                    bbox: BBox {
+                        x: 0,
+                        y: 0,
+                        width: 1,
+                        height: 1,
+                    },
+                    class: 1,
+                },
+                Annotation {
+                    bbox: BBox {
+                        x: 1,
+                        y: 1,
+                        width: 1,
+                        height: 1,
+                    },
+                    class: 2,
+                },
+            ],
+        };
+        dataset.add_annotated_image(annotated_image_1.clone());
+        dataset.add_annotated_image(annotated_image_2.clone());
+
+        // Get the annotated images from the dataset and check that they are correct
+        let annotated_images: Vec<&AnnotatedImage> = dataset.annotated_images().collect();
+        assert_eq!(
+            annotated_images,
+            vec![&annotated_image_1, &annotated_image_2]
+        );
     }
 }

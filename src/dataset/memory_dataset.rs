@@ -20,7 +20,7 @@ use std::error::Error;
 /// assert_eq!(dataset.annotated_images_len(), 1);
 /// assert_eq!(dataset.len(), 0);
 /// ```
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct MemoryDataSet {
     /// Vector of images with annotations in the dataset
     annotated_images: Vec<AnnotatedImage>,
@@ -32,6 +32,15 @@ impl MemoryDataSet {
         Self {
             annotated_images: vec![],
         }
+    }
+
+    /// Creates a new dataset by copying the annotated images from the provided dataset
+    pub fn new_from_annotated_image_set(dataset: &dyn AnnotatedImageSet) -> Self {
+        let mut memory_dataset = Self::new();
+        for annotated_image in dataset.annotated_images() {
+            memory_dataset.add_annotated_image(annotated_image.clone());
+        }
+        memory_dataset
     }
 }
 
@@ -208,6 +217,49 @@ mod tests {
         assert_eq!(
             annotated_images,
             vec![&annotated_image_1, &annotated_image_2]
+        );
+    }
+
+    #[test]
+    fn test_new_from_annotated_image_set() {
+        // Create some annotated images
+        let annotated_image_1 = AnnotatedImage {
+            image: DynamicImage::new_rgba8(1, 1),
+            annotations: vec![Annotation {
+                bbox: BBox {
+                    x: 0,
+                    y: 0,
+                    width: 1,
+                    height: 1,
+                },
+                class: 0,
+            }],
+        };
+        let annotated_image_2 = AnnotatedImage {
+            image: DynamicImage::new_rgba8(1, 1),
+            annotations: vec![Annotation {
+                bbox: BBox {
+                    x: 0,
+                    y: 0,
+                    width: 1,
+                    height: 1,
+                },
+                class: 1,
+            }],
+        };
+
+        // Add the annotated images to a dataset
+        let mut dataset = MemoryDataSet::new();
+        dataset.add_annotated_image(annotated_image_1);
+        dataset.add_annotated_image(annotated_image_2);
+
+        // Create a new dataset from the first dataset
+        let new_dataset = MemoryDataSet::new_from_annotated_image_set(&dataset);
+
+        // Assert that the new dataset has the same annotated images as the original dataset
+        assert_eq!(
+            new_dataset.annotated_images().count(),
+            dataset.annotated_images().count()
         );
     }
 }

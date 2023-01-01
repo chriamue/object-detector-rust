@@ -40,11 +40,11 @@ pub struct AnnotatedImage {
 /// the object-detector-rust prelude
 pub mod prelude {
     pub use super::bbox::BBox;
-    pub use super::classifier::Classifier;
     pub use super::classifier::BayesClassifier;
-    pub use super::classifier::SVMClassifier;
+    pub use super::classifier::Classifier;
     #[cfg(feature = "randomforest")]
     pub use super::classifier::RandomForestClassifier;
+    pub use super::classifier::SVMClassifier;
     pub use super::detection::Detection;
     #[cfg(feature = "brief")]
     pub use super::detector::BriefSVMDetector;
