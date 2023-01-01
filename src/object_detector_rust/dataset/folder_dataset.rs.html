@@ -248,6 +248,83 @@
 <span id="248">248</span>
 <span id="249">249</span>
 <span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::bbox::BBox;
 <span class="kw">use </span><span class="kw">crate</span>::dataset::DataSet;
 <span class="kw">use </span><span class="kw">crate</span>::utils::crop_bbox;
@@ -257,6 +334,8 @@
 <span class="kw">use </span>std::fs::{read_dir, File};
 <span class="kw">use </span>std::io::{<span class="self">self</span>, BufRead};
 <span class="kw">use </span>std::path::Path;
+
+<span class="kw">use </span><span class="kw">super</span>::AnnotatedImageSet;
 
 <span class="doccomment">/// Struct for representing a dataset loaded from a folder
 </span><span class="kw">pub struct </span>FolderDataSet {
@@ -439,6 +518,18 @@
     }
 }
 
+<span class="kw">impl </span>AnnotatedImageSet <span class="kw">for </span>FolderDataSet {
+    <span class="kw">fn </span>add_annotated_image(<span class="kw-2">&amp;mut </span><span class="self">self</span>, annotated_image: AnnotatedImage) {
+        <span class="self">self</span>.annotated_images.push(annotated_image);
+    }
+    <span class="kw">fn </span>annotated_images_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.annotated_images.len()
+    }
+    <span class="kw">fn </span>annotated_images(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>AnnotatedImage&gt; + <span class="lifetime">&#39;_</span>&gt; {
+        Box::new(<span class="self">self</span>.annotated_images.iter())
+    }
+}
+
 <span class="attribute">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -496,6 +587,69 @@
         </span><span class="macro">assert_eq!</span>(data.<span class="number">0</span>.len(), <span class="number">42</span>);
         <span class="macro">assert_eq!</span>(data.<span class="number">0</span>.first().unwrap().width(), default_width);
         <span class="macro">assert_eq!</span>(data.<span class="number">0</span>.first().unwrap().width(), default_height);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_annotated_images() {
+        <span class="kw">let </span>default_width = <span class="number">32</span>;
+        <span class="kw">let </span>default_height = <span class="number">32</span>;
+        <span class="comment">// Set the path to the test data folder
+        </span><span class="kw">let </span>data_path = std::fs::canonicalize(<span class="string">&quot;tests/folder_dataset/data&quot;</span>).unwrap();
+        <span class="kw">let </span>labels_path = std::fs::canonicalize(<span class="string">&quot;tests/folder_dataset/data/labels.txt&quot;</span>).unwrap();
+        <span class="kw">let </span>label_names = FolderDataSet::load_label_names(labels_path.to_str().unwrap());
+        <span class="comment">// Create a new instance of the FolderDataSet struct
+        </span><span class="kw">let </span><span class="kw-2">mut </span>dataset = FolderDataSet::new(
+            data_path.to_str().unwrap(),
+            default_width,
+            default_height,
+            label_names,
+        );
+
+        <span class="comment">// Create some annotated images and add them to the dataset
+        </span><span class="kw">let </span>annotated_image_1 = AnnotatedImage {
+            image: DynamicImage::new_rgba8(<span class="number">1</span>, <span class="number">1</span>),
+            annotations: <span class="macro">vec!</span>[Annotation {
+                bbox: BBox {
+                    x: <span class="number">0</span>,
+                    y: <span class="number">0</span>,
+                    width: <span class="number">1</span>,
+                    height: <span class="number">1</span>,
+                },
+                class: <span class="number">0</span>,
+            }],
+        };
+        <span class="kw">let </span>annotated_image_2 = AnnotatedImage {
+            image: DynamicImage::new_rgba8(<span class="number">2</span>, <span class="number">2</span>),
+            annotations: <span class="macro">vec!</span>[
+                Annotation {
+                    bbox: BBox {
+                        x: <span class="number">0</span>,
+                        y: <span class="number">0</span>,
+                        width: <span class="number">1</span>,
+                        height: <span class="number">1</span>,
+                    },
+                    class: <span class="number">1</span>,
+                },
+                Annotation {
+                    bbox: BBox {
+                        x: <span class="number">1</span>,
+                        y: <span class="number">1</span>,
+                        width: <span class="number">1</span>,
+                        height: <span class="number">1</span>,
+                    },
+                    class: <span class="number">2</span>,
+                },
+            ],
+        };
+        dataset.add_annotated_image(annotated_image_1.clone());
+        dataset.add_annotated_image(annotated_image_2.clone());
+
+        <span class="comment">// Get the annotated images from the dataset and check that they are correct
+        </span><span class="kw">let </span>annotated_images: Vec&lt;<span class="kw-2">&amp;</span>AnnotatedImage&gt; = dataset.annotated_images().collect();
+        <span class="macro">assert_eq!</span>(
+            annotated_images,
+            <span class="macro">vec!</span>[<span class="kw-2">&amp;</span>annotated_image_1, <span class="kw-2">&amp;</span>annotated_image_2]
+        );
     }
 }
 </code></pre></div>

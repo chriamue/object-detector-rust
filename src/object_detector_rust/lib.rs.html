@@ -101,11 +101,11 @@
 <span class="doccomment">/// the object-detector-rust prelude
 </span><span class="kw">pub mod </span>prelude {
     <span class="kw">pub use </span><span class="kw">super</span>::bbox::BBox;
-    <span class="kw">pub use </span><span class="kw">super</span>::classifier::Classifier;
     <span class="kw">pub use </span><span class="kw">super</span>::classifier::BayesClassifier;
-    <span class="kw">pub use </span><span class="kw">super</span>::classifier::SVMClassifier;
+    <span class="kw">pub use </span><span class="kw">super</span>::classifier::Classifier;
     <span class="attribute">#[cfg(feature = <span class="string">&quot;randomforest&quot;</span>)]
     </span><span class="kw">pub use </span><span class="kw">super</span>::classifier::RandomForestClassifier;
+    <span class="kw">pub use </span><span class="kw">super</span>::classifier::SVMClassifier;
     <span class="kw">pub use </span><span class="kw">super</span>::detection::Detection;
     <span class="attribute">#[cfg(feature = <span class="string">&quot;brief&quot;</span>)]
     </span><span class="kw">pub use </span><span class="kw">super</span>::detector::BriefSVMDetector;
