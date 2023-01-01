@@ -149,6 +149,9 @@
 <span id="149">149</span>
 <span id="150">150</span>
 <span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Utility functions for working with images
 //!
 </span><span class="kw">use </span><span class="kw">crate</span>::BBox;
@@ -158,6 +161,9 @@
 
 <span class="kw">mod </span>generate_annotations;
 <span class="kw">pub use </span>generate_annotations::generate_annotations;
+
+<span class="kw">mod </span>generate_negative_samples;
+<span class="kw">pub use </span>generate_negative_samples::{add_hard_negative_samples, generate_negative_samples};
 
 <span class="kw">mod </span>sliding_window;
 <span class="kw">pub use </span>sliding_window::SlidingWindow;

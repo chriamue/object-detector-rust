@@ -19,6 +19,8 @@
 <span id="19">19</span>
 <span id="20">20</span>
 <span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
 </pre><pre class="rust"><code><span class="doccomment">//! The classifier module provides traits and implementations for object classification algorithms.
 //!
 //! The Trainable trait allows models to be trained on input data and labels.
@@ -27,6 +29,8 @@
 //!
 </span><span class="kw">use </span><span class="kw">crate</span>::prelude::{Predictable, Trainable};
 
+<span class="kw">mod </span>combined_classifier;
+<span class="kw">pub use </span>combined_classifier::CombinedClassifier;
 <span class="kw">mod </span>bayes_classifier;
 <span class="kw">pub use </span>bayes_classifier::BayesClassifier;
 <span class="kw">mod </span>svm_classifier;
