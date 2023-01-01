@@ -55,6 +55,10 @@
 <span id="55">55</span>
 <span id="56">56</span>
 <span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
 </pre><pre class="rust"><code><span class="attribute">#![warn(missing_docs)]
 #![doc = <span class="macro">include_str!</span>(<span class="string">&quot;../README.md&quot;</span>)]
 
@@ -98,6 +102,10 @@
 </span><span class="kw">pub mod </span>prelude {
     <span class="kw">pub use </span><span class="kw">super</span>::bbox::BBox;
     <span class="kw">pub use </span><span class="kw">super</span>::classifier::Classifier;
+    <span class="kw">pub use </span><span class="kw">super</span>::classifier::BayesClassifier;
+    <span class="kw">pub use </span><span class="kw">super</span>::classifier::SVMClassifier;
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;randomforest&quot;</span>)]
+    </span><span class="kw">pub use </span><span class="kw">super</span>::classifier::RandomForestClassifier;
     <span class="kw">pub use </span><span class="kw">super</span>::detection::Detection;
     <span class="attribute">#[cfg(feature = <span class="string">&quot;brief&quot;</span>)]
     </span><span class="kw">pub use </span><span class="kw">super</span>::detector::BriefSVMDetector;

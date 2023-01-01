@@ -15,6 +15,10 @@
 <span id="15">15</span>
 <span id="16">16</span>
 <span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
 </pre><pre class="rust"><code><span class="doccomment">//! The classifier module provides traits and implementations for object classification algorithms.
 //!
 //! The Trainable trait allows models to be trained on input data and labels.
@@ -27,6 +31,10 @@
 <span class="kw">pub use </span>bayes_classifier::BayesClassifier;
 <span class="kw">mod </span>svm_classifier;
 <span class="kw">pub use </span>svm_classifier::SVMClassifier;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;randomforest&quot;</span>)]
+</span><span class="kw">mod </span>randomforest_classifier;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;randomforest&quot;</span>)]
+</span><span class="kw">pub use </span>randomforest_classifier::RandomForestClassifier;
 
 <span class="doccomment">/// The Classifier trait defines the behavior of a machine learning model
 /// that is capable of classifying data points into one of several categories.
