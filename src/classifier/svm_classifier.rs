@@ -69,5 +69,10 @@ mod tests {
         assert_eq!(2, predicted_y.len());
 
         assert_eq!(expected_y, predicted_y);
+        let predicted_y = classifier.predict(&x.view()).unwrap();
+        let cm = predicted_y.confusion_matrix(&y).unwrap();
+        println!("{:?}", cm);
+        assert!(cm.precision() > 0.8);
+        assert!(cm.accuracy() > 0.5);
     }
 }

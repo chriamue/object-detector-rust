@@ -51,9 +51,9 @@ impl Classifier<f32, usize> for BayesClassifier {}
 
 #[cfg(test)]
 mod tests {
-    use ndarray::{arr1, arr2};
-
     use super::*;
+    use linfa::prelude::ToConfusionMatrix;
+    use ndarray::{arr1, arr2};
 
     #[test]
     fn test_bayes_classifier() {
@@ -67,5 +67,10 @@ mod tests {
         let y_pred = arr1(&[1, 1, 0, 0]);
         let y_pred_res = classifier.predict(&x_pred.view()).unwrap();
         assert_eq!(y_pred, y_pred_res);
+        let predicted_y = classifier.predict(&x.view()).unwrap();
+        let cm = predicted_y.confusion_matrix(&y).unwrap();
+        println!("{:?}", cm);
+        assert!(cm.precision() > 0.8);
+        assert!(cm.accuracy() > 0.5);
     }
 }
