@@ -12,7 +12,7 @@ use ndarray::ArrayView2;
 ///
 /// This classifier is implemented using the `linfa_bayes` crate
 /// and can be trained on a given dataset to classify future data points.
-#[derive(Default, Debug)]
+#[derive(Default, Debug, PartialEq)]
 pub struct BayesClassifier {
     model: Option<GaussianNb<f32, usize>>,
 }

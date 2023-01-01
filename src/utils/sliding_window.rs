@@ -3,7 +3,7 @@ use crate::utils::WindowGenerator;
 use image::{DynamicImage, GenericImageView, SubImage};
 
 /// Struct for generating sliding windows over an image
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct SlidingWindow {
     /// Width of the window
     pub width: u32,

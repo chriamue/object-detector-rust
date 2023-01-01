@@ -5,7 +5,7 @@ use super::Feature;
 
 /// Struct for extracting BRIEF (Binary Robust Independent Elementary Features)
 /// from an image.
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct BriefFeature {
     /// Threshold used for deciding whether a pixel difference is significant
     threshold: u8,

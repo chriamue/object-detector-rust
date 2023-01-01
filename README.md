@@ -61,6 +61,22 @@ fn main() {
 
 To build the Object Detector Rust crate, run `cargo build` from the command line. To run the unit tests, use `cargo test`.
 
+## Running Benchmarks 🏋️‍♀️
+
+To run the benchmarks for the Object Detector Rust crate, use the cargo bench command. This will run all the benchmarks defined in the benches directory.
+
+You can also run a specific benchmark by specifying its name, like this:
+
+```sh
+cargo bench
+```
+
+If you want to see the output of the benchmarks as they are running, you can use the --verbose flag:
+
+```sh
+cargo bench --verbose
+```
+
 ## ORB Support 🚧
 
 ORB support is currently planned, but not yet implemented. Stay tuned for updates!
@@ -71,10 +87,10 @@ We welcome contributions to Object Detector Rust! If you have a bug fix or featu
 
 ## License 📜
 
-Object Detector Rust is licensed under the [MIT License](LICENSE).
+Object Detector Rust is licensed under the [MIT License](https://github.com/chriamue/object-detector-rust/LICENSE).
 
 ## Note 📝
 
 This project is a remake of [Hog Detector](https://github.com/chriamue/hog-detector).
 It was made with assistance of chatgpt.
-Find the dialog [here](transcript.md).
+Find the dialog [here](https://github.com/chriamue/object-detector-rust/transcript.md).

@@ -42,7 +42,10 @@ pub mod prelude {
     pub use super::bbox::BBox;
     pub use super::classifier::Classifier;
     pub use super::detection::Detection;
+    pub use super::detector::BriefSVMDetector;
     pub use super::detector::Detector;
+    pub use super::detector::HOGSVMDetector;
+    pub use super::detector::PersistentDetector;
     pub use super::feature::Feature;
     pub use super::predictable::Predictable;
     pub use super::trainable::Trainable;

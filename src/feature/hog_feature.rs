@@ -17,7 +17,7 @@ use imageproc::hog::{hog, HogOptions};
 use super::Feature;
 
 /// Struct for extracting HOG features from images.
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct HOGFeature {
     options: HogOptions,
 }

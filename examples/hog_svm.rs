@@ -1,6 +1,8 @@
+use std::fs::File;
+
 use object_detector_rust::{
     dataset::{DataSet, FolderDataSet},
-    detector::{Detector, HOGSVMDetector},
+    detector::{Detector, HOGSVMDetector, PersistentDetector},
     feature::{Feature, HOGFeature},
     utils::{draw_bboxes, extract_data, SlidingWindow},
     BBox, Class,
@@ -35,6 +37,8 @@ fn main() -> Result<(), String> {
     // Create a HOGSVMDetector and train it on the training data
     let mut detector = HOGSVMDetector::new(window_generator);
     detector.fit(&x.view(), &y.view())?;
+    let mut file = File::create("tests/hog_svm_detector.bin").unwrap();
+    detector.save(&mut file).unwrap();
 
     // Load an image to run detection on
     let mut image = image::open("tests/folder_dataset/data/webcam01.jpg").unwrap();

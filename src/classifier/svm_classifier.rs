@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 /// The SVMClassifier struct represents an SVM classifier with a trained model.
 /// The model is an option type, which means it is initially empty.
 /// The new function creates a new SVMClassifier instance with an empty model.
-#[derive(Default, Serialize, Deserialize, Debug)]
+#[derive(Default, Serialize, Deserialize, Debug, PartialEq)]
 pub struct SVMClassifier {
     /// The trained SVM model
     model: Option<Svm<f32, bool>>,
