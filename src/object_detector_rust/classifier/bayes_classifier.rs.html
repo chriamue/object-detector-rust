@@ -83,7 +83,7 @@
 ///
 /// This classifier is implemented using the `linfa_bayes` crate
 /// and can be trained on a given dataset to classify future data points.
-</span><span class="attribute">#[derive(Default, Debug)]
+</span><span class="attribute">#[derive(Default, Debug, PartialEq)]
 </span><span class="kw">pub struct </span>BayesClassifier {
     model: <span class="prelude-ty">Option</span>&lt;GaussianNb&lt;f32, usize&gt;&gt;,
 }

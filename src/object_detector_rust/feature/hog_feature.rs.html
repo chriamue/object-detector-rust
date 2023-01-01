@@ -139,7 +139,7 @@
 <span class="kw">use </span><span class="kw">super</span>::Feature;
 
 <span class="doccomment">/// Struct for extracting HOG features from images.
-</span><span class="attribute">#[derive(Debug)]
+</span><span class="attribute">#[derive(Debug, PartialEq)]
 </span><span class="kw">pub struct </span>HOGFeature {
     options: HogOptions,
 }

@@ -196,7 +196,7 @@
 
 <span class="doccomment">/// Struct for extracting BRIEF (Binary Robust Independent Elementary Features)
 /// from an image.
-</span><span class="attribute">#[derive(Debug)]
+</span><span class="attribute">#[derive(Debug, PartialEq)]
 </span><span class="kw">pub struct </span>BriefFeature {
     <span class="doccomment">/// Threshold used for deciding whether a pixel difference is significant
     </span>threshold: u8,

@@ -18,14 +18,41 @@
 <span id="18">18</span>
 <span id="19">19</span>
 <span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
 </pre><pre class="rust"><code><span class="doccomment">//! A trait for object detectors
 //!
 //! An object detector is a machine learning model that is able to identify objects within an image.
 //! This trait defines the common methods that an object detector should have.
 
-</span><span class="kw">use </span>image::DynamicImage;
-
-<span class="kw">use </span><span class="kw">crate</span>::prelude::Detection;
+</span><span class="kw">use </span><span class="kw">crate</span>::prelude::Detection;
+<span class="kw">use </span>image::DynamicImage;
+<span class="kw">use </span>std::error::Error;
+<span class="kw">use </span>std::io::{Read, Write};
 
 <span class="kw">mod </span>brief_svm_detector;
 <span class="kw">pub use </span>brief_svm_detector::BriefSVMDetector;
@@ -37,6 +64,31 @@
 </span><span class="kw">pub trait </span>Detector {
     <span class="doccomment">/// Detects objects in an image
     </span><span class="kw">fn </span>detect(<span class="kw-2">&amp;</span><span class="self">self</span>, image: <span class="kw-2">&amp;</span>DynamicImage) -&gt; Vec&lt;Detection&gt;;
+}
+
+<span class="doccomment">/// Trait for objects that can be persisted to and loaded from storage
+</span><span class="kw">pub trait </span>PersistentDetector: Detector {
+    <span class="doccomment">/// Loads the detector from the provided reader.
+    ///
+    /// # Arguments
+    ///
+    /// * `reader` - The reader to load the detector from.
+    ///
+    /// # Returns
+    ///
+    /// A `Result` containing an error string if loading fails, or `Ok` if loading succeeds.
+    </span><span class="kw">fn </span>load&lt;R: Read&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, reader: R) -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>Error&gt;&gt;;
+
+    <span class="doccomment">/// Saves the detector to the provided writer.
+    ///
+    /// # Arguments
+    ///
+    /// * `writer` - The writer to save the detector to.
+    ///
+    /// # Returns
+    ///
+    /// A `Result` containing an error string if saving fails, or `Ok` if saving succeeds.
+    </span><span class="kw">fn </span>save&lt;W: Write&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, writer: W) -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>Error&gt;&gt;;
 }
 </code></pre></div>
 </section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="object_detector_rust" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0 (69f9c33d7 2022-12-12)" ></div></body></html>

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {};
+window.SIDEBAR_ITEMS = {"struct":[["BriefSVMDetector","Struct representing an object detector using HOG features and an SVM classifier"],["HOGSVMDetector","Struct representing an object detector using HOG features and an SVM classifier"]]};

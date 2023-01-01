@@ -68,7 +68,7 @@
 <span class="kw">use </span>image::{DynamicImage, GenericImageView, SubImage};
 
 <span class="doccomment">/// Struct for generating sliding windows over an image
-</span><span class="attribute">#[derive(Debug)]
+</span><span class="attribute">#[derive(Debug, PartialEq)]
 </span><span class="kw">pub struct </span>SlidingWindow {
     <span class="doccomment">/// Width of the window
     </span><span class="kw">pub </span>width: u32,

@@ -84,7 +84,7 @@
 <span class="doccomment">/// The SVMClassifier struct represents an SVM classifier with a trained model.
 /// The model is an option type, which means it is initially empty.
 /// The new function creates a new SVMClassifier instance with an empty model.
-</span><span class="attribute">#[derive(Default, Serialize, Deserialize, Debug)]
+</span><span class="attribute">#[derive(Default, Serialize, Deserialize, Debug, PartialEq)]
 </span><span class="kw">pub struct </span>SVMClassifier {
     <span class="doccomment">/// The trained SVM model
     </span>model: <span class="prelude-ty">Option</span>&lt;Svm&lt;f32, bool&gt;&gt;,
