@@ -24,7 +24,7 @@ where
     W: WindowGenerator<DynamicImage>,
 {
     brief_feature: BriefFeature,
-    svm_classifier: SVMClassifier,
+    svm_classifier: SVMClassifier<f32, bool>,
     window_generator: W,
 }
 

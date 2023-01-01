@@ -8,6 +8,9 @@ use ndarray::{Array1, Array2};
 mod generate_annotations;
 pub use generate_annotations::generate_annotations;
 
+mod generate_negative_samples;
+pub use generate_negative_samples::{add_hard_negative_samples, generate_negative_samples};
+
 mod sliding_window;
 pub use sliding_window::SlidingWindow;
 

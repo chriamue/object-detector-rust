@@ -2,6 +2,7 @@ use super::Classifier;
 use crate::prelude::{Predictable, Trainable};
 use linfa::prelude::Predict;
 use linfa::prelude::*;
+use linfa::Label;
 use linfa_svm::Svm;
 use ndarray::Array1;
 use ndarray::ArrayView1;
@@ -12,26 +13,34 @@ use serde::{Deserialize, Serialize};
 /// The model is an option type, which means it is initially empty.
 /// The new function creates a new SVMClassifier instance with an empty model.
 #[derive(Default, Serialize, Deserialize, Debug, PartialEq)]
-pub struct SVMClassifier {
+pub struct SVMClassifier<X, Y>
+where
+    X: Float,
+    Y: Label,
+{
     /// The trained SVM model
-    model: Option<Svm<f32, bool>>,
+    model: Option<Svm<X, Y>>,
 }
 
-impl SVMClassifier {
+impl<X, Y> SVMClassifier<X, Y>
+where
+    X: Float,
+    Y: Label,
+{
     /// Creates a new `SVMClassifier`.
     pub fn new() -> Self {
         SVMClassifier { model: None }
     }
 }
 
-impl Trainable<f32, bool> for SVMClassifier {
+impl Trainable<f32, bool> for SVMClassifier<f32, bool> {
     fn fit(&mut self, x: &ArrayView2<f32>, y: &ArrayView1<bool>) -> Result<(), String> {
         let dataset = Dataset::new(x.to_owned(), y.to_owned());
 
         let model = Svm::<_, bool>::params()
             .gaussian_kernel(80.0)
             .eps(0.1)
-            .pos_neg_weights(5.0, 50.0)
+            .pos_neg_weights(50.0, 50.0)
             .fit(&dataset)
             .unwrap();
 
@@ -40,13 +49,13 @@ impl Trainable<f32, bool> for SVMClassifier {
     }
 }
 
-impl Predictable<f32, bool> for SVMClassifier {
+impl Predictable<f32, bool> for SVMClassifier<f32, bool> {
     fn predict(&self, x: &ArrayView2<f32>) -> Result<Array1<bool>, String> {
         Ok(self.model.as_ref().unwrap().predict(x))
     }
 }
 
-impl Classifier<f32, bool> for SVMClassifier {}
+impl Classifier<f32, bool> for SVMClassifier<f32, bool> {}
 
 #[cfg(test)]
 mod tests {

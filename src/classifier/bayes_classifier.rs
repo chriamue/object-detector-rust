@@ -3,6 +3,8 @@ use crate::prelude::Predictable;
 use crate::prelude::Trainable;
 use linfa::prelude::{Fit, Predict};
 use linfa::Dataset;
+use linfa::Float;
+use linfa::Label;
 use linfa_bayes::GaussianNb;
 use ndarray::Array1;
 use ndarray::ArrayView1;
@@ -13,11 +15,19 @@ use ndarray::ArrayView2;
 /// This classifier is implemented using the `linfa_bayes` crate
 /// and can be trained on a given dataset to classify future data points.
 #[derive(Default, Debug, PartialEq)]
-pub struct BayesClassifier {
-    model: Option<GaussianNb<f32, usize>>,
+pub struct BayesClassifier<X, Y>
+where
+    X: Float,
+    Y: Label,
+{
+    model: Option<GaussianNb<X, Y>>,
 }
 
-impl BayesClassifier {
+impl<X, Y> BayesClassifier<X, Y>
+where
+    X: Float,
+    Y: Label,
+{
     /// Creates a new `BayesClassifier` instance with default parameters.
     ///
     /// # Example
@@ -25,29 +35,42 @@ impl BayesClassifier {
     /// ```
     /// use object_detector_rust::classifier::BayesClassifier;
     ///
-    /// let bayes_classifier = BayesClassifier::new();
+    /// let bayes_classifier = BayesClassifier::<f32, bool>::new();
     /// ```
     pub fn new() -> Self {
         BayesClassifier { model: None }
     }
 }
 
-impl Trainable<f32, usize> for BayesClassifier {
-    fn fit(&mut self, x: &ArrayView2<f32>, y: &ArrayView1<usize>) -> Result<(), String> {
+impl<X, Y> Trainable<X, Y> for BayesClassifier<X, Y>
+where
+    X: Float,
+    Y: Label,
+{
+    fn fit(&mut self, x: &ArrayView2<X>, y: &ArrayView1<Y>) -> Result<(), String> {
         let dataset = Dataset::new(x.to_owned(), y.to_owned());
-        let model = GaussianNb::<_, usize>::params().fit(&dataset).unwrap();
+        let model = GaussianNb::<X, Y>::params().fit(&dataset).unwrap();
         self.model = Some(model);
         Ok(())
     }
 }
 
-impl Predictable<f32, usize> for BayesClassifier {
-    fn predict(&self, x: &ArrayView2<f32>) -> Result<Array1<usize>, String> {
+impl<X, Y> Predictable<X, Y> for BayesClassifier<X, Y>
+where
+    X: Float,
+    Y: Label,
+{
+    fn predict(&self, x: &ArrayView2<X>) -> Result<Array1<Y>, String> {
         Ok(self.model.as_ref().unwrap().predict(x))
     }
 }
 
-impl Classifier<f32, usize> for BayesClassifier {}
+impl<X, Y> Classifier<X, Y> for BayesClassifier<X, Y>
+where
+    X: Float,
+    Y: Label,
+{
+}
 
 #[cfg(test)]
 mod tests {
