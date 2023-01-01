@@ -69,6 +69,11 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::Classifier;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::Predictable;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::Trainable;
@@ -122,9 +127,9 @@
 
 <span class="attribute">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
-    <span class="kw">use </span>ndarray::{arr1, arr2};
-
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span>linfa::prelude::ToConfusionMatrix;
+    <span class="kw">use </span>ndarray::{arr1, arr2};
 
     <span class="attribute">#[test]
     </span><span class="kw">fn </span>test_bayes_classifier() {
@@ -138,6 +143,11 @@
         <span class="kw">let </span>y_pred = arr1(<span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>]);
         <span class="kw">let </span>y_pred_res = classifier.predict(<span class="kw-2">&amp;</span>x_pred.view()).unwrap();
         <span class="macro">assert_eq!</span>(y_pred, y_pred_res);
+        <span class="kw">let </span>predicted_y = classifier.predict(<span class="kw-2">&amp;</span>x.view()).unwrap();
+        <span class="kw">let </span>cm = predicted_y.confusion_matrix(<span class="kw-2">&amp;</span>y).unwrap();
+        <span class="macro">println!</span>(<span class="string">&quot;{:?}&quot;</span>, cm);
+        <span class="macro">assert!</span>(cm.precision() &gt; <span class="number">0.8</span>);
+        <span class="macro">assert!</span>(cm.accuracy() &gt; <span class="number">0.5</span>);
     }
 }
 </code></pre></div>

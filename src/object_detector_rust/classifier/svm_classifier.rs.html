@@ -71,6 +71,11 @@
 <span id="71">71</span>
 <span id="72">72</span>
 <span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::Classifier;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::{Predictable, Trainable};
 <span class="kw">use </span>linfa::prelude::Predict;
@@ -142,6 +147,11 @@
         <span class="macro">assert_eq!</span>(<span class="number">2</span>, predicted_y.len());
 
         <span class="macro">assert_eq!</span>(expected_y, predicted_y);
+        <span class="kw">let </span>predicted_y = classifier.predict(<span class="kw-2">&amp;</span>x.view()).unwrap();
+        <span class="kw">let </span>cm = predicted_y.confusion_matrix(<span class="kw-2">&amp;</span>y).unwrap();
+        <span class="macro">println!</span>(<span class="string">&quot;{:?}&quot;</span>, cm);
+        <span class="macro">assert!</span>(cm.precision() &gt; <span class="number">0.8</span>);
+        <span class="macro">assert!</span>(cm.accuracy() &gt; <span class="number">0.5</span>);
     }
 }
 </code></pre></div>
