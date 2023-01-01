@@ -30,9 +30,9 @@ criterion = { version = "0.4", default-features = false }
 
 # The package's features
 [features]
-default = ["hog", "orb"]
+default = ["hog", "brief"]
 hog = []
-orb = []
+brief = []
 
 [[bench]]
 name = "benchmark"

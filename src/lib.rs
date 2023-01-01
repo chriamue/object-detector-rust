@@ -42,8 +42,10 @@ pub mod prelude {
     pub use super::bbox::BBox;
     pub use super::classifier::Classifier;
     pub use super::detection::Detection;
+    #[cfg(feature = "brief")]
     pub use super::detector::BriefSVMDetector;
     pub use super::detector::Detector;
+    #[cfg(feature = "hog")]
     pub use super::detector::HOGSVMDetector;
     pub use super::detector::PersistentDetector;
     pub use super::feature::Feature;

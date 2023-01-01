@@ -8,10 +8,14 @@ use image::DynamicImage;
 use std::error::Error;
 use std::io::{Read, Write};
 
+#[cfg(feature = "brief")]
 mod brief_svm_detector;
+#[cfg(feature = "brief")]
 pub use brief_svm_detector::BriefSVMDetector;
 
+#[cfg(feature = "hog")]
 mod hog_svm_detector;
+#[cfg(feature = "hog")]
 pub use hog_svm_detector::HOGSVMDetector;
 
 /// Trait for object detection

@@ -1,14 +1,20 @@
-use std::fs::File;
+#[cfg(not(feature = "brief"))]
+fn main() {
+    eprintln!("example needs brief feature: cargo run --features brief --example brief_svm");
+}
 
-use object_detector_rust::{
-    dataset::{DataSet, FolderDataSet},
-    detector::{BriefSVMDetector, Detector, PersistentDetector},
-    feature::{BriefFeature, Feature},
-    utils::{draw_bboxes, extract_data, SlidingWindow},
-    BBox, Class,
-};
-
+#[cfg(feature = "brief")]
 fn main() -> Result<(), String> {
+    use std::fs::File;
+
+    use object_detector_rust::{
+        dataset::{DataSet, FolderDataSet},
+        detector::{BriefSVMDetector, Detector, PersistentDetector},
+        feature::{BriefFeature, Feature},
+        utils::{draw_bboxes, extract_data, SlidingWindow},
+        BBox, Class,
+    };
+
     let class: Class = 5;
     // Set the path to the test data folder
     let data_path = std::fs::canonicalize("tests/folder_dataset/data").unwrap();

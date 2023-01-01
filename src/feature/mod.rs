@@ -19,10 +19,14 @@
 use image::DynamicImage;
 use std::result::Result;
 
+#[cfg(feature = "hog")]
 mod hog_feature;
+#[cfg(feature = "hog")]
 pub use hog_feature::HOGFeature;
 
+#[cfg(feature = "brief")]
 mod brief_feature;
+#[cfg(feature = "brief")]
 pub use brief_feature::BriefFeature;
 
 /// Trait for feature descriptors that can be extracted from images
