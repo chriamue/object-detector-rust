@@ -1,15 +1,42 @@
 @startuml object-detection-diagram
 
-object Image
-object FeatureExtractor
-object Template
-object Matcher
-object Localizer
+class Dataset {
++annotated_images(): Vec<AnnotatedImage>
+}
 
-Image --> FeatureExtractor : extract features
-FeatureExtractor --> Matcher : match features
-Template --> Matcher : match features
-Matcher --> Localizer : locate object
-Localizer --> Image : annotate image
+class AnnotatedImage {
++image: DynamicImage
++annotations: Vec<Annotation>
+}
+
+class Annotation {
++bbox: BBox
++class: Class
+}
+
+class Classifier {
++train(dataset: Dataset)
++predict(image: DynamicImage): Vec<Detection>
+}
+
+class Detection {
++bbox: BBox
++class: Class
+}
+
+class BBox {
++x: i32
++y: i32
++width: i32
++height: i32
+}
+
+Dataset -- AnnotatedImage : contains
+AnnotatedImage -- Annotation : contains
+Annotation -- BBox : refers to
+Annotation -- Class : refers to
+Classifier -- Dataset : trains on
+Classifier -- DynamicImage : predicts on
+Classifier -- Detection : returns
 
 @enduml
