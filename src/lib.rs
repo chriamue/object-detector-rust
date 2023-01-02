@@ -55,7 +55,9 @@ pub mod prelude {
     #[cfg(feature = "hog")]
     pub use super::detector::HOGSVMDetector;
     pub use super::detector::PersistentDetector;
+    pub use super::feature::BriefFeature;
     pub use super::feature::Feature;
+    pub use super::feature::HOGFeature;
     pub use super::predictable::Predictable;
     pub use super::trainable::Trainable;
     pub use super::AnnotatedImage;

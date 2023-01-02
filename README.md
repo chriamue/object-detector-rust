@@ -61,27 +61,49 @@ You can then use the library to train and use a classifier or detector on your a
 
 To train a classifier, you will need to create a `DataSet` object and populate it with annotated images. You can then create a `Classifier` object, such as a `BayesClassifier` or `SVMClassifier`, and pass it the `DataSet` object to train it.
 
-```rust
+```rust .ignore}
+use image::DynamicImage;
+use object_detector_rust::prelude::*;
+use object_detector_rust::utils::extract_data;
+use object_detector_rust::feature::HOGFeature;
 // Create a memory-based DataSet
 let mut dataset = MemoryDataSet::new();
 
 // Add some annotated images to the DataSet
 dataset.add_annotated_image(AnnotatedImage {
-    image: image,
+    image: DynamicImage::new_rgba8(128, 128),
     annotations: vec![Annotation {
-        bbox: BBox { x: 0, y: 0, w: 10, h: 10 },
+        bbox: BBox { x: 0, y: 0, width: 32, height: 32 },
         class: 0,
     }],
 });
-
+dataset.add_annotated_image(AnnotatedImage {
+    image: DynamicImage::new_rgba8(128, 128),
+    annotations: vec![Annotation {
+        bbox: BBox { x: 50, y: 50, width: 32, height: 32 },
+        class: 1,
+    }],
+});
+let class = 1;
+let feature = HOGFeature::default();
 // Create a BayesClassifier and train it on the DataSet
 let mut classifier = BayesClassifier::new();
-classifier.train(&dataset);
+let (x, y) = dataset.get_data();
+let x: Vec<Vec<f32>> = x
+        .iter()
+        .map(|image| feature.extract(image).unwrap())
+        .collect();
+    let y = y
+        .iter()
+        .map(|y| if *y == class { true } else { false })
+        .collect();
+let (x, y) = extract_data(x, y);
+classifier.fit(&x.view(), &y.view());
 ```
 
 To use a classifier to predict the class of an image, you can call the `predict` method on the classifier and pass it the image.
 
-```rust
+```rust .ignore
 let prediction = classifier.predict(&image);
 ```
 
@@ -93,7 +115,7 @@ To use a detector in Object Detector Rust, you will need to do the following:
 
 For example:
 
-```rust
+```rust .ignore
 use object_detector_rust::prelude::{DataSet, Detector, HOGSVMDetector};
 
 // Create a HOGSVMDetector object
