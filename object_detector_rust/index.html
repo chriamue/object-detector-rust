@@ -34,16 +34,60 @@
 </ol>
 <p><img src="https://www.plantuml.com/plantuml/proxy?cache=no&amp;src=https://raw.github.com/chriamue/object-detector-rust/main/docs/training.puml" alt="Training" /></p>
 <h3 id="usage-"><a href="#usage-">Usage 📖</a></h3>
-<p>To use Object Detector Rust, add it as a dependency to your project’s <code>Cargo.toml</code> file:</p>
+<p>To use the Object Detector Rust library, you will need to add it to your project as a dependency. You can do this by adding the following to your <code>Cargo.toml</code> file:</p>
 <div class="example-wrap"><pre class="language-toml"><code>[dependencies]
 object-detector-rust = &quot;0.1&quot;
 </code></pre></div>
 <p>Then, use the crate in your Rust code:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::<span class="kw-2">*</span>;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">fn </span>main() {
 }</code></pre></div>
+<p>You can then use the library to train and use a classifier or detector on your annotated images.</p>
+<p>To train a classifier, you will need to create a <code>DataSet</code> object and populate it with annotated images. You can then create a <code>Classifier</code> object, such as a <code>BayesClassifier</code> or <code>SVMClassifier</code>, and pass it the <code>DataSet</code> object to train it.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="comment">// Create a memory-based DataSet
+</span><span class="kw">let </span><span class="kw-2">mut </span>dataset = MemoryDataSet::new();
+
+<span class="comment">// Add some annotated images to the DataSet
+</span>dataset.add_annotated_image(AnnotatedImage {
+    image: image,
+    annotations: <span class="macro">vec!</span>[Annotation {
+        bbox: BBox { x: <span class="number">0</span>, y: <span class="number">0</span>, w: <span class="number">10</span>, h: <span class="number">10 </span>},
+        class: <span class="number">0</span>,
+    }],
+});
+
+<span class="comment">// Create a BayesClassifier and train it on the DataSet
+</span><span class="kw">let </span><span class="kw-2">mut </span>classifier = BayesClassifier::new();
+classifier.train(<span class="kw-2">&amp;</span>dataset);</code></pre></div>
+<p>To use a classifier to predict the class of an image, you can call the <code>predict</code> method on the classifier and pass it the image.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>prediction = classifier.predict(<span class="kw-2">&amp;</span>image);</code></pre></div>
+<p>To use a detector in Object Detector Rust, you will need to do the following:</p>
+<ol>
+<li>Create a <code>Detector</code> object. This can be done using one of the provided implementations, such as <code>HOGSVMDetector</code> or <code>BriefSVMDetector</code>, or by creating a custom implementation of the <code>Detector</code> trait.</li>
+<li>Train the <code>Detector</code> object on a <code>DataSet</code> object. The <code>DataSet</code> trait includes methods for adding annotated images and iterating over them.</li>
+<li>Use the Detector object’s detect method to detect objects in images and return their bounding boxes and class predictions.</li>
+</ol>
+<p>For example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::prelude::{DataSet, Detector, HOGSVMDetector};
+
+<span class="comment">// Create a HOGSVMDetector object
+</span><span class="kw">let </span><span class="kw-2">mut </span>detector = HOGSVMDetector::new();
+
+<span class="comment">// Create a DataSet object and add some annotated images to it
+</span><span class="kw">let </span><span class="kw-2">mut </span>dataset = MemoryDataSet::new();
+dataset.add_annotated_image(annotated_image_1);
+dataset.add_annotated_image(annotated_image_2);
+
+<span class="comment">// Train the detector on the dataset
+</span>detector.train(<span class="kw-2">&amp;</span>dataset);
+
+<span class="comment">// Use the detector to detect objects in an image
+</span><span class="kw">let </span>detections = detector.detect(<span class="kw-2">&amp;</span>image);</code></pre></div>
 <h3 id="building-and-testing-"><a href="#building-and-testing-">Building and Testing 🛠️</a></h3>
 <p>To build the Object Detector Rust crate, run <code>cargo build</code> from the command line. To run the unit tests, use <code>cargo test</code>.</p>
 <h3 id="running-benchmarks-"><a href="#running-benchmarks-">Running Benchmarks 🏋️‍♀️</a></h3>
