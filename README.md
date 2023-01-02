@@ -41,7 +41,7 @@ To train a model, you will need to:
 
 ## Usage 📖
 
-To use Object Detector Rust, add it as a dependency to your project's `Cargo.toml` file:
+To use the Object Detector Rust library, you will need to add it to your project as a dependency. You can do this by adding the following to your `Cargo.toml` file:
 
 ```toml
 [dependencies]
@@ -51,10 +51,64 @@ object-detector-rust = "0.1"
 Then, use the crate in your Rust code:
 
 ```rust
-use object_detector_rust::*;
+use object_detector_rust::prelude::*;
 
 fn main() {
 }
+```
+
+You can then use the library to train and use a classifier or detector on your annotated images.
+
+To train a classifier, you will need to create a `DataSet` object and populate it with annotated images. You can then create a `Classifier` object, such as a `BayesClassifier` or `SVMClassifier`, and pass it the `DataSet` object to train it.
+
+```rust
+// Create a memory-based DataSet
+let mut dataset = MemoryDataSet::new();
+
+// Add some annotated images to the DataSet
+dataset.add_annotated_image(AnnotatedImage {
+    image: image,
+    annotations: vec![Annotation {
+        bbox: BBox { x: 0, y: 0, w: 10, h: 10 },
+        class: 0,
+    }],
+});
+
+// Create a BayesClassifier and train it on the DataSet
+let mut classifier = BayesClassifier::new();
+classifier.train(&dataset);
+```
+
+To use a classifier to predict the class of an image, you can call the `predict` method on the classifier and pass it the image.
+
+```rust
+let prediction = classifier.predict(&image);
+```
+
+To use a detector in Object Detector Rust, you will need to do the following:
+
+1. Create a `Detector` object. This can be done using one of the provided implementations, such as `HOGSVMDetector` or `BriefSVMDetector`, or by creating a custom implementation of the `Detector` trait.
+2. Train the `Detector` object on a `DataSet` object. The `DataSet` trait includes methods for adding annotated images and iterating over them.
+3. Use the Detector object's detect method to detect objects in images and return their bounding boxes and class predictions.
+
+For example:
+
+```rust
+use object_detector_rust::prelude::{DataSet, Detector, HOGSVMDetector};
+
+// Create a HOGSVMDetector object
+let mut detector = HOGSVMDetector::new();
+
+// Create a DataSet object and add some annotated images to it
+let mut dataset = MemoryDataSet::new();
+dataset.add_annotated_image(annotated_image_1);
+dataset.add_annotated_image(annotated_image_2);
+
+// Train the detector on the dataset
+detector.train(&dataset);
+
+// Use the detector to detect objects in an image
+let detections = detector.detect(&image);
 ```
 
 ## Building and Testing 🛠️
