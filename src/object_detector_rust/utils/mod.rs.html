@@ -153,7 +153,7 @@
 <span id="153">153</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Utility functions for working with images
 //!
-</span><span class="kw">use </span><span class="kw">crate</span>::BBox;
+</span><span class="kw">use </span><span class="kw">crate</span>::prelude::BBox;
 <span class="kw">use </span>image::{imageops::crop_imm, DynamicImage, GenericImageView, Rgba, SubImage};
 <span class="kw">use </span>imageproc::{drawing::draw_hollow_rect_mut, rect::Rect};
 <span class="kw">use </span>ndarray::{Array1, Array2};
@@ -214,7 +214,7 @@
 /// # Example
 ///
 /// ```
-/// use object_detector_rust::{BBox, utils::draw_bboxes};
+/// use object_detector_rust::{bbox::BBox, utils::draw_bboxes};
 /// use image::DynamicImage;
 ///
 /// let mut image = DynamicImage::new_rgb8(100, 100);

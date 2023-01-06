@@ -228,19 +228,21 @@
 <span id="228">228</span>
 <span id="229">229</span>
 <span id="230">230</span>
+<span id="231">231</span>
 </pre><pre class="rust"><code><span class="kw">use </span>std::{
     error::Error,
     io::{Read, Write},
 };
 
 <span class="kw">use crate</span>::{
+    bbox::BBox,
     classifier::SVMClassifier,
     detector::{Detection, Detector},
     feature::{BriefFeature, Feature},
     predictable::Predictable,
     trainable::Trainable,
     utils::{SlidingWindow, WindowGenerator},
-    BBox, Class,
+    Class,
 };
 <span class="kw">use </span>image::{DynamicImage, GenericImageView};
 <span class="kw">use </span>ndarray::{Array2, ArrayView1, ArrayView2};

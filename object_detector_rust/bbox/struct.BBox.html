@@ -15,7 +15,7 @@
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><section id="method.bottom" class="method has-srclink"><a class="srclink rightside" href="../../src/object_detector_rust/bbox.rs.html#71-73">source</a><h4 class="code-header">pub fn <a href="#method.bottom" class="fnname">bottom</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.i32.html">i32</a></h4></section></summary><div class="docblock"><p>Returns the bottom coordinate of the bounding box</p>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><section id="method.intersect_width" class="method has-srclink"><a class="srclink rightside" href="../../src/object_detector_rust/bbox.rs.html#114-116">source</a><h4 class="code-header">pub fn <a href="#method.intersect_width" class="fnname">intersect_width</a>(&amp;self, other: &amp;<a class="struct" href="struct.BBox.html" title="struct object_detector_rust::bbox::BBox">BBox</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.u32.html">u32</a></h4></section></summary><div class="docblock"><p>Calculates the width of the intersection between two bounding boxes</p>
 <h5 id="examples"><a href="#examples">Examples</a></h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::BBox;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::bbox::BBox;
 
 <span class="kw">let </span>bbox1 = BBox {
     x: <span class="number">0</span>,
@@ -50,7 +50,7 @@
 <span class="macro">assert_eq!</span>(bbox3.intersect_width(<span class="kw-2">&amp;</span>bbox4), <span class="number">0</span>);</code></pre></div>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><section id="method.intersect_height" class="method has-srclink"><a class="srclink rightside" href="../../src/object_detector_rust/bbox.rs.html#157-159">source</a><h4 class="code-header">pub fn <a href="#method.intersect_height" class="fnname">intersect_height</a>(&amp;self, other: &amp;<a class="struct" href="struct.BBox.html" title="struct object_detector_rust::bbox::BBox">BBox</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.u32.html">u32</a></h4></section></summary><div class="docblock"><p>Calculates the height of the intersection between two bounding boxes</p>
 <h5 id="examples-1"><a href="#examples-1">Examples</a></h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::BBox;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::bbox::BBox;
 
 <span class="kw">let </span>bbox1 = BBox {
     x: <span class="number">0</span>,
@@ -85,7 +85,7 @@
 <span class="macro">assert_eq!</span>(bbox3.intersect_height(<span class="kw-2">&amp;</span>bbox4), <span class="number">0</span>);</code></pre></div>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><section id="method.intersect_area" class="method has-srclink"><a class="srclink rightside" href="../../src/object_detector_rust/bbox.rs.html#191-193">source</a><h4 class="code-header">pub fn <a href="#method.intersect_area" class="fnname">intersect_area</a>(&amp;self, other: &amp;<a class="struct" href="struct.BBox.html" title="struct object_detector_rust::bbox::BBox">BBox</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.u32.html">u32</a></h4></section></summary><div class="docblock"><p>Calculates the area of the intersection between two bounding boxes</p>
 <h5 id="examples-2"><a href="#examples-2">Examples</a></h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::BBox;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::bbox::BBox;
 
 <span class="kw">let </span>bbox1 = BBox {
     x: <span class="number">0</span>,
@@ -111,7 +111,7 @@
 <span class="macro">assert_eq!</span>(bbox2.intersect_area(<span class="kw-2">&amp;</span>bbox3), <span class="number">0</span>);</code></pre></div>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><section id="method.self_area" class="method has-srclink"><a class="srclink rightside" href="../../src/object_detector_rust/bbox.rs.html#211-213">source</a><h4 class="code-header">pub fn <a href="#method.self_area" class="fnname">self_area</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.u32.html">u32</a></h4></section></summary><div class="docblock"><p>Calculates the area of the bounding box</p>
 <h5 id="examples-3"><a href="#examples-3">Examples</a></h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::BBox;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::bbox::BBox;
 
 <span class="kw">let </span>bbox = BBox {
     x: <span class="number">0</span>,
@@ -123,7 +123,7 @@
 <span class="macro">assert_eq!</span>(bbox.self_area(), <span class="number">10000</span>);</code></pre></div>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><section id="method.union_area" class="method has-srclink"><a class="srclink rightside" href="../../src/object_detector_rust/bbox.rs.html#237-239">source</a><h4 class="code-header">pub fn <a href="#method.union_area" class="fnname">union_area</a>(&amp;self, other: &amp;<a class="struct" href="struct.BBox.html" title="struct object_detector_rust::bbox::BBox">BBox</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.u32.html">u32</a></h4></section></summary><div class="docblock"><p>Calculates the area of the union between two bounding boxes</p>
 <h5 id="examples-4"><a href="#examples-4">Examples</a></h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::BBox;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::bbox::BBox;
 
 <span class="kw">let </span>bbox1 = BBox {
     x: <span class="number">0</span>,
@@ -141,7 +141,7 @@
 <span class="macro">assert_eq!</span>(bbox1.union_area(<span class="kw-2">&amp;</span>bbox2), <span class="number">17500</span>);</code></pre></div>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><section id="method.overlap" class="method has-srclink"><a class="srclink rightside" href="../../src/object_detector_rust/bbox.rs.html#271-273">source</a><h4 class="code-header">pub fn <a href="#method.overlap" class="fnname">overlap</a>(&amp;self, other: &amp;<a class="struct" href="struct.BBox.html" title="struct object_detector_rust::bbox::BBox">BBox</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.f32.html">f32</a></h4></section></summary><div class="docblock"><p>Calculates the overlap between two bounding boxes as the ratio of their intersecting area to their union area</p>
 <h5 id="examples-5"><a href="#examples-5">Examples</a></h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::BBox;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::bbox::BBox;
 
 <span class="kw">let </span>bbox1 = BBox {
     x: <span class="number">0</span>,
@@ -167,7 +167,7 @@
 <span class="macro">assert_eq!</span>(bbox2.overlap(<span class="kw-2">&amp;</span>bbox3), <span class="number">0.0</span>);</code></pre></div>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><section id="method.merge" class="method has-srclink"><a class="srclink rightside" href="../../src/object_detector_rust/bbox.rs.html#314-326">source</a><h4 class="code-header">pub fn <a href="#method.merge" class="fnname">merge</a>(&amp;self, other: &amp;<a class="struct" href="struct.BBox.html" title="struct object_detector_rust::bbox::BBox">BBox</a>) -&gt; <a class="struct" href="struct.BBox.html" title="struct object_detector_rust::bbox::BBox">BBox</a></h4></section></summary><div class="docblock"><p>Merges two bounding boxes into a single bounding box that encloses both</p>
 <h5 id="examples-6"><a href="#examples-6">Examples</a></h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::BBox;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>object_detector_rust::bbox::BBox;
 
 <span class="kw">let </span>bbox1 = BBox {
     x: <span class="number">0</span>,
