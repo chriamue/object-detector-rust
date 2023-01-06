@@ -12,7 +12,7 @@ fn main() -> Result<(), String> {
         detector::{Detector, HOGSVMDetector, PersistentDetector},
         feature::{Feature, HOGFeature},
         utils::{draw_bboxes, extract_data, SlidingWindow},
-        BBox, Class,
+        bbox::BBox, Class,
     };
     let class: Class = 5;
     // Set the path to the test data folder

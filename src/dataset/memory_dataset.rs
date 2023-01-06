@@ -91,7 +91,7 @@ impl DataSet for MemoryDataSet {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{Annotation, BBox};
+    use crate::{bbox::BBox, Annotation};
 
     #[test]
     fn test_memory_dataset_add_annotated_image() {

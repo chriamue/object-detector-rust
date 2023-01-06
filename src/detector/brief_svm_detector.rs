@@ -4,13 +4,14 @@ use std::{
 };
 
 use crate::{
+    bbox::BBox,
     classifier::SVMClassifier,
     detector::{Detection, Detector},
     feature::{BriefFeature, Feature},
     predictable::Predictable,
     trainable::Trainable,
     utils::{SlidingWindow, WindowGenerator},
-    BBox, Class,
+    Class,
 };
 use image::{DynamicImage, GenericImageView};
 use ndarray::{Array2, ArrayView1, ArrayView2};

@@ -77,7 +77,7 @@ impl BBox {
     /// # Examples
     ///
     /// ```
-    /// use object_detector_rust::BBox;
+    /// use object_detector_rust::bbox::BBox;
     ///
     /// let bbox1 = BBox {
     ///     x: 0,
@@ -120,7 +120,7 @@ impl BBox {
     /// # Examples
     ///
     /// ```
-    /// use object_detector_rust::BBox;
+    /// use object_detector_rust::bbox::BBox;
     ///
     /// let bbox1 = BBox {
     ///     x: 0,
@@ -163,7 +163,7 @@ impl BBox {
     /// # Examples
     ///
     /// ```
-    /// use object_detector_rust::BBox;
+    /// use object_detector_rust::bbox::BBox;
     ///
     /// let bbox1 = BBox {
     ///     x: 0,
@@ -197,7 +197,7 @@ impl BBox {
     /// # Examples
     ///
     /// ```
-    /// use object_detector_rust::BBox;
+    /// use object_detector_rust::bbox::BBox;
     ///
     /// let bbox = BBox {
     ///     x: 0,
@@ -217,7 +217,7 @@ impl BBox {
     /// # Examples
     ///
     /// ```
-    /// use object_detector_rust::BBox;
+    /// use object_detector_rust::bbox::BBox;
     ///
     /// let bbox1 = BBox {
     ///     x: 0,
@@ -243,7 +243,7 @@ impl BBox {
     /// # Examples
     ///
     /// ```
-    /// use object_detector_rust::BBox;
+    /// use object_detector_rust::bbox::BBox;
     ///
     /// let bbox1 = BBox {
     ///     x: 0,
@@ -277,7 +277,7 @@ impl BBox {
     /// # Examples
     ///
     /// ```
-    /// use object_detector_rust::BBox;
+    /// use object_detector_rust::bbox::BBox;
     ///
     /// let bbox1 = BBox {
     ///     x: 0,

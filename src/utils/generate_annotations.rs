@@ -151,8 +151,8 @@ pub fn generate_negative_samples(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::bbox::BBox;
     use crate::prelude::{DataSet, Detection, MemoryDataSet};
-    use crate::BBox;
     use image::DynamicImage;
     use mockall::predicate::*;
     use mockall::*;

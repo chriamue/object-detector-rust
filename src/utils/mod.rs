@@ -1,6 +1,6 @@
 //! Utility functions for working with images
 //!
-use crate::BBox;
+use crate::prelude::BBox;
 use image::{imageops::crop_imm, DynamicImage, GenericImageView, Rgba, SubImage};
 use imageproc::{drawing::draw_hollow_rect_mut, rect::Rect};
 use ndarray::{Array1, Array2};
@@ -61,7 +61,7 @@ pub fn crop_bbox(image: &DynamicImage, bbox: &BBox) -> DynamicImage {
 /// # Example
 ///
 /// ```
-/// use object_detector_rust::{BBox, utils::draw_bboxes};
+/// use object_detector_rust::{bbox::BBox, utils::draw_bboxes};
 /// use image::DynamicImage;
 ///
 /// let mut image = DynamicImage::new_rgb8(100, 100);

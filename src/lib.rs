@@ -14,8 +14,6 @@ pub mod predictable;
 pub mod trainable;
 pub mod utils;
 
-pub use bbox::BBox;
-
 /// object class type
 pub type Class = u32;
 
@@ -23,7 +21,7 @@ pub type Class = u32;
 #[derive(Debug, Clone, PartialEq)]
 pub struct Annotation {
     /// Bounding box of the object
-    pub bbox: BBox,
+    pub bbox: bbox::BBox,
     /// Class of the object
     pub class: Class,
 }

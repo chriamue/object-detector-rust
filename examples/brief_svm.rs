@@ -8,11 +8,12 @@ fn main() -> Result<(), String> {
     use std::fs::File;
 
     use object_detector_rust::{
+        bbox::BBox,
         dataset::{DataSet, FolderDataSet},
         detector::{BriefSVMDetector, Detector, PersistentDetector},
         feature::{BriefFeature, Feature},
         utils::{draw_bboxes, extract_data, SlidingWindow},
-        BBox, Class,
+        Class,
     };
 
     let class: Class = 5;
