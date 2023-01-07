@@ -32,5 +32,5 @@ fn test_pixel_color() {
 #[test]
 fn save_test_image() {
     let img = test_image();
-    img.save("out/test_image.png").unwrap();
+    img.save("test_image.png").unwrap();
 }
