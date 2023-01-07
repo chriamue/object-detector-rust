@@ -29,7 +29,7 @@
 //! This example shows how to use the `BBox` struct to represent bounding boxes and how to calculate the overlap and union between two bounding boxes.
 
 /// Struct for representing a bounding box
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Copy)]
 pub struct BBox {
     /// X coordinate of the top-left corner of the bounding box
     pub x: i32,
@@ -329,6 +329,17 @@ impl BBox {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn test_copy_trait() {
+        let bbox = BBox {
+            x: 10,
+            y: 20,
+            width: 30,
+            height: 40,
+        };
+        let bbox_copy = bbox;
+        assert_eq!(bbox, bbox_copy);
+    }
 
     #[test]
     fn test_overlap() {
