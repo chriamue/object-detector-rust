@@ -41,6 +41,17 @@ pub struct BBox {
     pub height: u32,
 }
 
+impl Default for BBox {
+    fn default() -> Self {
+        BBox {
+            x: 0,
+            y: 0,
+            width: 1,
+            height: 1,
+        }
+    }
+}
+
 impl BBox {
     /// Creates a new bounding box with the specified coordinates and dimensions
     pub fn new(x: i32, y: i32, width: u32, height: u32) -> BBox {
@@ -331,12 +342,7 @@ mod tests {
     use super::*;
     #[test]
     fn test_copy_trait() {
-        let bbox = BBox {
-            x: 10,
-            y: 20,
-            width: 30,
-            height: 40,
-        };
+        let bbox = BBox::default();
         let bbox_copy = bbox;
         assert_eq!(bbox, bbox_copy);
     }
