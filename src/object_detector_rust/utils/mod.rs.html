@@ -228,10 +228,10 @@
     <span class="kw">let </span>color = Rgba([<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>]);
     <span class="kw">for </span>bbox <span class="kw">in </span>bboxes {
         <span class="kw">let </span>(x1, y1, x2, y2) = (
-            bbox.x.max(<span class="number">0</span>) <span class="kw">as </span>i32,
-            bbox.y.max(<span class="number">0</span>) <span class="kw">as </span>i32,
-            (bbox.x + bbox.width <span class="kw">as </span>i32).min(width <span class="kw">as </span>i32 - <span class="number">1</span>) <span class="kw">as </span>i32,
-            (bbox.y + bbox.height <span class="kw">as </span>i32).min(height <span class="kw">as </span>i32 - <span class="number">1</span>) <span class="kw">as </span>i32,
+            bbox.x.max(<span class="number">0</span>),
+            bbox.y.max(<span class="number">0</span>),
+            (bbox.x + bbox.width <span class="kw">as </span>i32).min(width <span class="kw">as </span>i32 - <span class="number">1</span>),
+            (bbox.y + bbox.height <span class="kw">as </span>i32).min(height <span class="kw">as </span>i32 - <span class="number">1</span>),
         );
         draw_hollow_rect_mut(
             image,

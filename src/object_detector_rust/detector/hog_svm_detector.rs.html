@@ -241,8 +241,8 @@
     feature::{Feature, HOGFeature},
     predictable::Predictable,
     trainable::Trainable,
+    types::Class,
     utils::{SlidingWindow, WindowGenerator},
-    Class,
 };
 <span class="kw">use </span>image::{DynamicImage, GenericImageView};
 <span class="kw">use </span>ndarray::{Array2, ArrayView1, ArrayView2};
@@ -302,7 +302,7 @@
     </span>W: WindowGenerator&lt;DynamicImage&gt;,
 {
     <span class="kw">fn </span>detect(<span class="kw-2">&amp;</span><span class="self">self</span>, image: <span class="kw-2">&amp;</span>DynamicImage) -&gt; Vec&lt;Detection&gt; {
-        <span class="kw">let </span>windows = <span class="self">self</span>.window_generator.windows(<span class="kw-2">&amp;</span>image);
+        <span class="kw">let </span>windows = <span class="self">self</span>.window_generator.windows(image);
         <span class="kw">let </span>windows_len = windows.len();
         <span class="kw">let </span>hog_features: Vec&lt;Vec&lt;f32&gt;&gt; = windows
             .iter()

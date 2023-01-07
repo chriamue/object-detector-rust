@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["test_image","a simple image for testing purposes"]]};

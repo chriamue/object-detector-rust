@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["AnnotatedImage","Image annotated by list of Annotations"],["Annotation","annotation is a object bounding box in image and class type"]],"type":[["Class","object class type"]]};

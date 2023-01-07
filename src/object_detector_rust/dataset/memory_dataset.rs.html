@@ -263,8 +263,59 @@
 <span id="263">263</span>
 <span id="264">264</span>
 <span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
 </pre><pre class="rust"><code><span class="kw">use super</span>::{AnnotatedImageSet, DataSet};
-<span class="kw">use crate</span>::{utils::crop_bbox, AnnotatedImage};
+<span class="kw">use crate</span>::{types::AnnotatedImage, utils::crop_bbox};
 <span class="kw">use </span>image::DynamicImage;
 <span class="kw">use </span>std::error::Error;
 
@@ -274,7 +325,7 @@
 ///
 /// ```
 /// use image::DynamicImage;
-/// use object_detector_rust::{AnnotatedImage, dataset::{AnnotatedImageSet, MemoryDataSet, DataSet}};
+/// use object_detector_rust::{types::AnnotatedImage, dataset::{AnnotatedImageSet, MemoryDataSet, DataSet}};
 ///
 /// let mut dataset = MemoryDataSet::new();
 /// dataset.add_annotated_image(AnnotatedImage {
@@ -306,6 +357,57 @@
             memory_dataset.add_annotated_image(annotated_image.clone());
         }
         memory_dataset
+    }
+
+    <span class="doccomment">/// small test dataset
+    </span><span class="kw">pub fn </span>new_test() -&gt; <span class="self">Self </span>{
+        <span class="kw">use crate</span>::{bbox::BBox, tests::test_image};
+
+        <span class="kw">let </span><span class="kw-2">mut </span>dataset = MemoryDataSet::default();
+        <span class="kw">let </span>sample: AnnotatedImage = (
+            test_image(),
+            <span class="macro">vec!</span>[
+                (
+                    BBox {
+                        x: <span class="number">0</span>,
+                        y: <span class="number">0</span>,
+                        width: <span class="number">50</span>,
+                        height: <span class="number">50</span>,
+                    },
+                    <span class="number">0</span>,
+                ),
+                (
+                    BBox {
+                        x: <span class="number">50</span>,
+                        y: <span class="number">0</span>,
+                        width: <span class="number">50</span>,
+                        height: <span class="number">50</span>,
+                    },
+                    <span class="number">1</span>,
+                ),
+                (
+                    BBox {
+                        x: <span class="number">0</span>,
+                        y: <span class="number">50</span>,
+                        width: <span class="number">50</span>,
+                        height: <span class="number">50</span>,
+                    },
+                    <span class="number">2</span>,
+                ),
+                (
+                    BBox {
+                        x: <span class="number">50</span>,
+                        y: <span class="number">50</span>,
+                        width: <span class="number">50</span>,
+                        height: <span class="number">50</span>,
+                    },
+                    <span class="number">3</span>,
+                ),
+            ],
+        )
+            .into();
+        dataset.add_annotated_image(sample);
+        dataset
     }
 }
 
@@ -356,7 +458,7 @@
 <span class="attribute">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use crate</span>::{bbox::BBox, Annotation};
+    <span class="kw">use crate</span>::{bbox::BBox, types::Annotation};
 
     <span class="attribute">#[test]
     </span><span class="kw">fn </span>test_memory_dataset_add_annotated_image() {
