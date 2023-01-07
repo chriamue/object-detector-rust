@@ -8,11 +8,12 @@ fn main() -> Result<(), String> {
     use std::fs::File;
 
     use object_detector_rust::{
+        bbox::BBox,
         dataset::{DataSet, FolderDataSet},
         detector::{Detector, HOGSVMDetector, PersistentDetector},
         feature::{Feature, HOGFeature},
+        types::Class,
         utils::{draw_bboxes, extract_data, SlidingWindow},
-        bbox::BBox, Class,
     };
     let class: Class = 5;
     // Set the path to the test data folder

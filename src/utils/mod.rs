@@ -75,10 +75,10 @@ pub fn draw_bboxes(image: &mut DynamicImage, bboxes: &[BBox]) {
     let color = Rgba([255, 0, 0, 255]);
     for bbox in bboxes {
         let (x1, y1, x2, y2) = (
-            bbox.x.max(0) as i32,
-            bbox.y.max(0) as i32,
-            (bbox.x + bbox.width as i32).min(width as i32 - 1) as i32,
-            (bbox.y + bbox.height as i32).min(height as i32 - 1) as i32,
+            bbox.x.max(0),
+            bbox.y.max(0),
+            (bbox.x + bbox.width as i32).min(width as i32 - 1),
+            (bbox.y + bbox.height as i32).min(height as i32 - 1),
         );
         draw_hollow_rect_mut(
             image,

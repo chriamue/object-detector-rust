@@ -10,30 +10,11 @@ pub mod detector;
 pub mod feature;
 /// Trait for objects that can make predictions
 pub mod predictable;
+pub mod tests;
 /// Trait for objects that can be trained
 pub mod trainable;
+pub mod types;
 pub mod utils;
-
-/// object class type
-pub type Class = u32;
-
-/// annotation is a object bounding box in image and class type
-#[derive(Debug, Clone, PartialEq)]
-pub struct Annotation {
-    /// Bounding box of the object
-    pub bbox: bbox::BBox,
-    /// Class of the object
-    pub class: Class,
-}
-
-/// Image annotated by list of Annotations
-#[derive(Debug, Clone, PartialEq)]
-pub struct AnnotatedImage {
-    /// Image
-    pub image: image::DynamicImage,
-    /// Annotations for the image
-    pub annotations: Vec<Annotation>,
-}
 
 /// the object-detector-rust prelude
 pub mod prelude {
@@ -58,7 +39,7 @@ pub mod prelude {
     pub use super::feature::HOGFeature;
     pub use super::predictable::Predictable;
     pub use super::trainable::Trainable;
-    pub use super::AnnotatedImage;
-    pub use super::Annotation;
-    pub use super::Class;
+    pub use super::types::AnnotatedImage;
+    pub use super::types::Annotation;
+    pub use super::types::Class;
 }

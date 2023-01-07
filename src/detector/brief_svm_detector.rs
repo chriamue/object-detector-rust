@@ -10,8 +10,8 @@ use crate::{
     feature::{BriefFeature, Feature},
     predictable::Predictable,
     trainable::Trainable,
+    types::Class,
     utils::{SlidingWindow, WindowGenerator},
-    Class,
 };
 use image::{DynamicImage, GenericImageView};
 use ndarray::{Array2, ArrayView1, ArrayView2};
@@ -71,7 +71,7 @@ where
     W: WindowGenerator<DynamicImage>,
 {
     fn detect(&self, image: &DynamicImage) -> Vec<Detection> {
-        let windows = self.window_generator.windows(&image);
+        let windows = self.window_generator.windows(image);
         let windows_len = windows.len();
         let brief_features: Vec<Vec<f32>> = windows
             .iter()

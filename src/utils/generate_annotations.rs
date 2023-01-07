@@ -1,6 +1,6 @@
 use crate::{
     prelude::{AnnotatedImage, AnnotatedImageSet, Annotation, BBox, Detector},
-    Class,
+    types::Class,
 };
 use image::{DynamicImage, GenericImageView};
 use rand::{thread_rng, Rng};
@@ -115,7 +115,7 @@ pub fn generate_negative_samples(
             if max_count.is_some() && max_count.unwrap() >= annotations_counter {
                 return;
             }
-            if detection.class as u32 == class {
+            if detection.class == class {
                 let mut false_pos = true;
                 annotated_image.annotations.iter().for_each(|annotation| {
                     if class == annotation.class {

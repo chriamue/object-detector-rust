@@ -1,5 +1,5 @@
 use super::{AnnotatedImageSet, DataSet};
-use crate::{utils::crop_bbox, AnnotatedImage};
+use crate::{types::AnnotatedImage, utils::crop_bbox};
 use image::DynamicImage;
 use std::error::Error;
 
@@ -9,7 +9,7 @@ use std::error::Error;
 ///
 /// ```
 /// use image::DynamicImage;
-/// use object_detector_rust::{AnnotatedImage, dataset::{AnnotatedImageSet, MemoryDataSet, DataSet}};
+/// use object_detector_rust::{types::AnnotatedImage, dataset::{AnnotatedImageSet, MemoryDataSet, DataSet}};
 ///
 /// let mut dataset = MemoryDataSet::new();
 /// dataset.add_annotated_image(AnnotatedImage {
@@ -41,6 +41,57 @@ impl MemoryDataSet {
             memory_dataset.add_annotated_image(annotated_image.clone());
         }
         memory_dataset
+    }
+
+    /// small test dataset
+    pub fn new_test() -> Self {
+        use crate::{bbox::BBox, tests::test_image};
+
+        let mut dataset = MemoryDataSet::default();
+        let sample: AnnotatedImage = (
+            test_image(),
+            vec![
+                (
+                    BBox {
+                        x: 0,
+                        y: 0,
+                        width: 50,
+                        height: 50,
+                    },
+                    0,
+                ),
+                (
+                    BBox {
+                        x: 50,
+                        y: 0,
+                        width: 50,
+                        height: 50,
+                    },
+                    1,
+                ),
+                (
+                    BBox {
+                        x: 0,
+                        y: 50,
+                        width: 50,
+                        height: 50,
+                    },
+                    2,
+                ),
+                (
+                    BBox {
+                        x: 50,
+                        y: 50,
+                        width: 50,
+                        height: 50,
+                    },
+                    3,
+                ),
+            ],
+        )
+            .into();
+        dataset.add_annotated_image(sample);
+        dataset
     }
 }
 
@@ -91,7 +142,7 @@ impl DataSet for MemoryDataSet {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{bbox::BBox, Annotation};
+    use crate::{bbox::BBox, types::Annotation};
 
     #[test]
     fn test_memory_dataset_add_annotated_image() {

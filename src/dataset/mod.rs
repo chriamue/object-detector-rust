@@ -27,7 +27,7 @@ pub use folder_dataset::FolderDataSet;
 mod memory_dataset;
 pub use memory_dataset::MemoryDataSet;
 
-use crate::AnnotatedImage;
+use crate::types::AnnotatedImage;
 
 /// Trait representing a dataset of images and labels for training
 pub trait DataSet {

@@ -1,4 +1,4 @@
-use crate::{bbox::BBox, Class};
+use crate::{bbox::BBox, types::Class};
 
 /// Struct for representing a detected object
 #[derive(Debug, Clone, PartialEq)]

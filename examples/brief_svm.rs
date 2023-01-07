@@ -12,8 +12,8 @@ fn main() -> Result<(), String> {
         dataset::{DataSet, FolderDataSet},
         detector::{BriefSVMDetector, Detector, PersistentDetector},
         feature::{BriefFeature, Feature},
+        types::Class,
         utils::{draw_bboxes, extract_data, SlidingWindow},
-        Class,
     };
 
     let class: Class = 5;

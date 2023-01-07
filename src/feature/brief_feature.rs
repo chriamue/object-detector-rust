@@ -52,20 +52,17 @@ impl Feature for BriefFeature {
                     continue;
                 }
                 let (dx, dy) = test;
-                match (
+                if let (Some(pixel_a), Some(pixel_b)) = (
                     gray_image.get_pixel_checked(x + dx, y + dy),
                     gray_image.get_pixel_checked(x + dx, y + dy),
                 ) {
-                    (Some(pixel_a), Some(pixel_b)) => {
-                        let pixel_difference: u8 =
-                            (pixel_a[0] as i32 - pixel_b[0] as i32).unsigned_abs() as u8;
-                        descriptor.push(if pixel_difference > self.threshold {
-                            1.0
-                        } else {
-                            0.0
-                        });
-                    }
-                    _ => (),
+                    let pixel_difference: u8 =
+                        (pixel_a[0] as i32 - pixel_b[0] as i32).unsigned_abs() as u8;
+                    descriptor.push(if pixel_difference > self.threshold {
+                        1.0
+                    } else {
+                        0.0
+                    });
                 };
             }
         }

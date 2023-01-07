@@ -1,7 +1,7 @@
 use crate::bbox::BBox;
 use crate::dataset::DataSet;
+use crate::types::{AnnotatedImage, Annotation, Class};
 use crate::utils::crop_bbox;
-use crate::{AnnotatedImage, Annotation, Class};
 use image::{open, DynamicImage};
 use std::error::Error;
 use std::fs::{read_dir, File};
