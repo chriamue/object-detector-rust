@@ -379,6 +379,17 @@
 <span id="379">379</span>
 <span id="380">380</span>
 <span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module contains the `BBox` struct for representing bounding boxes and functions for calculating overlap and union.
 //!
 //! # Examples
@@ -410,7 +421,7 @@
 //! This example shows how to use the `BBox` struct to represent bounding boxes and how to calculate the overlap and union between two bounding boxes.
 
 /// Struct for representing a bounding box
-</span><span class="attribute">#[derive(Debug, Clone, PartialEq)]
+</span><span class="attribute">#[derive(Debug, Clone, PartialEq, Copy)]
 </span><span class="kw">pub struct </span>BBox {
     <span class="doccomment">/// X coordinate of the top-left corner of the bounding box
     </span><span class="kw">pub </span>x: i32,
@@ -710,6 +721,17 @@
 <span class="attribute">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_copy_trait() {
+        <span class="kw">let </span>bbox = BBox {
+            x: <span class="number">10</span>,
+            y: <span class="number">20</span>,
+            width: <span class="number">30</span>,
+            height: <span class="number">40</span>,
+        };
+        <span class="kw">let </span>bbox_copy = bbox;
+        <span class="macro">assert_eq!</span>(bbox, bbox_copy);
+    }
 
     <span class="attribute">#[test]
     </span><span class="kw">fn </span>test_overlap() {
