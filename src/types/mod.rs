@@ -23,6 +23,22 @@ pub struct AnnotatedImage {
     pub annotations: Vec<Annotation>,
 }
 
+impl Into<Annotation> for (BBox, Class) {
+    /// Converts a tuple of bounding box and class into an Annotation.
+    fn into(self) -> Annotation {
+        let (bbox, class) = self;
+        Annotation { bbox, class }
+    }
+}
+
+impl From<Annotation> for (BBox, Class) {
+    /// Converts an Annotation into a tuple of bounding box and class.
+    fn from(annotation: Annotation) -> Self {
+        let Annotation { bbox, class } = annotation;
+        (bbox, class)
+    }
+}
+
 impl Into<AnnotatedImage> for (DynamicImage, Vec<(BBox, Class)>) {
     /// Converts a tuple of image and a vector of bounding box and class tuples into an `AnnotatedImage`.
     fn into(self) -> AnnotatedImage {
@@ -37,10 +53,49 @@ impl Into<AnnotatedImage> for (DynamicImage, Vec<(BBox, Class)>) {
     }
 }
 
+impl From<AnnotatedImage> for (DynamicImage, Vec<(BBox, Class)>) {
+    /// Converts an AnnotatedImage into a tuple of image and a vector of bounding box and class tuples.
+    fn from(annotated_image: AnnotatedImage) -> Self {
+        let AnnotatedImage { image, annotations } = annotated_image;
+        (
+            image,
+            annotations
+                .into_iter()
+                .map(|annotation| annotation.into())
+                .collect(),
+        )
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use crate::tests::test_image;
+
+    #[test]
+    fn test_annotation_conversions() {
+        let bbox = BBox {
+            x: 0,
+            y: 0,
+            width: 100,
+            height: 100,
+        };
+        let class: Class = 1;
+        let annotation = Annotation {
+            bbox: bbox.clone(),
+            class,
+        };
+
+        // Test `Into<Annotation>` implementation
+        let (bbox, class) = (bbox.clone(), class);
+        let converted_annotation: Annotation = (bbox, class).into();
+        assert_eq!(annotation, converted_annotation);
+
+        // Test `From<Annotation>` implementation
+        let (bbox, class) = annotation.into();
+        let expected: (BBox, Class) = (bbox.clone(), class);
+        assert_eq!((bbox, class), expected);
+    }
 
     #[test]
     fn test_into_annotated_image() {
@@ -95,5 +150,64 @@ mod tests {
         let input = (image, annotations);
         let result: AnnotatedImage = input.into();
         assert_eq!(expected, result);
+    }
+
+    #[test]
+    fn test_from_annotated_image() {
+        let image = image::DynamicImage::new_rgba8(100, 100);
+        let annotations = vec![
+            Annotation {
+                bbox: BBox {
+                    x: 0,
+                    y: 0,
+                    width: 50,
+                    height: 50,
+                },
+                class: 0,
+            },
+            Annotation {
+                bbox: BBox {
+                    x: 50,
+                    y: 0,
+                    width: 50,
+                    height: 50,
+                },
+                class: 1,
+            },
+        ];
+        // Create an AnnotatedImage with image and a vector of bounding box and class tuples
+        let annotated_image = AnnotatedImage {
+            image: image.clone(),
+            annotations: annotations.clone(),
+        };
+
+        // Convert the AnnotatedImage into a tuple of image and a vector of bounding box and class tuples
+        let (image_2, annotations_2) = (annotated_image.image, annotated_image.annotations).into();
+
+        // Assert that the image and annotations in the tuple match the original AnnotatedImage
+        assert_eq!(image_2, image);
+        assert_eq!(
+            annotations_2,
+            vec![
+                Annotation {
+                    bbox: BBox {
+                        x: 0,
+                        y: 0,
+                        width: 50,
+                        height: 50
+                    },
+                    class: 0,
+                },
+                Annotation {
+                    bbox: BBox {
+                        x: 50,
+                        y: 0,
+                        width: 50,
+                        height: 50
+                    },
+                    class: 1,
+                }
+            ]
+        );
     }
 }
