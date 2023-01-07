@@ -390,6 +390,12 @@
 <span id="390">390</span>
 <span id="391">391</span>
 <span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module contains the `BBox` struct for representing bounding boxes and functions for calculating overlap and union.
 //!
 //! # Examples
@@ -431,6 +437,17 @@
     </span><span class="kw">pub </span>width: u32,
     <span class="doccomment">/// Height of the bounding box
     </span><span class="kw">pub </span>height: u32,
+}
+
+<span class="kw">impl </span>Default <span class="kw">for </span>BBox {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        BBox {
+            x: <span class="number">0</span>,
+            y: <span class="number">0</span>,
+            width: <span class="number">1</span>,
+            height: <span class="number">1</span>,
+        }
+    }
 }
 
 <span class="kw">impl </span>BBox {
@@ -723,12 +740,7 @@
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="attribute">#[test]
     </span><span class="kw">fn </span>test_copy_trait() {
-        <span class="kw">let </span>bbox = BBox {
-            x: <span class="number">10</span>,
-            y: <span class="number">20</span>,
-            width: <span class="number">30</span>,
-            height: <span class="number">40</span>,
-        };
+        <span class="kw">let </span>bbox = BBox::default();
         <span class="kw">let </span>bbox_copy = bbox;
         <span class="macro">assert_eq!</span>(bbox, bbox_copy);
     }
