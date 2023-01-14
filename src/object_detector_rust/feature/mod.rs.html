@@ -67,6 +67,7 @@
 <span id="67">67</span>
 <span id="68">68</span>
 <span id="69">69</span>
+<span id="70">70</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module contains traits and structs for feature descriptors that can be extracted from images.
 //!
 //! # Examples
@@ -86,7 +87,7 @@
 //! This example shows how to use the `DummyFeature` struct, which is a simple implementation of the `Feature` trait, to extract a feature descriptor from an image.
 
 </span><span class="kw">use </span>image::DynamicImage;
-<span class="kw">use </span>std::result::Result;
+<span class="kw">use </span>std::{fmt::Debug, result::Result};
 
 <span class="attribute">#[cfg(feature = <span class="string">&quot;hog&quot;</span>)]
 </span><span class="kw">mod </span>hog_feature;
@@ -99,12 +100,13 @@
 </span><span class="kw">pub use </span>brief_feature::BriefFeature;
 
 <span class="doccomment">/// Trait for feature descriptors that can be extracted from images
-</span><span class="kw">pub trait </span>Feature {
+</span><span class="kw">pub trait </span>Feature: Debug {
     <span class="doccomment">/// Extracts the feature descriptor from the given image
     </span><span class="kw">fn </span>extract(<span class="kw-2">&amp;</span><span class="self">self</span>, image: <span class="kw-2">&amp;</span>DynamicImage) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;f32&gt;, String&gt;;
 }
 
 <span class="doccomment">/// Dummy feature descriptor that always returns the same value
+</span><span class="attribute">#[derive(Debug)]
 </span><span class="kw">pub struct </span>DummyFeature {
     value: f32,
 }
@@ -137,4 +139,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="object_detector_rust" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0 (69f9c33d7 2022-12-12)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="object_detector_rust" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.1 (90743e729 2023-01-10)" ></div></body></html>
