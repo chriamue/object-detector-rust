@@ -17,7 +17,7 @@
 //! This example shows how to use the `DummyFeature` struct, which is a simple implementation of the `Feature` trait, to extract a feature descriptor from an image.
 
 use image::DynamicImage;
-use std::result::Result;
+use std::{fmt::Debug, result::Result};
 
 #[cfg(feature = "hog")]
 mod hog_feature;
@@ -30,12 +30,13 @@ mod brief_feature;
 pub use brief_feature::BriefFeature;
 
 /// Trait for feature descriptors that can be extracted from images
-pub trait Feature {
+pub trait Feature: Debug {
     /// Extracts the feature descriptor from the given image
     fn extract(&self, image: &DynamicImage) -> Result<Vec<f32>, String>;
 }
 
 /// Dummy feature descriptor that always returns the same value
+#[derive(Debug)]
 pub struct DummyFeature {
     value: f32,
 }
