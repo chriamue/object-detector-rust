@@ -141,6 +141,7 @@
 <span id="141">141</span>
 <span id="142">142</span>
 <span id="143">143</span>
+<span id="144">144</span>
 </pre><pre class="rust"><code><span class="kw">use </span>std::marker::PhantomData;
 
 <span class="kw">use </span>linfa::{Float, Label};
@@ -158,6 +159,7 @@
 /// * Y - The type of the labels in the training and prediction data.
 /// * C1 - The type of the first classifier.
 /// * C2 - The type of the second classifier.
+</span><span class="attribute">#[derive(Clone, Debug, PartialEq)]
 </span><span class="kw">pub struct </span>CombinedClassifier&lt;X, Y, C1, C2&gt;
 <span class="kw">where
     </span>X: Float,

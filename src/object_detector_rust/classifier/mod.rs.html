@@ -21,6 +21,7 @@
 <span id="21">21</span>
 <span id="22">22</span>
 <span id="23">23</span>
+<span id="24">24</span>
 </pre><pre class="rust"><code><span class="doccomment">//! The classifier module provides traits and implementations for object classification algorithms.
 //!
 //! The Trainable trait allows models to be trained on input data and labels.
@@ -28,6 +29,7 @@
 //! The Classifier trait combines both Trainable and Predictable into a single trait for
 //!
 </span><span class="kw">use </span><span class="kw">crate</span>::prelude::{Predictable, Trainable};
+<span class="kw">use </span>core::fmt::Debug;
 
 <span class="kw">mod </span>combined_classifier;
 <span class="kw">pub use </span>combined_classifier::CombinedClassifier;
@@ -43,6 +45,6 @@
 <span class="doccomment">/// The Classifier trait defines the behavior of a machine learning model
 /// that is capable of classifying data points into one of several categories.
 /// This trait is composed of two other traits: Trainable and Predictable.
-</span><span class="kw">pub trait </span>Classifier&lt;X, Y&gt;: Trainable&lt;X, Y&gt; + Predictable&lt;X, Y&gt; {}
+</span><span class="kw">pub trait </span>Classifier&lt;X, Y&gt;: Trainable&lt;X, Y&gt; + Predictable&lt;X, Y&gt; + Debug + PartialEq {}
 </code></pre></div>
 </section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="object_detector_rust" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.1 (90743e729 2023-01-10)" ></div></body></html>
