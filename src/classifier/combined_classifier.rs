@@ -15,6 +15,7 @@ use super::Classifier;
 /// * Y - The type of the labels in the training and prediction data.
 /// * C1 - The type of the first classifier.
 /// * C2 - The type of the second classifier.
+#[derive(Clone, Debug, PartialEq)]
 pub struct CombinedClassifier<X, Y, C1, C2>
 where
     X: Float,

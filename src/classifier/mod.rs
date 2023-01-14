@@ -5,6 +5,7 @@
 //! The Classifier trait combines both Trainable and Predictable into a single trait for
 //!
 use crate::prelude::{Predictable, Trainable};
+use core::fmt::Debug;
 
 mod combined_classifier;
 pub use combined_classifier::CombinedClassifier;
@@ -20,4 +21,4 @@ pub use randomforest_classifier::RandomForestClassifier;
 /// The Classifier trait defines the behavior of a machine learning model
 /// that is capable of classifying data points into one of several categories.
 /// This trait is composed of two other traits: Trainable and Predictable.
-pub trait Classifier<X, Y>: Trainable<X, Y> + Predictable<X, Y> {}
+pub trait Classifier<X, Y>: Trainable<X, Y> + Predictable<X, Y> + Debug + PartialEq {}

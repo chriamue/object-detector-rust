@@ -12,7 +12,7 @@ use serde::{Deserialize, Serialize};
 /// The SVMClassifier struct represents an SVM classifier with a trained model.
 /// The model is an option type, which means it is initially empty.
 /// The new function creates a new SVMClassifier instance with an empty model.
-#[derive(Default, Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Clone, Default, Serialize, Deserialize, Debug, PartialEq)]
 pub struct SVMClassifier<X, Y>
 where
     X: Float,
@@ -83,5 +83,12 @@ mod tests {
         println!("{:?}", cm);
         assert!(cm.precision() > 0.8);
         assert!(cm.accuracy() > 0.5);
+    }
+
+    #[test]
+    fn test_partial_eq() {
+        let classifier = SVMClassifier::<f32, usize>::new();
+        let classifier2 = classifier.clone();
+        assert!(classifier.eq(&classifier2));
     }
 }

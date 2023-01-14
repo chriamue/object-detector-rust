@@ -14,7 +14,7 @@ use ndarray::ArrayView2;
 ///
 /// This classifier is implemented using the `linfa_bayes` crate
 /// and can be trained on a given dataset to classify future data points.
-#[derive(Default, Debug, PartialEq)]
+#[derive(Clone, Default, Debug, PartialEq)]
 pub struct BayesClassifier<X, Y>
 where
     X: Float,
@@ -95,5 +95,12 @@ mod tests {
         println!("{:?}", cm);
         assert!(cm.precision() > 0.8);
         assert!(cm.accuracy() > 0.5);
+    }
+
+    #[test]
+    fn test_partial_eq() {
+        let classifier = BayesClassifier::<f32, usize>::new();
+        let classifier2 = classifier.clone();
+        assert!(classifier.eq(&classifier2));
     }
 }

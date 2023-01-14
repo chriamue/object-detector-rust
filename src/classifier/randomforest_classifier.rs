@@ -94,4 +94,11 @@ mod tests {
         assert!(cm.precision() > 0.8);
         assert!(cm.accuracy() > 0.5);
     }
+
+    #[test]
+    fn test_partial_eq() {
+        let classifier = RandomForestClassifier::<f32, usize>::new();
+        let classifier2 = RandomForestClassifier::<f32, usize>::new();
+        assert!(classifier.eq(&classifier2));
+    }
 }
