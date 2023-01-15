@@ -3,7 +3,12 @@
 use crate::prelude::BBox;
 use image::{imageops::crop_imm, DynamicImage, GenericImageView, Rgba, SubImage};
 use imageproc::{drawing::draw_hollow_rect_mut, rect::Rect};
+
 use ndarray::{Array1, Array2};
+
+mod evaluate;
+pub use evaluate::evaluate_accuracy;
+pub use evaluate::evaluate_precision;
 
 mod generate_annotations;
 pub use generate_annotations::add_hard_negative_samples;

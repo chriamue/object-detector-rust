@@ -70,6 +70,8 @@ where
 
 #[cfg(test)]
 mod tests {
+    use crate::utils::{evaluate_accuracy, evaluate_precision};
+
     use super::*;
     use linfa::prelude::ToConfusionMatrix;
     use ndarray::Array;
@@ -88,6 +90,8 @@ mod tests {
         assert_eq!(2, predicted_y.len());
 
         assert_eq!(expected_y, predicted_y);
+        assert!(evaluate_accuracy(&classifier, &test_x, &expected_y) > 0.5);
+        assert!(evaluate_precision(&classifier, &test_x, &expected_y) > 0.8);
         let predicted_y = classifier.predict(&x.view()).unwrap();
         let cm = predicted_y.confusion_matrix(&y).unwrap();
         println!("{:?}", cm);
