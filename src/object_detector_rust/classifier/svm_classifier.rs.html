@@ -92,6 +92,10 @@
 <span id="92">92</span>
 <span id="93">93</span>
 <span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::Classifier;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::{Predictable, Trainable};
 <span class="kw">use </span>linfa::prelude::Predict;
@@ -153,6 +157,8 @@
 
 <span class="attribute">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
+    <span class="kw">use </span><span class="kw">crate</span>::utils::{evaluate_accuracy, evaluate_precision};
+
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span>ndarray::Array;
 
@@ -172,6 +178,8 @@
         <span class="macro">assert_eq!</span>(<span class="number">2</span>, predicted_y.len());
 
         <span class="macro">assert_eq!</span>(expected_y, predicted_y);
+        <span class="macro">assert!</span>(evaluate_accuracy(<span class="kw-2">&amp;</span>classifier, <span class="kw-2">&amp;</span>test_x, <span class="kw-2">&amp;</span>expected_y) &gt; <span class="number">0.5</span>);
+        <span class="macro">assert!</span>(evaluate_precision(<span class="kw-2">&amp;</span>classifier, <span class="kw-2">&amp;</span>test_x, <span class="kw-2">&amp;</span>expected_y) &gt; <span class="number">0.8</span>);
         <span class="kw">let </span>predicted_y = classifier.predict(<span class="kw-2">&amp;</span>x.view()).unwrap();
         <span class="kw">let </span>cm = predicted_y.confusion_matrix(<span class="kw-2">&amp;</span>y).unwrap();
         <span class="macro">println!</span>(<span class="string">&quot;{:?}&quot;</span>, cm);

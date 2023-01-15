@@ -151,12 +151,22 @@
 <span id="151">151</span>
 <span id="152">152</span>
 <span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Utility functions for working with images
 //!
 </span><span class="kw">use </span><span class="kw">crate</span>::prelude::BBox;
 <span class="kw">use </span>image::{imageops::crop_imm, DynamicImage, GenericImageView, Rgba, SubImage};
 <span class="kw">use </span>imageproc::{drawing::draw_hollow_rect_mut, rect::Rect};
+
 <span class="kw">use </span>ndarray::{Array1, Array2};
+
+<span class="kw">mod </span>evaluate;
+<span class="kw">pub use </span>evaluate::evaluate_accuracy;
+<span class="kw">pub use </span>evaluate::evaluate_precision;
 
 <span class="kw">mod </span>generate_annotations;
 <span class="kw">pub use </span>generate_annotations::add_hard_negative_samples;
