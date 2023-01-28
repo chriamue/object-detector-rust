@@ -56,6 +56,18 @@ where
     }
 }
 
+impl<X, Y, C1, C2> Default for CombinedClassifier<X, Y, C1, C2>
+where
+    X: Float,
+    Y: Label,
+    C1: Classifier<X, Y> + Default,
+    C2: Classifier<X, Y> + Default,
+{
+    fn default() -> Self {
+        Self::new(C1::default(), C2::default())
+    }
+}
+
 impl<X, Y, C1, C2> Trainable<X, Y> for CombinedClassifier<X, Y, C1, C2>
 where
     X: Float,
@@ -110,18 +122,19 @@ where
 
 #[cfg(test)]
 mod tests {
-    use ndarray::array;
-
-    use crate::prelude::{BayesClassifier, SVMClassifier};
-
     use super::*;
+    use crate::prelude::{BayesClassifier, SVMClassifier};
+    use ndarray::array;
 
     #[test]
     fn test_combined_classifier() {
         // Create an instance of CombinedClassifier using two classifier implementations
-        let classifier1 = SVMClassifier::default();
-        let classifier2 = BayesClassifier::default();
-        let mut combined_classifier = CombinedClassifier::new(classifier1, classifier2);
+        let mut combined_classifier: CombinedClassifier<
+            f32,
+            bool,
+            SVMClassifier<_, _>,
+            BayesClassifier<_, _>,
+        > = CombinedClassifier::default();
 
         // Generate training data and labels
         let x_train = array![[1., 1.], [0., 2.], [1., 3.], [1., 4.], [0., 5.], [1., 6.]];
