@@ -142,6 +142,19 @@
 <a href="#142" id="142">142</a>
 <a href="#143" id="143">143</a>
 <a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
+<a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
+<a href="#156" id="156">156</a>
+<a href="#157" id="157">157</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::marker::PhantomData;
 
 <span class="kw">use </span>linfa::{Float, Label};
@@ -200,6 +213,18 @@
     }
 }
 
+<span class="kw">impl</span>&lt;X, Y, C1, C2&gt; Default <span class="kw">for </span>CombinedClassifier&lt;X, Y, C1, C2&gt;
+<span class="kw">where
+    </span>X: Float,
+    Y: Label,
+    C1: Classifier&lt;X, Y&gt; + Default,
+    C2: Classifier&lt;X, Y&gt; + Default,
+{
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new(C1::default(), C2::default())
+    }
+}
+
 <span class="kw">impl</span>&lt;X, Y, C1, C2&gt; Trainable&lt;X, Y&gt; <span class="kw">for </span>CombinedClassifier&lt;X, Y, C1, C2&gt;
 <span class="kw">where
     </span>X: Float,
@@ -254,18 +279,19 @@
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
-    <span class="kw">use </span>ndarray::array;
-
-    <span class="kw">use </span><span class="kw">crate</span>::prelude::{BayesClassifier, SVMClassifier};
-
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span><span class="kw">crate</span>::prelude::{BayesClassifier, SVMClassifier};
+    <span class="kw">use </span>ndarray::array;
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_combined_classifier() {
         <span class="comment">// Create an instance of CombinedClassifier using two classifier implementations
-        </span><span class="kw">let </span>classifier1 = SVMClassifier::default();
-        <span class="kw">let </span>classifier2 = BayesClassifier::default();
-        <span class="kw">let </span><span class="kw-2">mut </span>combined_classifier = CombinedClassifier::new(classifier1, classifier2);
+        </span><span class="kw">let </span><span class="kw-2">mut </span>combined_classifier: CombinedClassifier&lt;
+            f32,
+            bool,
+            SVMClassifier&lt;<span class="kw">_</span>, <span class="kw">_</span>&gt;,
+            BayesClassifier&lt;<span class="kw">_</span>, <span class="kw">_</span>&gt;,
+        &gt; = CombinedClassifier::default();
 
         <span class="comment">// Generate training data and labels
         </span><span class="kw">let </span>x_train = <span class="macro">array!</span>[[<span class="number">1.</span>, <span class="number">1.</span>], [<span class="number">0.</span>, <span class="number">2.</span>], [<span class="number">1.</span>, <span class="number">3.</span>], [<span class="number">1.</span>, <span class="number">4.</span>], [<span class="number">0.</span>, <span class="number">5.</span>], [<span class="number">1.</span>, <span class="number">6.</span>]];
