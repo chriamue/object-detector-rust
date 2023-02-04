@@ -1,7 +1,13 @@
-use std::marker::PhantomData;
+use std::{fmt, marker::PhantomData};
 
 use linfa::{Float, Label};
 use ndarray::{Array1, ArrayView1, ArrayView2};
+use serde::{
+    de::{self, Visitor},
+    ser::SerializeStruct,
+    ser::Serializer,
+    Deserialize, Deserializer, Serialize,
+};
 
 use crate::prelude::{Predictable, Trainable};
 
@@ -120,10 +126,55 @@ where
 {
 }
 
+impl<X, Y, C1, C2> Serialize for CombinedClassifier<X, Y, C1, C2>
+where
+    X: Float,
+    Y: Label,
+    C1: Classifier<X, Y> + Serialize,
+    C2: Classifier<X, Y> + Serialize,
+{
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut state = serializer.serialize_struct("CombinedClassifier", 2)?;
+        state.serialize_field("classifier1", &self.classifier1)?;
+        state.serialize_field("classifier2", &self.classifier2)?;
+        state.end()
+    }
+}
+
+impl<'de, X, Y, C1, C2> Deserialize<'de> for CombinedClassifier<X, Y, C1, C2>
+where
+    X: Float,
+    Y: Label,
+    C1: Classifier<X, Y> + Deserialize<'de>,
+    C2: Classifier<X, Y> + Deserialize<'de>,
+{
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        #[derive(Deserialize)]
+        struct CombinedClassifierData<C1, C2> {
+            classifier1: C1,
+            classifier2: C2,
+        }
+
+        let combined_classifier_data = CombinedClassifierData::deserialize(deserializer)?;
+        Ok(CombinedClassifier {
+            x: PhantomData,
+            y: PhantomData,
+            classifier1: combined_classifier_data.classifier1,
+            classifier2: combined_classifier_data.classifier2,
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::prelude::{BayesClassifier, SVMClassifier};
+    use crate::prelude::{BayesClassifier, RandomForestClassifier, SVMClassifier};
     use ndarray::array;
 
     #[test]
@@ -153,5 +204,28 @@ mod tests {
 
         // Assert that the predictions are correct
         assert_eq!(y_pred, array![true, false]);
+    }
+
+    #[test]
+    fn test_combined_classifier_serialization() {
+        // Create an instance of CombinedClassifier using two classifier implementations
+        let combined_classifier: CombinedClassifier<
+            f32,
+            usize,
+            RandomForestClassifier<_, _>,
+            RandomForestClassifier<_, _>,
+        > = CombinedClassifier::default();
+
+        let serialized = serde_json::to_string(&combined_classifier).unwrap();
+
+        println!("serialized = {}", serialized);
+        let deserialized: CombinedClassifier<
+            f32,
+            usize,
+            RandomForestClassifier<f32, usize>,
+            RandomForestClassifier<f32, usize>,
+        > = serde_json::from_str(&serialized).unwrap();
+
+        assert_eq!(combined_classifier, deserialized);
     }
 }
