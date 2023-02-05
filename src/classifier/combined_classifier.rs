@@ -218,7 +218,6 @@ mod tests {
 
         let serialized = serde_json::to_string(&combined_classifier).unwrap();
 
-        println!("serialized = {}", serialized);
         let deserialized: CombinedClassifier<
             f32,
             usize,

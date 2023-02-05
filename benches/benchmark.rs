@@ -1,7 +1,9 @@
 use std::fs::File;
 
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{black_box, criterion_group, criterion_main, Criterion, Bencher};
+use image::{DynamicImage, RgbImage};
 use object_detector_rust::prelude::*;
+use object_detector_rust::utils::crop_bbox;
 
 fn bench_hog_svm_detector(c: &mut Criterion) {
     // Create a detector and load it with a trained model
@@ -33,5 +35,18 @@ fn bench_brief_svm_detector(c: &mut Criterion) {
     });
 }
 
-criterion_group!(benches, bench_hog_svm_detector, bench_brief_svm_detector);
+
+fn bench_crop_bbox(b: &mut Bencher) {
+    let image = DynamicImage::ImageRgb8(RgbImage::new(100, 100));
+    let bbox: BBox = BBox::new(20, 20, 32, 32);
+    b.iter(|| {
+        let _cropped = crop_bbox(&image, &bbox);
+    })
+}
+
+fn bench_utils(c: &mut Criterion) {
+    c.bench_function("crop_bbox", bench_crop_bbox);
+}
+
+criterion_group!(benches, bench_hog_svm_detector, bench_brief_svm_detector, bench_utils);
 criterion_main!(benches);
