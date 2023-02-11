@@ -11,7 +11,7 @@ use crate::{
     predictable::Predictable,
     trainable::Trainable,
     types::Class,
-    utils::{SlidingWindow, WindowGenerator},
+    window_generator::{SlidingWindow, WindowGenerator},
 };
 use image::{DynamicImage, GenericImageView};
 use ndarray::{Array2, ArrayView1, ArrayView2};

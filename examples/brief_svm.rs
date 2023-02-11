@@ -13,7 +13,8 @@ fn main() -> Result<(), String> {
         detector::{BriefSVMDetector, Detector, PersistentDetector},
         feature::{BriefFeature, Feature},
         types::Class,
-        utils::{draw_bboxes, extract_data, SlidingWindow},
+        utils::{draw_bboxes, extract_data},
+        window_generator::SlidingWindow,
     };
 
     let class: Class = 5;

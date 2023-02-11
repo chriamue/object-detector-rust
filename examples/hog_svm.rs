@@ -13,7 +13,8 @@ fn main() -> Result<(), String> {
         detector::{Detector, HOGSVMDetector, PersistentDetector},
         feature::{Feature, HOGFeature},
         types::Class,
-        utils::{draw_bboxes, extract_data, SlidingWindow},
+        utils::{draw_bboxes, extract_data},
+        window_generator::SlidingWindow,
     };
     let class: Class = 5;
     // Set the path to the test data folder

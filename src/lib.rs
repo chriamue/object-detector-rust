@@ -15,6 +15,7 @@ pub mod tests;
 pub mod trainable;
 pub mod types;
 pub mod utils;
+pub mod window_generator;
 
 /// the object-detector-rust prelude
 pub mod prelude {
@@ -42,4 +43,6 @@ pub mod prelude {
     pub use super::types::AnnotatedImage;
     pub use super::types::Annotation;
     pub use super::types::Class;
+    pub use super::window_generator::SlidingWindow;
+    pub use super::window_generator::WindowGenerator;
 }

@@ -1,7 +1,7 @@
 //! Utility functions for working with images
 //!
 use crate::prelude::BBox;
-use image::{imageops::crop_imm, DynamicImage, GenericImageView, Rgba, SubImage};
+use image::{imageops::crop_imm, DynamicImage, GenericImageView, Rgba};
 use imageproc::{drawing::draw_hollow_rect_mut, rect::Rect};
 
 use ndarray::{Array1, Array2};
@@ -14,37 +14,6 @@ mod generate_annotations;
 pub use generate_annotations::add_hard_negative_samples;
 pub use generate_annotations::generate_annotations;
 pub use generate_annotations::generate_negative_samples;
-
-mod sliding_window;
-pub use sliding_window::SlidingWindow;
-
-/// Struct representing a window over an image with a position
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub struct ImageWindow<I> {
-    /// X position of the window
-    pub x: u32,
-    /// Y position of the window
-    pub y: u32,
-    /// View of the image within the window
-    pub view: I,
-}
-
-/// Trait for generating windows over an image
-pub trait WindowGenerator<I>
-where
-    I: GenericImageView,
-{
-    /// Generates a series of windows over the given image
-    ///
-    /// # Arguments
-    ///
-    /// * `image` - the image to generate windows for
-    ///
-    /// # Returns
-    ///
-    /// A vector of `ImageWindow`s representing the windows over the image
-    fn windows<'a, 'b>(&'a self, image: &'b I) -> Vec<ImageWindow<SubImage<&'b I>>>;
-}
 
 /// Crops an image to the dimensions specified in the bounding box
 ///

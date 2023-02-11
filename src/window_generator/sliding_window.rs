@@ -1,5 +1,5 @@
-use crate::utils::ImageWindow;
-use crate::utils::WindowGenerator;
+use super::WindowGenerator;
+use crate::types::ImageWindow;
 use image::{DynamicImage, GenericImageView, SubImage};
 
 /// Struct for generating sliding windows over an image

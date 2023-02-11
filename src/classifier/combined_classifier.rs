@@ -1,13 +1,8 @@
-use std::{fmt, marker::PhantomData};
+use std::marker::PhantomData;
 
 use linfa::{Float, Label};
 use ndarray::{Array1, ArrayView1, ArrayView2};
-use serde::{
-    de::{self, Visitor},
-    ser::SerializeStruct,
-    ser::Serializer,
-    Deserialize, Deserializer, Serialize,
-};
+use serde::{ser::SerializeStruct, ser::Serializer, Deserialize, Deserializer, Serialize};
 
 use crate::prelude::{Predictable, Trainable};
 

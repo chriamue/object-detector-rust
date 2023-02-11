@@ -67,6 +67,17 @@ impl From<AnnotatedImage> for (DynamicImage, Vec<(BBox, Class)>) {
     }
 }
 
+/// Struct representing a window over an image with a position
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ImageWindow<I> {
+    /// X position of the window
+    pub x: u32,
+    /// Y position of the window
+    pub y: u32,
+    /// View of the image within the window
+    pub view: I,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
