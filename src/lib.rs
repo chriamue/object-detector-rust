@@ -43,6 +43,7 @@ pub mod prelude {
     pub use super::types::AnnotatedImage;
     pub use super::types::Annotation;
     pub use super::types::Class;
+    pub use super::window_generator::PyramidWindow;
     pub use super::window_generator::SlidingWindow;
     pub use super::window_generator::WindowGenerator;
 }

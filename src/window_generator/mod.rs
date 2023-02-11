@@ -2,8 +2,10 @@
 use crate::types::ImageWindow;
 use image::{GenericImageView, SubImage};
 
+mod pyramid_window;
 mod sliding_window;
 
+pub use pyramid_window::PyramidWindow;
 pub use sliding_window::SlidingWindow;
 
 /// Trait for generating windows over an image
