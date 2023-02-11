@@ -22,12 +22,16 @@
 <a href="#22" id="22">22</a>
 <a href="#23" id="23">23</a>
 <a href="#24" id="24">24</a>
+<a href="#25" id="25">25</a>
+<a href="#26" id="26">26</a>
 </pre><pre class="rust"><code><span class="doccomment">//! The module for different window generators.
 </span><span class="kw">use </span><span class="kw">crate</span>::types::ImageWindow;
 <span class="kw">use </span>image::{GenericImageView, SubImage};
 
+<span class="kw">mod </span>pyramid_window;
 <span class="kw">mod </span>sliding_window;
 
+<span class="kw">pub use </span>pyramid_window::PyramidWindow;
 <span class="kw">pub use </span>sliding_window::SlidingWindow;
 
 <span class="doccomment">/// Trait for generating windows over an image
