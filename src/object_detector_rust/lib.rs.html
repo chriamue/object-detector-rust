@@ -43,6 +43,9 @@
 <a href="#43" id="43">43</a>
 <a href="#44" id="44">44</a>
 <a href="#45" id="45">45</a>
+<a href="#46" id="46">46</a>
+<a href="#47" id="47">47</a>
+<a href="#48" id="48">48</a>
 </pre><pre class="rust"><code><span class="attr">#![warn(missing_docs)]
 #![doc = <span class="macro">include_str!</span>(<span class="string">&quot;../README.md&quot;</span>)]
 
@@ -60,6 +63,7 @@
 </span><span class="kw">pub mod </span>trainable;
 <span class="kw">pub mod </span>types;
 <span class="kw">pub mod </span>utils;
+<span class="kw">pub mod </span>window_generator;
 
 <span class="doccomment">/// the object-detector-rust prelude
 </span><span class="kw">pub mod </span>prelude {
@@ -87,6 +91,8 @@
     <span class="kw">pub use </span><span class="kw">super</span>::types::AnnotatedImage;
     <span class="kw">pub use </span><span class="kw">super</span>::types::Annotation;
     <span class="kw">pub use </span><span class="kw">super</span>::types::Class;
+    <span class="kw">pub use </span><span class="kw">super</span>::window_generator::SlidingWindow;
+    <span class="kw">pub use </span><span class="kw">super</span>::window_generator::WindowGenerator;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="object_detector_rust" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="object_detector_rust" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.1 (d5a82bbd2 2023-02-07)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>

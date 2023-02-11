@@ -211,6 +211,17 @@
 <a href="#211" id="211">211</a>
 <a href="#212" id="212">212</a>
 <a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
 </pre><pre class="rust"><code><span class="doccomment">//! The types module contains types for representing annotations and annotated images.
 </span><span class="kw">use </span><span class="kw">crate</span>::prelude::BBox;
 <span class="kw">use </span>image::DynamicImage;
@@ -278,6 +289,17 @@
                 .collect(),
         )
     }
+}
+
+<span class="doccomment">/// Struct representing a window over an image with a position
+</span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq)]
+</span><span class="kw">pub struct </span>ImageWindow&lt;I&gt; {
+    <span class="doccomment">/// X position of the window
+    </span><span class="kw">pub </span>x: u32,
+    <span class="doccomment">/// Y position of the window
+    </span><span class="kw">pub </span>y: u32,
+    <span class="doccomment">/// View of the image within the window
+    </span><span class="kw">pub </span>view: I,
 }
 
 <span class="attr">#[cfg(test)]
@@ -425,4 +447,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="object_detector_rust" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="object_detector_rust" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.1 (d5a82bbd2 2023-02-07)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>

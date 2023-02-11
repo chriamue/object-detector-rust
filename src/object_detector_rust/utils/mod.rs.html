@@ -125,41 +125,10 @@
 <a href="#125" id="125">125</a>
 <a href="#126" id="126">126</a>
 <a href="#127" id="127">127</a>
-<a href="#128" id="128">128</a>
-<a href="#129" id="129">129</a>
-<a href="#130" id="130">130</a>
-<a href="#131" id="131">131</a>
-<a href="#132" id="132">132</a>
-<a href="#133" id="133">133</a>
-<a href="#134" id="134">134</a>
-<a href="#135" id="135">135</a>
-<a href="#136" id="136">136</a>
-<a href="#137" id="137">137</a>
-<a href="#138" id="138">138</a>
-<a href="#139" id="139">139</a>
-<a href="#140" id="140">140</a>
-<a href="#141" id="141">141</a>
-<a href="#142" id="142">142</a>
-<a href="#143" id="143">143</a>
-<a href="#144" id="144">144</a>
-<a href="#145" id="145">145</a>
-<a href="#146" id="146">146</a>
-<a href="#147" id="147">147</a>
-<a href="#148" id="148">148</a>
-<a href="#149" id="149">149</a>
-<a href="#150" id="150">150</a>
-<a href="#151" id="151">151</a>
-<a href="#152" id="152">152</a>
-<a href="#153" id="153">153</a>
-<a href="#154" id="154">154</a>
-<a href="#155" id="155">155</a>
-<a href="#156" id="156">156</a>
-<a href="#157" id="157">157</a>
-<a href="#158" id="158">158</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Utility functions for working with images
 //!
 </span><span class="kw">use </span><span class="kw">crate</span>::prelude::BBox;
-<span class="kw">use </span>image::{imageops::crop_imm, DynamicImage, GenericImageView, Rgba, SubImage};
+<span class="kw">use </span>image::{imageops::crop_imm, DynamicImage, GenericImageView, Rgba};
 <span class="kw">use </span>imageproc::{drawing::draw_hollow_rect_mut, rect::Rect};
 
 <span class="kw">use </span>ndarray::{Array1, Array2};
@@ -172,37 +141,6 @@
 <span class="kw">pub use </span>generate_annotations::add_hard_negative_samples;
 <span class="kw">pub use </span>generate_annotations::generate_annotations;
 <span class="kw">pub use </span>generate_annotations::generate_negative_samples;
-
-<span class="kw">mod </span>sliding_window;
-<span class="kw">pub use </span>sliding_window::SlidingWindow;
-
-<span class="doccomment">/// Struct representing a window over an image with a position
-</span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq)]
-</span><span class="kw">pub struct </span>ImageWindow&lt;I&gt; {
-    <span class="doccomment">/// X position of the window
-    </span><span class="kw">pub </span>x: u32,
-    <span class="doccomment">/// Y position of the window
-    </span><span class="kw">pub </span>y: u32,
-    <span class="doccomment">/// View of the image within the window
-    </span><span class="kw">pub </span>view: I,
-}
-
-<span class="doccomment">/// Trait for generating windows over an image
-</span><span class="kw">pub trait </span>WindowGenerator&lt;I&gt;
-<span class="kw">where
-    </span>I: GenericImageView,
-{
-    <span class="doccomment">/// Generates a series of windows over the given image
-    ///
-    /// # Arguments
-    ///
-    /// * `image` - the image to generate windows for
-    ///
-    /// # Returns
-    ///
-    /// A vector of `ImageWindow`s representing the windows over the image
-    </span><span class="kw">fn </span>windows&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, image: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>I) -&gt; Vec&lt;ImageWindow&lt;SubImage&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>I&gt;&gt;&gt;;
-}
 
 <span class="doccomment">/// Crops an image to the dimensions specified in the bounding box
 ///
@@ -315,4 +253,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="object_detector_rust" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0 (fc594f156 2023-01-24)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="object_detector_rust" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.1 (d5a82bbd2 2023-02-07)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
