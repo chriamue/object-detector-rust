@@ -13,6 +13,12 @@ pub struct SlidingWindow {
     pub step_size: u32,
 }
 
+// let x_border = if self.width - self.step_size > 0 {
+//    self.width
+// } else {
+//    0
+// };
+
 impl WindowGenerator<DynamicImage> for SlidingWindow {
     fn windows<'a, 'b>(
         &'a self,
@@ -20,11 +26,25 @@ impl WindowGenerator<DynamicImage> for SlidingWindow {
     ) -> Vec<ImageWindow<SubImage<&'b DynamicImage>>> {
         let mut windows = Vec::new();
         let (width, height) = image.dimensions();
-        let y_border = (self.height - (height % self.step_size)) % self.height;
-        let x_border = (self.width - (width % self.step_size)) % self.width;
 
-        for y in (0..height.saturating_sub(y_border)).step_by(self.step_size as usize) {
-            for x in (0..width.saturating_sub(x_border)).step_by(self.step_size as usize) {
+        let last_step_y = last_position(height, self.step_size);
+
+        let last_y = if last_step_y + self.height > height {
+            height - self.height
+        } else {
+            last_step_y + self.height
+        };
+
+        let last_step_x = last_position(width, self.step_size);
+
+        let last_x = if last_step_x + self.width > width {
+            width - self.width
+        } else {
+            last_step_x + self.width
+        };
+
+        for y in (0..last_y).step_by(self.step_size as usize) {
+            for x in (0..last_x).step_by(self.step_size as usize) {
                 let window = ImageWindow {
                     x,
                     y,
@@ -35,6 +55,13 @@ impl WindowGenerator<DynamicImage> for SlidingWindow {
         }
         windows
     }
+}
+
+fn last_position(length: u32, step_size: u32) -> u32 {
+    if length == 0 || step_size == 0 {
+        return 0;
+    }
+    (length - 1) / step_size * step_size
 }
 
 #[cfg(test)]
@@ -106,5 +133,20 @@ mod tests {
         let windows = generator.windows(&image);
         assert_eq!(windows.len(), 1);
         assert_eq!(windows[0].x, 0);
+    }
+
+    #[test]
+    fn test_sliding_window_size_greater_than_step_size() {
+        let image = DynamicImage::new_rgb8(12, 12);
+        let window_size = 5;
+        let step_size = 4;
+
+        let generator = SlidingWindow {
+            width: window_size,
+            height: window_size,
+            step_size: step_size,
+        };
+        let windows = generator.windows(&image);
+        assert_eq!(windows.len(), 4);
     }
 }
