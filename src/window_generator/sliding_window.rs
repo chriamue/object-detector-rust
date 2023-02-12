@@ -20,16 +20,9 @@ impl WindowGenerator<DynamicImage> for SlidingWindow {
     ) -> Vec<ImageWindow<SubImage<&'b DynamicImage>>> {
         let mut windows = Vec::new();
         let (width, height) = image.dimensions();
-        let y_border = if self.height - self.step_size > 0 {
-            self.height
-        } else {
-            0
-        };
-        let x_border = if self.width - self.step_size > 0 {
-            self.width
-        } else {
-            0
-        };
+        let y_border = (self.height - (height % self.step_size)) % self.height;
+        let x_border = (self.width - (width % self.step_size)) % self.width;
+
         for y in (0..height.saturating_sub(y_border)).step_by(self.step_size as usize) {
             for x in (0..width.saturating_sub(x_border)).step_by(self.step_size as usize) {
                 let window = ImageWindow {
@@ -97,5 +90,21 @@ mod tests {
         assert_eq!(windows[2].y, 0);
         assert_eq!(windows[3].x, 0);
         assert_eq!(windows[3].y, 5);
+    }
+
+    #[test]
+    fn test_sliding_window_step_size_7() {
+        let image = DynamicImage::new_rgb8(10, 10);
+        let window_size = 7;
+        let step_size = 7;
+
+        let generator = SlidingWindow {
+            width: window_size,
+            height: window_size,
+            step_size: step_size,
+        };
+        let windows = generator.windows(&image);
+        assert_eq!(windows.len(), 1);
+        assert_eq!(windows[0].x, 0);
     }
 }

@@ -12,7 +12,7 @@ pub struct PyramidWindow {
     /// Step size for moving the window
     pub step_size: u32,
     /// the pyramid layers
-    pub layers: usize,
+    pub layer_scales: Vec<f32>,
 }
 
 impl WindowGenerator<DynamicImage> for PyramidWindow {
@@ -21,11 +21,11 @@ impl WindowGenerator<DynamicImage> for PyramidWindow {
         image: &'b DynamicImage,
     ) -> Vec<ImageWindow<SubImage<&'b DynamicImage>>> {
         let mut windows = Vec::new();
-        for scale in 1..self.layers as u32 + 1 {
+        for scale in self.layer_scales.iter() {
             let sliding_window = SlidingWindow {
-                width: self.width * scale,
-                height: self.height * scale,
-                step_size: self.step_size * scale,
+                width: (self.width as f32 * scale) as u32,
+                height: (self.height as f32 * scale) as u32,
+                step_size: (self.step_size as f32 * scale) as u32,
             };
             windows.append(&mut sliding_window.windows(image));
         }
@@ -47,7 +47,7 @@ mod tests {
             width: window_size,
             height: window_size,
             step_size: step_size,
-            layers: 2,
+            layer_scales: vec![1.0, 2.0],
         };
 
         let windows = generator.windows(&image);
@@ -62,5 +62,21 @@ mod tests {
         assert_eq!(windows[2].y, 5);
         assert_eq!(windows[3].x, 5);
         assert_eq!(windows[3].y, 5);
+    }
+
+    #[test]
+    fn test_sliding_window_on_1_5_layer_scale() {
+        let image = DynamicImage::new_rgb8(10, 10);
+        let window_size = 5;
+        let step_size = 5;
+        let generator = PyramidWindow {
+            width: window_size,
+            height: window_size,
+            step_size: step_size,
+            layer_scales: vec![1.5],
+        };
+
+        let windows = generator.windows(&image);
+        assert_eq!(windows.len(), 1);
     }
 }

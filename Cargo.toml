@@ -1,11 +1,12 @@
 [package]
 name = "object-detector-rust"
 edition = "2021"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Christian M <chriamue@gmail.com>"]
 description = "A framework for detecting objects in images using feature-based algorithms."
 license = "MIT"
 repository = "https://github.com/chriamue/object-detector-rust"
+keywords = ["machine-learning", "object-detection", "svm", "bayes", "random-forest"]
 
 # The package's dependencies
 [dependencies]
