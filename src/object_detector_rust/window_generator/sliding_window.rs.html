@@ -99,6 +99,15 @@
 <a href="#99" id="99">99</a>
 <a href="#100" id="100">100</a>
 <a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::WindowGenerator;
 <span class="kw">use </span><span class="kw">crate</span>::types::ImageWindow;
 <span class="kw">use </span>image::{DynamicImage, GenericImageView, SubImage};
@@ -121,16 +130,9 @@
     ) -&gt; Vec&lt;ImageWindow&lt;SubImage&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>DynamicImage&gt;&gt;&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>windows = Vec::new();
         <span class="kw">let </span>(width, height) = image.dimensions();
-        <span class="kw">let </span>y_border = <span class="kw">if </span><span class="self">self</span>.height - <span class="self">self</span>.step_size &gt; <span class="number">0 </span>{
-            <span class="self">self</span>.height
-        } <span class="kw">else </span>{
-            <span class="number">0
-        </span>};
-        <span class="kw">let </span>x_border = <span class="kw">if </span><span class="self">self</span>.width - <span class="self">self</span>.step_size &gt; <span class="number">0 </span>{
-            <span class="self">self</span>.width
-        } <span class="kw">else </span>{
-            <span class="number">0
-        </span>};
+        <span class="kw">let </span>y_border = (<span class="self">self</span>.height - (height % <span class="self">self</span>.step_size)) % <span class="self">self</span>.height;
+        <span class="kw">let </span>x_border = (<span class="self">self</span>.width - (width % <span class="self">self</span>.step_size)) % <span class="self">self</span>.width;
+
         <span class="kw">for </span>y <span class="kw">in </span>(<span class="number">0</span>..height.saturating_sub(y_border)).step_by(<span class="self">self</span>.step_size <span class="kw">as </span>usize) {
             <span class="kw">for </span>x <span class="kw">in </span>(<span class="number">0</span>..width.saturating_sub(x_border)).step_by(<span class="self">self</span>.step_size <span class="kw">as </span>usize) {
                 <span class="kw">let </span>window = ImageWindow {
@@ -198,6 +200,22 @@
         <span class="macro">assert_eq!</span>(windows[<span class="number">2</span>].y, <span class="number">0</span>);
         <span class="macro">assert_eq!</span>(windows[<span class="number">3</span>].x, <span class="number">0</span>);
         <span class="macro">assert_eq!</span>(windows[<span class="number">3</span>].y, <span class="number">5</span>);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_sliding_window_step_size_7() {
+        <span class="kw">let </span>image = DynamicImage::new_rgb8(<span class="number">10</span>, <span class="number">10</span>);
+        <span class="kw">let </span>window_size = <span class="number">7</span>;
+        <span class="kw">let </span>step_size = <span class="number">7</span>;
+
+        <span class="kw">let </span>generator = SlidingWindow {
+            width: window_size,
+            height: window_size,
+            step_size: step_size,
+        };
+        <span class="kw">let </span>windows = generator.windows(<span class="kw-2">&amp;</span>image);
+        <span class="macro">assert_eq!</span>(windows.len(), <span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(windows[<span class="number">0</span>].x, <span class="number">0</span>);
     }
 }
 </code></pre></div>

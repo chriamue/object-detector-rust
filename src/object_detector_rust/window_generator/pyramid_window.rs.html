@@ -64,6 +64,22 @@
 <a href="#64" id="64">64</a>
 <a href="#65" id="65">65</a>
 <a href="#66" id="66">66</a>
+<a href="#67" id="67">67</a>
+<a href="#68" id="68">68</a>
+<a href="#69" id="69">69</a>
+<a href="#70" id="70">70</a>
+<a href="#71" id="71">71</a>
+<a href="#72" id="72">72</a>
+<a href="#73" id="73">73</a>
+<a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::{SlidingWindow, WindowGenerator};
 <span class="kw">use </span><span class="kw">crate</span>::types::ImageWindow;
 <span class="kw">use </span>image::{DynamicImage, SubImage};
@@ -78,7 +94,7 @@
     <span class="doccomment">/// Step size for moving the window
     </span><span class="kw">pub </span>step_size: u32,
     <span class="doccomment">/// the pyramid layers
-    </span><span class="kw">pub </span>layers: usize,
+    </span><span class="kw">pub </span>layer_scales: Vec&lt;f32&gt;,
 }
 
 <span class="kw">impl </span>WindowGenerator&lt;DynamicImage&gt; <span class="kw">for </span>PyramidWindow {
@@ -87,11 +103,11 @@
         image: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>DynamicImage,
     ) -&gt; Vec&lt;ImageWindow&lt;SubImage&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>DynamicImage&gt;&gt;&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>windows = Vec::new();
-        <span class="kw">for </span>scale <span class="kw">in </span><span class="number">1</span>..<span class="self">self</span>.layers <span class="kw">as </span>u32 + <span class="number">1 </span>{
+        <span class="kw">for </span>scale <span class="kw">in </span><span class="self">self</span>.layer_scales.iter() {
             <span class="kw">let </span>sliding_window = SlidingWindow {
-                width: <span class="self">self</span>.width * scale,
-                height: <span class="self">self</span>.height * scale,
-                step_size: <span class="self">self</span>.step_size * scale,
+                width: (<span class="self">self</span>.width <span class="kw">as </span>f32 * scale) <span class="kw">as </span>u32,
+                height: (<span class="self">self</span>.height <span class="kw">as </span>f32 * scale) <span class="kw">as </span>u32,
+                step_size: (<span class="self">self</span>.step_size <span class="kw">as </span>f32 * scale) <span class="kw">as </span>u32,
             };
             windows.append(<span class="kw-2">&amp;mut </span>sliding_window.windows(image));
         }
@@ -113,7 +129,7 @@
             width: window_size,
             height: window_size,
             step_size: step_size,
-            layers: <span class="number">2</span>,
+            layer_scales: <span class="macro">vec!</span>[<span class="number">1.0</span>, <span class="number">2.0</span>],
         };
 
         <span class="kw">let </span>windows = generator.windows(<span class="kw-2">&amp;</span>image);
@@ -128,6 +144,22 @@
         <span class="macro">assert_eq!</span>(windows[<span class="number">2</span>].y, <span class="number">5</span>);
         <span class="macro">assert_eq!</span>(windows[<span class="number">3</span>].x, <span class="number">5</span>);
         <span class="macro">assert_eq!</span>(windows[<span class="number">3</span>].y, <span class="number">5</span>);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_sliding_window_on_1_5_layer_scale() {
+        <span class="kw">let </span>image = DynamicImage::new_rgb8(<span class="number">10</span>, <span class="number">10</span>);
+        <span class="kw">let </span>window_size = <span class="number">5</span>;
+        <span class="kw">let </span>step_size = <span class="number">5</span>;
+        <span class="kw">let </span>generator = PyramidWindow {
+            width: window_size,
+            height: window_size,
+            step_size: step_size,
+            layer_scales: <span class="macro">vec!</span>[<span class="number">1.5</span>],
+        };
+
+        <span class="kw">let </span>windows = generator.windows(<span class="kw-2">&amp;</span>image);
+        <span class="macro">assert_eq!</span>(windows.len(), <span class="number">1</span>);
     }
 }
 </code></pre></div>
