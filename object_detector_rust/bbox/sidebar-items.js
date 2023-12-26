@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["BBox","Struct for representing a bounding box"]]};
+window.SIDEBAR_ITEMS = {"struct":["BBox"]};

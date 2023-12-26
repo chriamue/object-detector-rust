@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"trait":[["Predictable","Trait for objects that can make predictions"]]};
+window.SIDEBAR_ITEMS = {"trait":["Predictable"]};
