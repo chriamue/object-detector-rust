@@ -1,9 +1,9 @@
-#[cfg(not(feature = "brief"))]
+#[cfg(not(feature = "hog"))]
 fn main() {
     eprintln!("example needs brief feature: cargo run --features hog --example hog_svm");
 }
 
-#[cfg(feature = "brief")]
+#[cfg(feature = "hog")]
 fn main() -> Result<(), String> {
     use std::fs::File;
 

@@ -1,41 +1,44 @@
 [package]
 name = "object-detector-rust"
 edition = "2021"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Christian M <chriamue@gmail.com>"]
 description = "A framework for detecting objects in images using feature-based algorithms."
 license = "MIT"
 repository = "https://github.com/chriamue/object-detector-rust"
-keywords = ["machine-learning", "object-detection", "svm", "bayes", "random-forest"]
+keywords = [
+    "machine-learning",
+    "object-detection",
+    "svm",
+    "bayes",
+    "random-forest",
+]
 
-# The package's dependencies
 [dependencies]
 bincode = "1.3.3"
-image = { version = "0.24.3", default-features = false, features = [
+image = { version = "0.24.7", default-features = false, features = [
     "png",
     "jpeg",
 ] }
 imageproc = { version = "0.23.0", default-features = false }
-linfa = "0.6.1"
-linfa-svm = { version = "0.6.1", features = [
+linfa = "0.7.0"
+linfa-svm = { version = "0.7.0", features = [
     "serde",
 ], default-features = false }
-linfa-bayes = "0.6.1"
+linfa-bayes = "0.7.0"
 ndarray = "0.15.6"
 rand = "0.8.5"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-smartcore = { version = "0.3.0", features = [
+smartcore = { version = "0.3.1", features = [
     "ndarray-bindings",
     "serde",
-], default-features = false, git = "https://github.com/smartcorelib/smartcore", branch = "fix-245", optional = true }
+], default-features = false, git = "https://github.com/smartcorelib/smartcore", optional = true }
 
-# The package's dev dependencies
 [dev-dependencies]
-criterion = { version = "0.4", default-features = false }
-mockall = "0.11.3"
+criterion = { version = "0.5.1", default-features = false }
+mockall = "0.12.1"
 
-# The package's features
 [features]
 default = ["hog", "brief", "randomforest"]
 hog = []
